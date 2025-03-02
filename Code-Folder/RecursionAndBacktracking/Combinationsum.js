@@ -26,4 +26,4 @@ function Combination(candidates,target){
      backtrack(0,[],target);
      return res;
 }
-console.log(Combination([2,3,5],8))
+console.log(Combination([2,3,5],7))
