@@ -1,75 +1,73 @@
 const readline = require('readline');
 
-// Function to perform Depth First Search (DFS)
-function Dfs(vis, i, g, count) {
-    vis[i] = 1;
-    count[0]++;
-    for (let key of g[i]) {
-        if (!vis[key]) {
-            Dfs(vis, key, g, count);
-        }
-    }
-}
+// async function Create() {
+//     const rl = readline.createInterface({
+//         input: process.stdin,
+//         output: process.stdout
+//     });
 
-// Main function to calculate time
-async function Timetaken() {
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
+//     const ver = await new Promise(resolve => {
+//         rl.question("Enter number of vertices: ", (answer) => {
+//             resolve(parseInt(answer));
+//         });
+//     });
 
-    const ver = await new Promise(resolve => {
-        rl.question("Enter the number of vertices: ", (answer) => {
-            resolve(parseInt(answer));
-        });
-    });
+//     const edge = await new Promise(resolve => {
+//         rl.question("Enter number of edges: ", (answer) => {
+//             resolve(parseInt(answer));
+//         });
+//     });
 
-    const edge = await new Promise(resolve => {
-        rl.question("Enter the number of edges: ", (answer) => {
-            resolve(parseInt(answer));
-        });
-    });
+//     let graph = new Array(ver + 1).fill().map(() => []);
 
-    // Initialize graph as an adjacency list
-    let g = new Array(ver).fill().map(() => []);
+//     // Using a for loop to prompt for edges
+//     for (let i = 0; i < edge; i++) {
+//         const ed = await new Promise(resolve => {
+//             rl.question(`Enter edge ${i + 1} (in the format x y): `, (answer) => {
+//                 resolve(answer);
+//             });
+//         });
+
+//         const [x, y] = ed.split(' ').map(Number);
+//         graph[x].push(y);
+//         graph[y].push(x);
+//     }
+
+//     // After all edges are entered, print the graph
+//     for (let i = 0; i < ver; i++) {
+//         let adjlist = graph[i].join(" ");
+//         console.log(`${i} -> ${adjlist}`);
+//     }
+
+//     rl.close();
+// }
+
+// Create();
+const prompt = require('prompt-sync')();
+
+function Create() {
+    // Prompt for number of vertices
+    const ver = parseInt(prompt("Enter number of vertices: "));
     
-    // Collect edges from the user
+    // Prompt for number of edges
+    const edge = parseInt(prompt("Enter number of edges: "));
+    
+    // Create the graph with empty adjacency lists
+    let graph = new Array(ver + 1).fill().map(() => []);
+    
+    // Loop through each edge and collect the vertices
     for (let i = 0; i < edge; i++) {
-        const ed = await new Promise(resolve => {
-            rl.question(`Enter edge ${i + 1} (in the format x y): `, (answer) => {
-                resolve(answer);
-            });
-        });
-
+        const ed = prompt(`Enter edge ${i + 1} (in the format x y): `);
         const [x, y] = ed.split(' ').map(Number);
-        g[x].push(y);
-        g[y].push(x);
+        graph[x].push(y);
+        graph[y].push(x);  // Since the graph is undirected
     }
-
-    // Perform DFS to find connected components
-    let sol = [];
-    let vis = new Array(ver).fill(0); // visited array
-
+    
+    // After all edges are entered, print the graph
     for (let i = 0; i < ver; i++) {
-        if (!vis[i]) {
-            let count = [0];
-            Dfs(vis, i, g, count); // DFS from vertex i
-            sol.push(count[0]); // Add the size of the connected component
-        }
+        console.log(`${i} -> ${graph[i].join(" ")}`);
     }
-
-    // Calculate the result
-    let val = (ver * (ver - 1)) / 2; // Total pairs of vertices
-    sol.forEach((s) => {
-        let sum = (s * (s - 1)) / 2; // Subtract the pairs within each connected component
-        val -= sum;
-    });
-
-    // Output the result
-    console.log("The result is:", val);
-
-    rl.close(); // Close the readline interface
 }
 
-// Start the program
-Timetaken();
+Create();
+

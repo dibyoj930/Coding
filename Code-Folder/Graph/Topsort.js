@@ -26,3 +26,4 @@ class Solution {
 }
 const sol=new Solution();
 console.log(sol.topologicalSort([[], [3], [3], [], [0,1], [0,2]] ))
+
