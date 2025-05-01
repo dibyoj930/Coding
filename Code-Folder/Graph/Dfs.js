@@ -10,6 +10,7 @@ class Solution {
             }
         }
     }
+   
     dfsOfGraph(adj) {
         // code here
         let vis=[];

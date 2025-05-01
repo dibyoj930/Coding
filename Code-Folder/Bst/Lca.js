@@ -31,9 +31,16 @@ function arrayToBinaryTree(arr) {
 }
 function LCA(root,n1,n2){
     if(!root)return;
-    if(n1.val<root.val&&n2.val<root.val)return LCA(root.left,n1,n2);
-    else if (n1.val>root.val&&n2.val>root.val)return LCA(root.right,n1,n2);
+    if(n1<root.val&&n2<root.val)return LCA(root.left,n1,n2);
+    if (n1>root.val&&n2>root.val)return LCA(root.right,n1,n2);
     else return root.val
 }
-const tree=arrayToBinaryTree([6,2,8,0,4,7,9,null,null,3,5]);
-console.log(LCA(tree,2,8))
+const tree=arrayToBinaryTree([20, 10, 30, 5, 15, 25, 35, null, null, null, null, null, null, 40]);
+let lcaNode = LCA(tree, 5, 15);
+
+// Output the value of the LCA node
+console.log(lcaNode ? lcaNode : null);
+// console.log(LCA(tree,12,13))
+
+//t.c -> o(h) if balanced o(n) if not balanced
+//space -> o(h) if balanced or o(n) if not balanced 

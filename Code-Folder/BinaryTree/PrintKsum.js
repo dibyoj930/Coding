@@ -1,4 +1,3 @@
-//print all the nodes that have k sum in a tree
 function TreeNode(val) {
     this.val = val;
     this.left = this.right = null;
@@ -30,40 +29,37 @@ function arrayToBinaryTree(arr) {
 
     return root;
 }
-function sum(root,path,k){
-    if (!root) return 0;
 
-    // Add the current node to the path
+// Main function that finds all paths with sum k
+function sum(root, path, k, result) {
+    if (!root) return;
+
     path.push(root.val);
 
-    // Check all the possible paths ending at the current node
     let f = 0;
-    let count =0;
     for (let i = path.length - 1; i >= 0; i--) {
         f += path[i];
         if (f === k) {
-            count++; 
-            // If sum equals k, print the path from index `i` to the current node
-            console.log(path.slice(i).join(' ')); // Join the path elements and print them
+            // Instead of printing, store the result
+            result.push(path.slice(i)); // store a copy of the sub-path
         }
     }
 
-    // Recurse down the tree
-    count+=sum(root.left, path, k);
-    count+=sum(root.right, path, k);
-   
+    sum(root.left, path, k, result);
+    sum(root.right, path, k, result);
 
-    // Backtrack by removing the last element in the path
-    path.pop();
-    return count
- }
-
-function TrackKsum(root,k){
-    let path=[];
-    
-    // return sum(root,path,k)
-   let ans= sum(root,path,k);
-    return ans;
+    path.pop(); // backtrack
 }
-const tree=arrayToBinaryTree([10,5,-3,3,2,null,11,3,-2,null,1])
-console.log(TrackKsum(tree,8))
+
+function TrackKsum(root, k) {
+    let path = [];
+    let result = [];
+
+    sum(root, path, k, result);
+
+    return result;
+}
+
+// Example usage:
+const tree = arrayToBinaryTree([10, 5, -3, 3, 2, null, 11, 3, -2, null, 1]);
+console.log(TrackKsum(tree, 8));

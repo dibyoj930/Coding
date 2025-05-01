@@ -50,3 +50,18 @@ function Check(root){
 }
 const tree=arrayToBinaryTree([5,1,4,null,null,3,6]);
 console.log(Check(tree))
+
+
+// Time Complexity: 
+// O( n )
+// O(n), where 
+// n is the number of nodes in the tree.
+// Space Complexity:
+// Worst case: 
+// O (n)
+// O(n), due to the recursion stack in an unbalanced tree.
+// Best case: 
+// O(logn)
+// O(logn), due to the recursion stack in a balanced tree.
+
+

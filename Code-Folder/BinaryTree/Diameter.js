@@ -45,3 +45,5 @@ function Diameter(root){
 }
 const tree=arrayToBinaryTree( [5, 8, 6, 3, 7, 9]);
 console.log(Diameter(tree))
+
+

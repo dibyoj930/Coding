@@ -52,22 +52,22 @@ function Resolve(start,end,inorder){
     
     return root;
 }
-function levelOrderTraversal(root) {
-    if (!root) return [];
+// function levelOrderTraversal(root) {
+//     if (!root) return [];
 
-    let result = [];
-    let queue = [root];
+//     let result = [];
+//     let queue = [root];
 
-    while (queue.length > 0) {
-        let current = queue.shift();
-        result.push(current.val);  // Push the current node's value
+//     while (queue.length > 0) {
+//         let current = queue.shift();
+//         result.push(current.val);  // Push the current node's value
 
-        if (current.left) queue.push(current.left);  // Add left child if exists
-        if (current.right) queue.push(current.right);  // Add right child if exists
-    }
+//         if (current.left) queue.push(current.left);  // Add left child if exists
+//         if (current.right) queue.push(current.right);  // Add right child if exists
+//     }
 
-    return result;
-}
+//     return result;
+// }
 //treetoarray
 function treeToArray(root) {
     if (!root) return [];
@@ -99,3 +99,4 @@ const tree=arrayToBinaryTree([1,null,2,null,3,null,4,null,null])
 let inorder=[]
 inOrderTraversal(tree,inorder);
 console.log(treeToArray(Resolve(0,inorder.length-1,inorder)))
+//construct tree(start,end){

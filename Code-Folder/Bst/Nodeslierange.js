@@ -43,5 +43,6 @@ function Nodeslie(root,l,h){
 }
 const tree=arrayToBinaryTree( [10, 5, 50, 1, null, 40, 100])
 console.log(Nodeslie(tree,5,45))
-console.log(Nodeslie(arrayToBinaryTree( [10, 5, 50, 1, null, 40, 100]),10,100))
-console.log(Nodeslie( arrayToBinaryTree([1, 2, 3]),23,95))
+// console.log(Nodeslie(arrayToBinaryTree( [10, 5, 50, 1, null, 40, 100]),10,100))
+// console.log(Nodeslie( arrayToBinaryTree([1, 2, 3]),23,95))
+//Tc-> O(N) Sc-> O(N)

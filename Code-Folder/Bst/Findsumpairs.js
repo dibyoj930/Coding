@@ -5,7 +5,7 @@ class Solution {
         if (k == root2.data) return true;
         let x, y;
         if (k < root2.data) x = this.fetch(root2.left, k);
-        else y = this.fetch(root2.right, k);
+        else y = this.fetch(root2.right, k); 
         return x || y;
     }
 

@@ -51,14 +51,14 @@ function binaryTreeToArray(root) {
 
     return result;
 }
-function Traverse(root,s){
-   if(root){
-    Traverse(root.right,s);
-    s+=root.val;
-    root.val=s;
-    Traverse(root.left,s)
-   }
-}
+// function Traverse(root,s){
+//    if(root){
+//     Traverse(root.right,s);
+//     s+=root.val;
+//     root.val=s;
+//     Traverse(root.left,s)
+//    }
+// }
 function Traverse(root){
     if(root){
      Traverse(root.right);

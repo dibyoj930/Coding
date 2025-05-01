@@ -71,3 +71,5 @@ function Solve2(root,k){
 const tree=arrayToBinaryTree([5,3,6,2,4,null,null,1])
 console.log(Solve(tree,3))
 console.log(Solve2(tree,3))
+// Time Complexity: O(n) for both Solve and Solve2 due to the in-order and reverse in-order traversals.
+// Space Complexity: O(h), where h is the height of the tree. In the worst case (unbalanced tree), this is O(n).

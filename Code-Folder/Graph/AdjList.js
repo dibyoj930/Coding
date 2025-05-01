@@ -45,29 +45,44 @@ const readline = require('readline');
 // Create();
 const prompt = require('prompt-sync')();
 
-function Create() {
-    // Prompt for number of vertices
-    const ver = parseInt(prompt("Enter number of vertices: "));
+// function Create() {
+//     // Prompt for number of vertices
+//     const ver = parseInt(prompt("Enter number of vertices: "));
     
-    // Prompt for number of edges
-    const edge = parseInt(prompt("Enter number of edges: "));
+//     // Prompt for number of edges
+//     const edge = parseInt(prompt("Enter number of edges: "));
     
-    // Create the graph with empty adjacency lists
-    let graph = new Array(ver + 1).fill().map(() => []);
+//     // Create the graph with empty adjacency lists
+//     let graph = new Array(ver + 1).fill().map(() => []);
     
-    // Loop through each edge and collect the vertices
-    for (let i = 0; i < edge; i++) {
-        const ed = prompt(`Enter edge ${i + 1} (in the format x y): `);
-        const [x, y] = ed.split(' ').map(Number);
-        graph[x].push(y);
-        graph[y].push(x);  // Since the graph is undirected
-    }
+//     // Loop through each edge and collect the vertices
+//     for (let i = 0; i < edge; i++) {
+//         const ed = prompt(`Enter edge ${i + 1} (in the format x y): `);
+//         const [x, y] = ed.split(' ').map(Number);
+//         graph[x].push(y);
+//         graph[y].push(x);  // Since the graph is undirected
+//     }
     
-    // After all edges are entered, print the graph
-    for (let i = 0; i < ver; i++) {
-        console.log(`${i} -> ${graph[i].join(" ")}`);
-    }
-}
+//     // After all edges are entered, print the graph
+//     for (let i = 0; i < ver; i++) {
+//         console.log(`${i} -> ${graph[i].join(" ")}`);
+//     }
+// }
 
 Create();
 
+
+function Create(){
+    const ver=parseInt(prompt("enter ver:"));
+    const edg=parseInt(prompt("enter edge:"));
+    let graph=new Array(ver+1).fill().map(()=>[]);
+    for(let i=0;i<edg;i++){
+       let edges=prompt(`enter the edge in ${i+1} in x y format`);
+       const [x,y]=edges.split(" ").map(Number);
+       graph[x].push(y);
+       graph[y].push(x)
+    }
+    for(let i=1;i<=ver;i++){
+        console.log(`${i}->${graph[i].join(" ")}`)
+    }
+}

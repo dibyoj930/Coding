@@ -41,3 +41,5 @@ function Balance(root){
    return f==1;
 }
 console.log(Balance(arrayToBinaryTree([1,2,2,3,3,null,null,4,4])))
+
+

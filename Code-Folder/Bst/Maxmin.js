@@ -41,3 +41,5 @@ function Solvemax(root){
 }
 console.log(Solve(arrayToBinaryTree( [5, 4, 6, 3, null, null, 7, 1])))
 console.log(Solvemax(arrayToBinaryTree( [5, 4, 6, 3, null, null, 7, 1])))
+// time complexity: O(h) or O(n) O(n) in the worst case.
+// space complexity: O(h) or O(n) O(n) in the worst case
