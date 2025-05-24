@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+          .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;         /* Light grey background */
+      border-top: 5px solid yellowgreen;     /* Blue top border */
+      border-radius: 50%;
+      animation: spin 2s linear infinite;
+      margin: 100px auto; /* Center the spinner */
+    }
+
+    @keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+</head>
+<body>
+    
+    <input type="text" onkeyup="mydev()" id="search" />
+    <button id="button" onclick="called()">Click</button>
+    <!-- <script src="Throttle.js"></script>
+    <script src="Debounce.js"></script> -->
+    <script>
+     
+     const fn =()=>{
+        console.log("typed again...")
+     }
+     const debounce = (fn)=>{
+        let timer;
+        return function(...args){
+          if(timer)clearTimeout(timer);
+          timer = setTimeout(()=>{
+            fn();
+          },900)
+        }
+     }
+     const mydev = debounce(fn);
+     const throttle = (fn,delay)=>{
+        return function(...args){
+            document.getElementById("button").disabled = true;
+            setTimeout(()=>{
+                fn(...args);
+            },delay)
+        }
+     }
+     const called = throttle(()=>{
+        console.log("button clicked!!!");
+        document.getElementById("button").disabled=false;
+     },2000)
+    </script>
+
+    <div class="spinner"></div>
+
+</body>
+</html>
