@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="form">
+        <div id="fname-div">
+         <label>First Name</label>
+         <input id="fname" type="text"/>
+         <span id="ferror"></span>
+        </div>
+        <div id="lname-div">
+            <label>Last Name</label>
+            <input id="lname" type="text"/>
+            <span id="lerror"></span>
+           </div>
+           <div id="email-div">
+            <label>Email</label>
+            <input id="email" type="text"/>
+            <span id="emailerror"></span>
+           </div>
+           <div id="feedback-div">
+            <label>feedback</label>
+            <input id="feed" type="text"/>
+            <span id="feederror"></span>
+           </div>
+           <button id="btn">Click</button>
+
+    </form>
+    <div id="value">
+
+    </div>
+    <script>
+        const form =  document.getElementById("form")
+        const fname =  document.getElementById("fname");
+        const lname =  document.getElementById("lname");
+        const email =  document.getElementById("email");
+        const emailerror =  document.getElementById("emailerror");
+        const feed =  document.getElementById("feed");
+        const ferror =   document.getElementById("ferror");
+        const lerror =   document.getElementById("lerror");
+        const feederror =   document.getElementById("feederror");
+        const doc =  document.getElementById("value")
+
+        let first='';
+        let last = '';
+        let em = '';
+        let feedback = '';
+        fname.addEventListener("input",(e)=>{
+            first=e.target.value
+        })
+        lname.addEventListener("input",(e)=>{
+            last=e.target.value
+        })
+        email.addEventListener("input",(e)=>{
+            em=e.target.value
+        })
+        feed.addEventListener("input",(e)=>{
+            feedback=e.target.value
+        })
+        const setError=(input,span,text)=>{
+          span.textContent = text;
+          input.style.border = "1px solid red"
+        }
+        const removeerror=(input,span)=>{
+            span.textContent = '';
+            input.style.border="1px solid black";
+        }
+        const validate =()=>{
+            const errorarr=[];
+            if(first.length===0){
+                setError(fname,ferror,"first name can't be empty!");
+                errorarr.push("error fname")
+            }else{
+                removeerror(fname,ferror);
+            }
+            if(last.length===0){
+                setError(lname,lerror,"last name can't be empty!");
+                errorarr.push("error lname")
+            }else{
+                removeerror(lname,lerror)
+            }
+            if(em.length===0||!em.includes("@")){
+                setError(email,emailerror,"email can't be empty!");
+                errorarr.push("error fname")
+            }else{
+                removeerror(email,emailerror)
+            }
+            if(feedback.length===0){
+                setError(feed,feederror,"feedback can't be empty!");
+            }else{
+                removeerror(feed,feederror)
+            }
+            return errorarr;
+        }
+        form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            let err=validate();
+            if(err.length===0){
+                console.log("data available-->",first,last,em,feedback)
+                const value =  document.createElement("p");
+                value.textContent=`Name-${first} ${last}, Email-${em}, your feedback is -${feedback}`
+                doc.appendChild(value)
+            }
+        })
+        
+    </script>
+</body>
+</html>

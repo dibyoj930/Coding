@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .style{
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <label for="rows">Enter Row</label>
+        <input type="number" id="row" min="1"/>
+        <label for="rows">Enter Col</label>
+        <input type="number" id="col" min="1"/>
+        <button type="button" id="generate">Generate</button>
+    </form>
+    <div class="style" id="table"></div>
+    <script>
+        const generateelement=document.getElementById("generate");
+        const tablecontainer = document.getElementById("table");
+        generateelement.addEventListener('click',Generate);
+        function Generate(){
+             const row = parseInt(document.getElementById("row").value,10);
+             const col = parseInt(document.getElementById("col").value,10);
+             console.log(row,col)
+             if(row>0&&col>0){
+                let tablehtml=`<table><thead><tr>`;
+                 for(let i=1;i<=col;i++){
+                    tablehtml+=`<th>Header${i}</th>`;
+                 }
+                 tablehtml+=`</tr></thead>`
+                //construct rowandcol
+                tablehtml+=`<tbody>`;
+                for(let i=1;i<=row;i++){
+                    tablehtml+=`<tr>`;
+                    for(let j=1;j<=col;j++){
+                        tablehtml+=`<td>row-${i}col-${j}</td>`;
+                    } 
+                    tablehtml+=`</tr>`;
+                }
+                tablecontainer.innerHTML=tablehtml;
+             }else{
+                alert("enter correct values!")
+             }
+        }
+    </script>
+</body>
+</html>

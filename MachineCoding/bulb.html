@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .machine{
+           display: flex;
+           width: 150px;
+           height: 350px;
+           background-color: black;
+           border: 1px solid grey;
+           border-radius: 8px;
+           flex-direction: column;
+           gap: 1rem;
+           align-items: center;
+           padding: 0.5rem;
+        }
+        .bulb{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: white;
+            padding: 1rem;
+            margin-top: 1rem;
+            
+        }
+    </style>
+</head>
+<body>
+    <div id="machine" class="machine">
+      <div id="red" class="red bulb"></div>
+      <div id="yellow" class="yellow bulb"></div>
+      <div id="green" class="green bulb"></div>
+    </div>
+    <script>
+        let colors=['red','yellow','green']
+      let activeIndex=0;
+
+      (()=>{
+          setInterval(()=>{
+            const bulbs = document.querySelectorAll(".bulb");
+            bulbs.forEach((b)=>{
+                if(b.classList.contains(colors[activeIndex])){
+                    b.style.backgroundColor = (colors[activeIndex]);
+                }else{
+                    b.style.backgroundColor="whitesmoke";
+                }
+
+            })
+            if(activeIndex==colors.length-1){
+                activeIndex=0;
+            }else{
+                activeIndex++;
+            }
+          },1000)
+      })()
+    </script>
+</body>
+</html>

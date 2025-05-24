@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .accordion{
+            max-width: 600px;
+            width: 100%;
+            border: 1px solid gray;
+            border-radius: 10px;
+        }
+        .accordion-item{
+            border-bottom: 1px solid #ddd;
+        }
+        .accordion-header{
+            cursor: pointer;
+            background-color: aliceblue;
+            padding: 15px;
+            font-weight: bold;
+        }
+        .accordion-body{
+            display: none;
+            background-color: #555;
+            padding: 15px;
+        }
+        /* .accordion-body{
+            display: none;
+        } */
+        .accordion-body.active{
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="container">
+
+    </div>
+    <script>
+        const data = [
+  {
+    title: "Accordion Item 1",
+    content: "This is the content for item 1.",
+  },
+  {
+    title: "Accordion Item 2",
+    content: "This is the content for item 2.",
+  },
+  {
+    title: "Accordion Item 3",
+    content: "This is the content for item 3.",
+  },
+  {
+    title: "Accordion Item 4",
+    content: "This is the content for item 4.",
+  },
+];
+        const container = document.getElementById("container");
+        data.forEach((items)=>{
+            const accordionItem = document.createElement("div");
+            accordionItem.classList.add("accordion-item");
+            const accordionbody = document.createElement("div");
+            accordionbody.classList.add("accordion-body");
+            accordionbody.textContent = items.content
+            const accordionheader = document.createElement("div");
+            accordionheader.classList.add("accordion-header");
+            accordionheader.textContent=items.title;
+            accordionItem.addEventListener("click",()=>{
+                let content = accordionItem.querySelector(".accordion-body");
+                content.classList.toggle("active")
+            })
+            accordionItem.appendChild(accordionheader);
+            accordionItem.appendChild(accordionbody);
+            container.appendChild(accordionItem);
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <li>
+    <input type="checkbox" class="parent" id="parent1"/>
+    <label for="parent1">Parent 1</label>
+    <ul>
+        <li>
+            <input type="checkbox" id="child1" class="child"/>
+            <label for="child1">Child 1</label>
+        </li>
+        <li>
+            <input type="checkbox" id="child2" class="child"/>
+            <label for="child1">Child 1</label>
+        </li>
+    </ul>
+</li>
+<li>
+    <input type="checkbox" class="parent" id="parent2"/>
+    <label for="parent2">Parent 2</label>
+    <ul>
+        <li>
+            <input type="checkbox" id="child1" class="child"/>
+            <label for="child1">Child 1</label>
+        </li>
+        <li>
+            <input type="checkbox" id="child2" class="child"/>
+            <label for="child1">Child 1</label>
+        </li>
+    </ul>
+</li>
+    <script>
+        const parent = document.querySelectorAll(".parent");
+        parent.forEach((p)=>{
+            p.addEventListener("change",function(){
+                const check=this.checked;
+                const childBox=this.parentElement.querySelectorAll('.child');
+                childBox.forEach((child)=>{
+                    child.checked=check;
+                })
+            })
+        })
+    </script>
+</body>
+</html>

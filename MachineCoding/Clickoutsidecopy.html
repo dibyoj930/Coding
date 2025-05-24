@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="div" style="border: 1px solid red;width: 400px;height: 350px;">
+      Hello I am Dibyo, i am a software engineer , trying hard to do things correct!
+    </div>
+    <button onclick="handle()">copy click</button>
+    <script>
+        const clickoutside=(ele)=>{
+        document.addEventListener("click",(e)=>{
+            if(!ele.contains(e.target)){
+                console.log("hello clicked outside!")
+            }
+        })
+        }
+        const div =  document.getElementById("div");
+        clickoutside(div)
+        const copytoclip=(str)=>{
+            if(navigator&&navigator.clipboard&&navigator.clipboard.writeText){
+               return navigator.clipboard.writeText(str)
+            }
+          return Promise.reject("Clipboard is not available")
+        }
+      const handle=()=>{
+        // copytoclip(div.textContent)
+        copyToClipboard(div.textContent)
+        const cr = document.createElement("p");
+        cr.textContent="Copied";
+        div.appendChild(cr)
+      }
+      //another way if browser navigator is not available
+      const copyToClipboard = str => {
+  const el = document.createElement('textarea');
+  el.value = str;
+  el.setAttribute('readonly', '');
+  el.style.position = 'absolute';
+  el.style.left = '-9999px';
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+};
+    </script>
+</body>
+</html>

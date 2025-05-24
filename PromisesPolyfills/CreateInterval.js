@@ -15,8 +15,8 @@ function Interval(){
       
     }
     const myClearInterval = function(id) {
-        clearTimeout(timerMap[id]);
-        delete timerMap[id];
+        clearTimeout(timermap[id]);
+        delete timermap[id];
       }
       return {setMy,myClearInterval}
 }

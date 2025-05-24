@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- I have access to the <head> tag on both pages 
+    and I need to send data from one page to another. Both pages are on different domains. -->
+    <script>
+    //page A
+    var test_parameter = 'something';
+
+Window.open('https://example.net')
+      .postMessage(test_parameter, 'https://example.net');
+      //page B
+      window.addEventListener('message', (event) => {
+    
+    // Do not do anything unless the message was from
+    // a domain we trust.
+    if (event.origin !== 'https://example.org') return;
+
+    // Create a local copy of the variable we were passed.
+    var test_parameter = event.data;
+    
+    // Do something...
+
+    // Optionally reply to the message (Page A must also have
+    // a 'message' event listener to receive this message).
+    event.source.postMessage('Done!', 'https://example.org');
+
+}, false);
+    </script>
+</body>
+</html>

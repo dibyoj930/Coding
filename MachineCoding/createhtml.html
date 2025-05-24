@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="exampleElement">
+        This is a <span class="hidden">hidden</span> text.
+    </div>
+    <div id="renderlist"></div>
+    <script>
+        //create html element
+        var par=document.createElement("p");//this will create paragraph tag
+        par.textContent="new text content created!";//add text content
+        par.setAttribute("class","custom");//add class
+        document.body.appendChild(par);//append the paragraph to the body of the document
+        var head=document.createElement("h2");
+        head.textContent="new h2 heading"
+        document.body.appendChild(head);
+        //textcontent and innertext
+// textContent is a property of the Node interface in the DOM.
+// It represents the text content of a node and all its descendants.
+// It includes all text, including hidden text (like text inside <script> or <style> elements), and it does not consider the style of the text (i.e., it includes text even if it's visually hidden with CSS).
+// textContent is generally faster than innerText.
+var element = document.getElementById("exampleElement");
+console.log(element.textContent);
+// innerText is a property that represents the "visible" text content of an element.
+// It takes into account the CSS styling and does not include text that is hidden by CSS (using display: none or other visibility-related CSS rules).
+// innerText is not supported in Firefox before version 45.
+var elements = document.getElementById("newelem");
+console.log(elements.innerText);
+    </script>
+
+    <script>
+        //create list from an array using html 
+        const fruits = ['Apple', 'Banana', 'Orange', 'Grapes', 'Watermelon'];
+        function Movetolist(array){
+            const ulelem=document.createElement("ul");
+            array.forEach((ele)=>{
+                const listelem=document.createElement("li");//create element;
+                listelem.textContent=ele;//set value;
+                ulelem.appendChild(listelem);//append to the list;
+            })
+            return ulelem;//finally return it
+        }
+        const listContainer=document.getElementById("renderlist");
+        const html=Movetolist(fruits);
+        listContainer.appendChild(html)
+    </script>
+</body>
+</html>

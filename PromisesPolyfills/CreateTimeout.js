@@ -27,3 +27,10 @@ let timer = CreateTime(()=>{
     console.log("Hello welcome in settimeout!")
 },2000,"satish","Ramesh")
 console.log(timer)
+//for clearalltimeout
+// window.clearAllTimeout = function(){
+//     //clear all timeouts
+//     while(timeoutIds.length){
+//       clearTimeout(timeoutIds.pop());
+//     }
+//   }

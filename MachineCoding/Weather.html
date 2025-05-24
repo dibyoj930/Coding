@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="main-div">
+        <input id="ci" type="text"/>
+        <button id="button">Submit</button>
+       <div id="city"></div>
+       <div id="temp"></div>
+       <div id="max"></div>
+       <div id="min"></div>
+       <div id="humidity"></div>
+       
+    </div>
+    <script>
+        const city  = document.getElementById("city");
+        const button  = document.getElementById("button");
+        const ci  = document.getElementById("ci");
+        const temp = document.getElementById("temp");
+        const max = document.getElementById("max");
+        const min = document.getElementById("min");
+        const humadity  = document.getElementById("humidity");
+        const App_Key  = "bf909b4a90c47e810fc156dc73c0ed75"
+        let exactcity =  '';
+        ci.addEventListener("input",(e)=>{
+            exactcity = e.target.value;
+        })
+
+        const getlocation = ()=>{
+           return new Promise((res,rej)=>{
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(res,rej)
+            }
+           })
+        }
+        const getWeatherdetails = async(city)=>{
+            //lat,long
+            const data=await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${App_Key}`);
+            
+            const res =  data.json();
+            return res;
+        }
+
+        const callapi = async()=>{
+        //   const getpos = await getlocation();
+          const result = await getWeatherdetails(exactcity);
+          console.log(result)
+           city.textContent = `Current tempareture in ${result.name} is shown below`;
+           temp.textContent = `current tempareture is ${result.main.temp-273}`;
+           max.textContent = `current max is ${result.main.temp_max-273}`
+           min.textContent = `current min is ${result.main.temp_min-273}`
+           humadity.textContent = `current humidity is ${result.main.humidity}`
+        }
+        button.addEventListener("click",callapi)
+    </script>
+</body>
+</html>
+<!-- let instalment = 
+    (P × R × (1 + R)^N) 
+    / 
+    ((1 + R)^N - 1); -->

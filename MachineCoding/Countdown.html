@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="form">
+      Countdown
+      <div id="inputnew">
+        <label>Insert input</label>
+        <input type="number" id="input"/>
+        <span id="error"></span>
+      </div>
+      <button id="button">Submit</button>
+      <div id="timercontainer" style="display: flex; gap: 10px;">
+         <div id="hr"></div>
+         <div id="min"></div>
+         <div id="sec"></div>
+      </div>
+    </form>
+    <script>
+        const hr = document.getElementById("hr")
+        const min = document.getElementById("min")
+        const sec = document.getElementById("sec")
+        const form = document.getElementById("form")
+        const span = document.getElementById("error")
+        const input = document.getElementById("input")
+        let second="";
+
+        const resetwatch=()=>{
+            hr.textContent="00 :";
+            min.textContent="00 :";
+            sec.textContent="00";
+        }
+        window.addEventListener("load",()=>resetwatch());
+        const allowednumber = (e)=>{
+            let temp = e.target.value.replace(/[^0-9]/g,"");
+            e.target.value = temp;
+            return temp;
+        }
+        input.addEventListener("input",(e)=>{
+            second = allowednumber(e)
+        })
+        const inputerror = (input,span,message)=>{
+           input.style.border = "1px solid red";
+           span.textContent = message;
+        }
+        const removeerror = (input,span)=>{
+            input.style.border = "1px solid black";
+            span.textContent=""
+        }
+        const validate = ()=>{
+            let errorarr=[];
+            if(second.length==0){
+                inputerror(input,span,"empty length cannot be taken from input");
+                errorArr.push("Input cannot be empty");
+            }else{
+                removeerror(input,span)
+                
+            }
+            return errorarr;
+        }
+        form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            let eval = validate();
+            if(eval.length==0){
+                input.value=""
+                const inte = setInterval(()=>{
+                    if(second===1){
+                        clearInterval(inte);
+                        resetwatch();
+
+                    }
+                    second--;
+                    let displaymin = Math.floor(second/60);
+                    let displayhour = Math.floor(second/3600);
+                    let displaysec =  second-displaymin*60;
+
+                    min.textContent = displaymin.toString().padStart(2,"0")+" :";
+                    hr.textContent = displayhour.toString().padStart(2,"0")+" :";
+                    sec.textContent = displaysec.toString().padStart(2,"0");
+
+                },1000)
+            }
+        })
+    </script>
+</body>
+</html>

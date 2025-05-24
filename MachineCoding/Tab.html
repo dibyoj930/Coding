@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            display: flex;
+            flex-direction: row;
+        }
+        .tab{
+            border: 1px solid black;
+            border-radius: 8px;
+            margin-left: 10px;
+            margin-right: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+        #contentcontainer {
+  padding: 1rem;
+  font-size: 1.1rem;
+}
+        .active{
+            border: 2px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div id="tabcontainer" class="container"></div>
+    <div id="contentcontainer"></div>
+    <script>
+        const tab=document.getElementById("tabcontainer");
+        const content = document.getElementById("contentcontainer");
+        const tabarr = new Array(5).fill().map((_,index)=>index);
+        const descrarr = new Array(5).fill().map((_,index)=>{return `Content of -${index}`});
+        let active=0;
+        content.textContent = descrarr[active];
+         
+
+        tabarr.forEach((item,index)=>{
+            const newdiv = document.createElement("div");
+            index===0?newdiv.classList.add("tab","active"):newdiv.classList.add("tab");
+            newdiv.textContent=`Tab-${index}`;
+
+            newdiv.addEventListener("click",()=>{
+                let divs =  document.querySelectorAll(".tab");
+                divs.forEach((item)=>item.classList.remove("active"));
+                newdiv.classList.add("active");
+                active=index;
+                content.textContent=descrarr[active]
+            })
+            tab.appendChild(newdiv);
+        })
+
+    </script>
+</body>
+</html>

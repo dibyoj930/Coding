@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Add Todo</h2>
+    <input type="text" id="input" />
+    <button id="submit">Submit</button>
+    <div id="todoholder"></div>
+    <script>
+        const taskholder =  document.getElementById("todoholder");
+        const submit  = document.getElementById("submit");
+        submit.addEventListener("click",()=>{
+            const inputelement = document.getElementById("input");
+            if(inputelement.value.length==0){
+                alert("empty input");
+            }
+            const typed = inputelement.value;
+            addtask(typed)
+            inputelement.value="";
+        })
+const addtask = (input) => {
+    const list = document.createElement("ul");
+
+    const todo = document.createElement('li');
+
+    // Create a span to hold the task text
+    const textSpan = document.createElement('span');
+    textSpan.textContent = input;
+    todo.appendChild(textSpan);
+
+    // Delete button
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => {
+        taskholder.removeChild(list);
+    });
+
+    // Edit button
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.addEventListener("click",  function handleEditClick() {
+  const editInput = document.createElement("input");
+  editInput.type = "text";
+  editInput.value = textSpan.textContent;
+
+  todo.replaceChild(editInput, textSpan);
+  editButton.textContent = "Save";
+
+  // Remove current edit listener
+  editButton.removeEventListener("click", handleEditClick);
+
+  // Add inline Save behavior
+  editButton.addEventListener("click", function handleSaveClick() {
+    textSpan.textContent = editInput.value;
+    todo.replaceChild(textSpan, editInput);
+    editButton.textContent = "Edit";
+
+    // Remove save listener
+    editButton.removeEventListener("click", handleSaveClick);
+
+    // Reattach edit behavior
+    editButton.addEventListener("click", handleEditClick);
+    });
+})
+
+    // Store original edit handler for reuse
+    // const editButtonHandler = editButton.onclick;
+
+    // Append buttons
+    todo.appendChild(editButton);
+    todo.appendChild(deleteButton);
+    list.appendChild(todo);
+    // Add to DOM
+    taskholder.appendChild(list);
+};
+    </script>
+</body>
+</html>

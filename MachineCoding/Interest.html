@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="form">
+     <div id="principle-container">
+        <label>Principle Rs.</label>
+        <input type="number" id="principle"/>
+        <span id="perr"></span>
+     </div>
+     <div id="principle-container">
+        <label>Rate</label>
+        <input type="number" id="rate"/>
+        <span id="rerr"></span>
+     </div>
+     <div id="principle-container">
+        <label>Tenure</label>
+        <input type="number" id="month"/>
+        <span id="terr"></span>
+     </div>
+     <button id="sub"></button>
+     <div id="amount"></div>
+    </form>
+    <script>
+        const Principle = document.getElementById("principle");
+        const Rate = document.getElementById("rate");
+        const Month =  document.getElementById("month");
+        const perr = document.getElementById("perr");
+        const rerr = document.getElementById("rerr");
+        const terr =  document.getElementById("terr");
+        const button = document.getElementById("sub");
+        const form = document.getElementById("form");
+        const am = document.getElementById("amount");
+        button.textContent = "Submit";
+
+        let pr='';
+        let ra='';
+        let mo='';
+
+        Principle.addEventListener("input",(e)=>{
+            pr = e.target.value;
+            return pr;
+        })
+        Rate.addEventListener("input",(e)=>{
+            ra = e.target.value;
+            return ra;
+        })
+        Month.addEventListener("input",(e)=>{
+            mo = e.target.value;
+            return mo;
+        })
+
+        const setError=(input,span,message)=>{
+            span.textContent =  message;
+            input.style.border = "1ps solid red"
+        }
+        const removeerror =  (span, input)=>{
+            input.style.border = "1px solid black";
+            span.textContent=''
+        }
+        const validate=()=>{
+            let erroarr=[];
+            if(pr.length===0){
+                setError(Principle,perr,"principle cannot be empty!");
+                erroarr.push("empty principle");
+            }else{
+                removeerror(Principle,perr)
+            }
+            if(ra.length===0){
+                setError(Rate,rerr,"rate cannot be empty!");
+                erroarr.push("empty rate");
+            }else{
+                removeerror(Rate,rerr)
+            }
+            if(mo.length===0){
+                setError(Month,terr,"time cannot be empty!");
+                erroarr.push("empty time");
+            }else{
+                removeerror(Month,terr)
+            }
+            return erroarr;
+        }
+        const calculate=(principle,time,rate)=>{
+            const months =  time*12; //t
+            const monthlrate = rate/(12*100);//r
+            let instalment = (principle*monthlrate*Math.pow(1+monthlrate,months))/(Math.pow(1+monthlrate,months)-1)
+            return isNaN(instalment)?0.00:instalment.toFixed(2)
+
+        }
+        form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            const err=validate();
+            if(err.length===0){
+                const res=calculate(pr,mo,ra)
+               am.textContent = `Your monthly installment will be ${res}`
+            }
+        })
+        
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <form id="form">
+        <div id="temp">
+          <label>Enter Celcius</label>
+          <input type="number" id="input"/>
+          <span id="error"></span>
+        </div>
+        <div id="result">
+     
+        </div>
+        <button id="btn">Submit</button>
+    </form>
+    </div>
+    <script>
+        const input = document.getElementById("input");
+        const error = document.getElementById("error");
+        const result = document.getElementById("result");
+        const form =  document.getElementById("form");
+        let celcius="";
+        let value="";
+        const seterror=(span,input,text)=>{
+            span.textContent=text;
+            input.style.border="1px solid red";
+        }
+        const removeError=(span,input)=>{
+            span.textContent="";
+            input.style.border="1px solid black";
+        }
+        const calculate = (val)=>{
+            return ((9*val/5)+32)
+        }
+        input.addEventListener("input",(e)=>{
+            e.target.value= e.target.value.replace(/[^0-9]/g,"");
+            celcius=e.target.value.replace(/[^0-9]/g,"");
+            console.log(celcius)
+        })
+        
+        const validate=()=>{
+            let erroarr=[];
+            if(celcius.length==0){
+                seterror(error,input,"input can't be empty!");
+                erroarr.push("wrong input");
+            }
+            else{
+                removeError(error,input);
+            }
+            return erroarr;
+        }
+        form.addEventListener("submit",(e)=>{
+            e.preventDefault()
+            let err=validate();
+            if(err.length===0){
+                let res = calculate(celcius);
+                result.textContent=`calculated tempraeture ${res}`;
+            }
+        })
+    </script>
+</body>
+</html>

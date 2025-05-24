@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="main-div">
+        <div id="count"></div>
+        <button id="plus">+</button>
+        <button id="minus">-</button>
+
+    </div>
+    <script>
+        const count = document.getElementById("count");
+        const incr = document.getElementById("plus");
+        const decr = document.getElementById("minus");
+        let value=0;
+        count.textContent=value;
+        const handle = (action)=>{
+          let final = action=='plus'?++value:--value;
+          count.textContent=final
+         
+        }
+        incr.addEventListener('click',()=>handle("plus"))
+        decr.addEventListener('click',()=>handle("minus"))
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .item{
+            cursor: pointer;
+    padding: 10px;
+    background-color: white;
+    width: 150px;
+    border: 1px solid gray;
+    margin: 5px;
+    border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-div">
+       <div id="items">
+
+       </div>
+    </div>
+    <script>
+        let startdiv;
+        const doc = document.getElementById("items");
+        const num  = 8;
+        const items = new Array(num).fill().map((_,index)=>index);
+        items.forEach((it)=>{
+            const newdiv = document.createElement("div");
+            newdiv.classList.add("item");
+            newdiv.textContent = `item->${it}`;
+            newdiv.draggable=true;
+            // newdiv.classList.add(`${it}`);
+
+            newdiv.addEventListener("dragstart",(e)=>{
+                startdiv = e.target;
+            });
+            newdiv.addEventListener("dragover",(e)=>{
+                e.preventDefault();
+            })
+            newdiv.addEventListener("drop",(e)=>{
+                e.preventDefault();
+                // let target = document.getElementById(startdiv);
+                if(startdiv!==e.target){
+                    doc.insertBefore(startdiv,e.target)
+                }
+            })
+            doc.appendChild(newdiv)
+        })
+    </script>
+</body>
+</html>
