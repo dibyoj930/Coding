@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+           body {  
+    font-family: 'Poppins', sans-serif;
+    color: #000000;
+}
+
+h1 {
+    text-align: center;
+}
+
+#board {
+    margin-left: auto;
+    margin-right: auto;
+    width: 375px;
+    height: 375px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+}
+
+.square {
+    width: 120px;
+    height: 120px;
+    border: 1px solid #D3D3D3;
+    background-color: #F5F5F5;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.square:hover {
+    background-color: #FFFFE0;
+}
+
+#restartButton {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 40px;
+    width: 150px;
+    background-color: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 40px;
+    font-size: 18px;
+}
+
+#restartButton:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+    </style>
+</head>
+<body>
+    <div id="title">
+        <h1>Tic Tac Toe</h1>
+    </div>
+    <div id="board">
+        <div class="square" id="square0"></div>
+        <div class="square" id="square1"></div>
+        <div class="square" id="square2"></div>
+        <div class="square" id="square3"></div>
+        <div class="square" id="square4"></div>
+        <div class="square" id="square5"></div>
+        <div class="square" id="square6"></div>
+        <div class="square" id="square7"></div>
+        <div class="square" id="square8"></div>
+    </div>  
+    <div id="endGame">
+        <input type="button" value="Restart" id="restartButton" onclick="restartButton()"/>
+    </div> 
+    <script>
+        const board = document.getElementById("board");
+        const square = document.getElementsByClassName("square");
+        const players = ["X","O"];
+        let currentPlayer=players[0];
+        const h2 = document.createElement("h2");
+        h2.textContent = `${currentPlayer}'s Turn`;
+        h2.style.marginTop = "1rem"
+        h2.style.textAlign = "center"
+        board.after(h2);
+        const winning=[
+            [0,1,2],
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+            [3,4,5],
+            [6,7,8],
+            [2,4,6],
+            [0,4,8]
+        ]
+       for(let i=0;i<square.length;i++){
+        square[i].addEventListener('click',()=>{
+            if(square[i].textContent!==""){
+                return;
+            }
+            square[i].textContent = currentPlayer
+            if(checkwin(currentPlayer)){
+                h2.textContent= `Player ${currentPlayer} wins`;
+                return;
+            }
+            if(checktie()){
+                h2.textContent= `It's a Draw`;
+                return;
+            }
+            currentPlayer = (currentPlayer===players[0])?players[1]:players[0];
+            if(currentPlayer===players[0]){
+                h2.textContent="X's turn";
+            }else{
+                h2.textContent="O's turn"
+            }
+
+        })
+       }
+       const checkwin=(currentPlayer)=>{
+         for(let i=0;i<winning.length;i++){
+            let [a,b,c]=winning[i];
+            if(square[a].textContent===currentPlayer&&square[b].textContent===currentPlayer&&square[c].textContent===currentPlayer){
+                 return true;
+            }
+           
+         }
+         return false;
+       }
+       const checktie=()=>{
+         for(let i=0;i<square.length;i++){
+            if(square[i].textContent===""){
+                return false;
+            }
+         }
+         return true;
+       }
+       const restartButton =()=>{
+        for(let i=0;i<square.length;i++){
+            square[i].textContent="";
+         }
+         h2.textContent = "X's turn";
+         currentPlayer=players[0];
+       }
+    </script>
+</body>
+</html>

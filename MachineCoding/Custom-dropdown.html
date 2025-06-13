@@ -1,107 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        #selected-option {
-    font-size: 18px;
-    padding: 20px;
-}
-#search-container {
-    border: 1px solid gray;
-    border-radius: 5px;
-    cursor: pointer;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Custom Dropdown</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
 
-#search {
-    border: none;
-}
+    #selected-option {
+      font-size: 18px;
+      padding: 20px;
+    }
 
-#search-items {
-    display: none;
-}
-        .list-item{
-            cursor: pointer;
-    background-color: white;
-    margin: 4px;
-    border: 1px solid gray;
-    border-radius: 5px;
-    font-size: 12px;
-        }
+    #dropdown {
+      position: relative;
+      width: 250px;
+      margin: 50px;
+    }
 
-    </style>
+    #search-container {
+      border: 1px solid gray;
+      border-radius: 5px;
+      cursor: text;
+    }
+
+    #search {
+      border: none;
+      padding: 10px;
+      width: 100%;
+      outline: none;
+      font-size: 14px;
+    }
+
+    #search-items {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: white;
+      border: 1px solid gray;
+      border-top: none;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .list-item {
+      cursor: pointer;
+      padding: 10px;
+      font-size: 14px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .list-item:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
 </head>
 <body>
-<div id="main-div">
+  <div id="main-div">
     <div id="dropdown">
       <div id="search-container">
-        <input type="text" id="search"/>
+        <input type="text" id="search" placeholder="Select a city..." />
       </div>
-      <div id="search-items">
-
-      </div>
+      <div id="search-items"></div>
     </div>
-       <div id="selected-option">
+    <div id="selected-option"></div>
+  </div>
 
-       </div>
-    </div>
-    <script>
-     const dropdownContainer = document.getElementById("dropdown");
-const searchBar = document.getElementById('search')
-const searchItems = document.getElementById('search-items')  
-const selectedOptionDisplay = document.getElementById('selected-option')
-const searchContainer = document.getElementById('search-container')
+  <script>
+    const dropdownContainer = document.getElementById("dropdown");
+    const searchBar = document.getElementById('search');
+    const searchItems = document.getElementById('search-items');
+    const selectedOptionDisplay = document.getElementById('selected-option');
 
-const OPTIONS = [
-  "Sydney",
-  "Tokyo",
-  "New York",
-  "London",
-  "Paris",
-  "Toronto",
-  "Rio de Janeiro",
-  "Cape Town",
-  "Berlin",
-  "Buenos Aires",
-];
+    const OPTIONS = [
+      "Sydney", "Tokyo", "New York", "London", "Paris",
+      "Toronto", "Rio de Janeiro", "Cape Town", "Berlin", "Buenos Aires"
+    ];
 
-const createList = (array) => {
-  searchItems.innerHTML = null
-  for (let i = 0; i < array.length; i++) {
-    const element = array[i];
-    const listItem = document.createElement('div')
-    listItem.classList.add('list-item')
-    listItem.textContent = element
+    const createList = (array) => {
+      searchItems.innerHTML = '';
+      array.forEach(city => {
+        const listItem = document.createElement('div');
+        listItem.className = 'list-item';
+        listItem.textContent = city;
+        listItem.addEventListener('click', () => {
+          selectedOptionDisplay.textContent = `Your Selected City Is ${city}`;
+          searchItems.style.display = 'none';
+          searchBar.value = city;
+        });
+        searchItems.appendChild(listItem);
+      });
+    };
 
-    listItem.addEventListener('click', () => {
-      selectedOptionDisplay.textContent = `Your Selected City Is ${element}`
-      searchItems.style.display = 'none'
-    })
+    window.addEventListener('load', () => createList(OPTIONS));
 
-    searchItems.appendChild(listItem)
-  }
-  dropdownContainer.appendChild(searchItems)
-}
+    searchBar.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const filtered = OPTIONS.filter(city => city.toLowerCase().includes(searchTerm));
+      createList(filtered);
+      searchItems.style.display = 'block';
+    });
 
-window.addEventListener('load', () => createList(OPTIONS))
+    // Toggle dropdown on input focus
+    searchBar.addEventListener('focus', () => {
+      searchItems.style.display = 'block';
+    });
 
-searchBar.addEventListener('keyup', (e) => {
-  let searchTerm = e.target.value.toLowerCase()
-  let filteredList = OPTIONS.filter((item) => item.toLowerCase().includes(searchTerm))
-  createList(filteredList)
-  console.log(filteredList)
-})
-
-searchContainer.addEventListener('click', () => {
-  if(searchItems.style.display === 'block'){
-    searchItems.style.display = 'none'
-  }else{
-    searchItems.style.display = 'block'
-  }
-})
-    </script>
-
-</body> 
+    // Close dropdown if clicking outside
+    document.addEventListener('click', (e) => {
+      if (!dropdownContainer.contains(e.target)) {
+        searchItems.style.display = 'none';
+      }
+    });
+  </script>
+</body>
 </html>

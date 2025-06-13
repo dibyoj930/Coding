@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+          body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    #game-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      transition: transform 0.2s;
+    }
+
+    .block {
+      width: 60px;
+      height: 60px;
+      background-color: #888;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .block.blink {
+      background-color: green !important;
+    }
+
+    .block.clicked {
+      background-color:  yellow !important; /* green click feedback */
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      50% { transform: translateX(10px); }
+      75% { transform: translateX(-10px); }
+      100% { transform: translateX(0); }
+    }
+
+    .shake {
+      animation: shake 0.5s;
+    }
+
+    #scoreboard {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <h1>Memory Game</h1>
+  <button id="start-btn">START</button>
+
+  <div id="scoreboard">
+    Score: <span id="score">0</span> | High Score: <span id="high-score">0</span>
+  </div>
+  <div id="game-container"></div>
+  <script>
+    const nums=5;
+    let accept=false;
+    const score = document.getElementById("score");
+    const highscore = document.getElementById("high-score");
+    const container = document.getElementById("game-container");
+    const start =  document.getElementById("start-btn");
+    let final = 0;
+let highfinal = Number(localStorage.getItem("high")) || 0;
+highscore.textContent = highfinal;
+
+
+    let seq=[];
+    let userinput = [];
+    const blocks=[];
+
+    for(let i=0;i<5;i++){
+        const block =  document.createElement("div");
+        block.classList.add("block");
+        block.dataset.index = i;
+        container.appendChild(block);
+        blocks.push(block);
+    }
+
+    function blinkBlock(index){
+       return new Promise((res)=>{
+        const b = blocks[index];
+        b.classList.add("blink");
+        setTimeout(()=>{
+            b.classList.remove("blink");
+            res();
+        },500)
+       })
+    }
+    function startgame(){
+        final=0;
+        seq=[];
+    
+        updatescore();
+        nextlevel();
+    }
+    async function showsequence(){
+       accept=false;
+       for(let i of seq){
+        await blinkBlock(i);
+        await new Promise((res)=>setTimeout(res,300));
+       }
+       accept=true;
+    }
+    function updatescore(){
+        score.textContent = final;
+  if (final > highfinal) {
+    highfinal = final;
+    localStorage.setItem("high", highfinal);
+    highscore.textContent = highfinal;
+  }
+    }
+    function handleClick(index){
+       if(!accept)return;
+       const b=blocks[index];
+       b.classList.add("clicked");
+       setTimeout(()=>b.classList.remove("clicked"),200);
+       userinput.push(index);
+       const curr = userinput.length-1;
+       if(userinput[curr]!=seq[curr]){
+        wrong();
+        return;
+       }
+       if(userinput.length===seq.length){
+        final++;
+        updatescore();
+        setTimeout(nextlevel,600);
+       }
+    }
+    function nextlevel(){
+        userinput=[];
+        seq.push(Math.floor(Math.random() * nums));
+        showsequence();
+    }
+    function wrong(){
+        accept=false;
+        container.classList.add("shake");
+        setTimeout(()=>{
+            container.classList.remove("shake");
+            startgame();
+        },500);
+
+    }
+    blocks.forEach((block,i)=>{
+        block.addEventListener("click",()=>handleClick(i))
+    })
+    start.addEventListener("click",startgame)
+  </script>
+
+</body>
+</html>

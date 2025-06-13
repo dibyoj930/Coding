@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Memory Game</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    #game-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      transition: transform 0.2s;
+    }
+
+    .block {
+      width: 60px;
+      height: 60px;
+      background-color: #888;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .block.blink {
+      background-color: yellow !important;
+    }
+
+    .block.clicked {
+      background-color: #4caf50 !important; /* green click feedback */
+    }
+
+    .shake {
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      50% { transform: translateX(10px); }
+      75% { transform: translateX(-10px); }
+      100% { transform: translateX(0); }
+    }
+
+    #scoreboard {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Memory Game</h1>
+  <button id="start-btn">START</button>
+
+  <div id="scoreboard">
+    Score: <span id="score">0</span> | High Score: <span id="high-score">0</span>
+  </div>
+
+  <div id="game-container"></div>
+
+  <script>
+    const numBlocks = 5; // Configurable
+    const container = document.getElementById("game-container");
+    const scoreEl = document.getElementById("score");
+    const highScoreEl = document.getElementById("high-score");
+    const startBtn = document.getElementById("start-btn");
+
+    let sequence = [];
+    let userInput = [];
+    let score = 0;
+    let highScore = parseInt(localStorage.getItem("memoryHighScore")) || 0;
+    let acceptingInput = false;
+
+    highScoreEl.textContent = highScore;
+
+    // Create blocks
+    const blocks = [];
+    for (let i = 0; i < numBlocks; i++) {
+      const block = document.createElement("div");
+      block.classList.add("block");
+      block.dataset.index = i;
+      container.appendChild(block);
+      blocks.push(block);
+    }
+
+    // Blink block
+    function blinkBlock(index) {
+      return new Promise((resolve) => {
+        const block = blocks[index];
+        block.classList.add("blink");
+        setTimeout(() => {
+          block.classList.remove("blink");
+          resolve();
+        }, 500);
+      });
+    }
+
+    // Show full sequence
+    async function showSequence() {
+      acceptingInput = false;
+      for (let index of sequence) {
+        await blinkBlock(index);
+        await new Promise((r) => setTimeout(r, 300));
+      }
+      acceptingInput = true;
+    }
+
+    // Start new game
+    function startGame() {
+      score = 0;
+      sequence = [];
+      updateScore();
+      nextLevel();
+    }
+
+    function nextLevel() {
+      userInput = [];
+      sequence.push(Math.floor(Math.random() * numBlocks));
+      showSequence();
+    }
+
+    function updateScore() {
+      scoreEl.textContent = score;
+      if (score > highScore) {
+        highScore = score;
+        localStorage.setItem("memoryHighScore", highScore);
+        highScoreEl.textContent = highScore;
+      }
+    }
+
+    function handleClick(index) {
+      if (!acceptingInput) return;
+
+      const block = blocks[index];
+      // Click effect
+      block.classList.add("clicked");
+      setTimeout(() => block.classList.remove("clicked"), 200);
+
+      userInput.push(index);
+      const currentStep = userInput.length - 1;
+
+      if (userInput[currentStep] !== sequence[currentStep]) {
+        wrongInput();
+        return;
+      }
+
+      if (userInput.length === sequence.length) {
+        score++;
+        updateScore();
+        setTimeout(nextLevel, 600);
+      }
+    }
+
+    function wrongInput() {
+      acceptingInput = false;
+      container.classList.add("shake");
+      setTimeout(() => {
+        container.classList.remove("shake");
+        startGame();
+      }, 500);
+    }
+
+    // Attach click handlers
+    blocks.forEach((block, i) => {
+      block.addEventListener("click", () => handleClick(i));
+    });
+
+    startBtn.addEventListener("click", startGame);
+  </script>
+</body>
+</html>
