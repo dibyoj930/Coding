@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+          ul {
+        list-style-type: none;
+        margin-left: 20px;
+        padding: 0;
+      }
+
+      li {
+        margin-top: 5px;
+      }
+
+      .folder {
+        color: #0074d9;
+      }
+
+      .file {
+        color: #2ecc40;
+      }
+    </style>
+</head>
+<body>
+    <h3>Tree</h3>
+    <div id="tree"></div>
+    <script>
+       
+//   The renderTree function recursively generates the HTML structure for the directory tree. 
+// It uses an unordered list (<ul>) to represent each level of the directory structure and 
+// list items (<li>) for folders and files.
+    const data = {
+    name: 'root',
+    type: 'folder',
+    children: [
+      {
+        name: 'folder1',
+        type: 'folder',
+        children: [
+          { name: 'file1.txt', type: 'file' },
+          { name: 'file2.txt', type: 'file' },
+        ],
+      },
+      {
+        name: 'folder2',
+        type: 'folder',
+        children: [
+          {
+            name: 'subfolder',
+            type: 'folder',
+            children: [{ name: 'file3.txt', type: 'file' }],
+          },
+          { name: 'file4.txt', type: 'file' },
+        ],
+      },
+      { name: 'file5.txt', type: 'file' },
+    ],
+  };
+
+    function Rendertree(data,parent){
+       const unorderlist=document.createElement("ul");
+       parent.appendChild(unorderlist);
+       data.forEach((ele)=>{
+        console.log(ele)
+        const li = document.createElement('li');
+        const span=document.createElement("span");
+        span.textContent=ele.name;
+        span.className=ele.type;
+        li.appendChild(span);
+        unorderlist.appendChild(li);
+        if(ele.children&&ele.children.length>0){
+            Rendertree(ele.children,li);
+        }
+       })
+       
+    }
+    const elem=document.getElementById("tree");
+    console.log(elem,data)
+    Rendertree([data],elem)
+    </script>
+</body>
+</html>

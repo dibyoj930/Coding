@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .postbody{
+            margin: 0.5rem;
+            padding: 10px;
+            background-color: azure;
+            cursor: pointer;
+            border: 1px solid yellow;
+        }
+        .postcontent{
+            margin: 5px;
+            padding: 5px;
+        }
+        .posttitle{
+            background-color: blanchedalmond;
+            padding: 5px;
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div id="post"></div>
+    </div>
+    <script>
+        const Postholder = document.getElementById("post");
+        const fetchdata=async()=>{
+            try{
+            const data = await fetch("https://jsonplaceholder.typicode.com/posts");
+            const res = await data.json();
+            return res.splice(0,10);
+            }catch(e){
+                console.log(e);
+                return [];
+            }
+        }
+        (async()=>{
+            let apidata = await fetchdata();
+            console.log("1111",apidata)
+            for(let i=0;i<apidata.length;i++){
+              let elem =  apidata[i];
+              const postholder = document.createElement("div");
+              postholder.classList.add("postbody");
+              const posttitle = document.createElement("div");
+              posttitle.classList.add("posttitle");
+              const postcontent =  document.createElement("div");
+              postcontent.classList.add("postcontent");
+              posttitle.textContent = elem.title;
+              postcontent.textContent = elem.body;
+              postholder.appendChild(postcontent);
+              postholder.appendChild(posttitle);
+              Postholder.appendChild(postholder);
+            }
+          
+
+        })()
+    </script>
+</body>
+</html>

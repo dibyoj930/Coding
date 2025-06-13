@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Add Todo</h2>
+    <input type="text" id="input"/>
+    <button id="button">Submit</button>
+    <div id="taskholder"></div>
+    <script>
+        const input = document.getElementById("input");
+        const button = document.getElementById("button");
+        const holder =  document.getElementById("taskholder");
+        
+        button.addEventListener("click",()=>{
+            const input =  document.getElementById("input");
+            if(input.value.length===0){
+                alert("empty!");
+            }
+            const typed = input.value;
+            addtask(typed);
+            input.value="";
+
+        })
+        const addtask=(text)=>{
+            const tasklist = document.createElement("ul");
+            const list = document.createElement("li");
+            const textSpan =  document.createElement("span");
+            textSpan.textContent = text;
+            list.appendChild(textSpan);
+
+            const deletebutton=document.createElement("button");
+             deletebutton.textContent="delete";
+             deletebutton.addEventListener("click",()=>{
+                holder.removeChild(tasklist);
+             })
+
+            const editButton = document.createElement("button");
+            editButton.textContent="edit";
+            editButton.addEventListener("click",function handleedit(){
+                //edit functionality
+                const editInput = document.createElement("input");
+                editInput.type="text";
+                editInput.value=textSpan.textContent;
+                list.replaceChild(editInput,textSpan);
+                //save
+                editButton.textContent="save";
+                //remove
+                editButton.removeEventListener("click",handleedit);
+                //attach new
+                editButton.addEventListener("click",function handlesave(){
+                    textSpan.textContent=editInput.value;
+                    list.replaceChild(textSpan,editInput);
+                    //remove save
+                    editButton.removeEventListener("click",handlesave);
+                    //attach edit
+                    editButton.addEventListener("click",handleedit);
+                })
+            })
+            list.appendChild(editButton);
+            list.appendChild(deletebutton);
+            tasklist.appendChild(list);
+            holder.appendChild(tasklist)
+        }
+    </script>
+</body>
+</html>

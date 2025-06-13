@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Progress Bar with Run Count</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+
+    .bar-container {
+      width: 100%;
+      background: #eee;
+      border-radius: 5px;
+      margin-top: 10px;
+      height: 20px;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: #4caf50;
+      transition: width linear;
+    }
+
+    #run-count {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="start">Start Progress</button>
+
+  <div class="bar-container">
+    <div class="bar" id="progress-bar"></div>
+  </div>
+
+  <div id="run-count">Run: 0 / 0</div>
+
+  <script>
+    const startBtn = document.getElementById("start");
+    const bar = document.getElementById("progress-bar");
+    const runCountLabel = document.getElementById("run-count");
+
+    const duration = 3000; // 3 seconds per run
+    const queue = [];
+
+    let running = false;
+    let totalRuns = 0;
+    let currentRun = 0;
+
+    startBtn.addEventListener("click", () => {
+      totalRuns++;
+      queue.push(() => runProgressBar(duration));
+      updateRunLabel();
+      if (!running) runQueue();
+    });
+
+    function updateRunLabel() {
+      runCountLabel.textContent = `Run: ${currentRun} / ${totalRuns}`;
+    }
+
+    function runProgressBar(time) {
+      return new Promise(resolve => {
+        // Reset progress
+        bar.style.transition = "none";
+        bar.style.width = "0%";
+        void bar.offsetWidth; // Force reflow
+
+        // Animate progress
+        bar.style.transition = `width ${time}ms linear`;
+        bar.style.width = "100%";
+
+        currentRun++;
+        updateRunLabel();
+
+        setTimeout(resolve, time);
+      });
+    }
+
+    async function runQueue() {
+      running = true;
+      while (queue.length > 0) {
+        const next = queue.shift();
+        await next();
+      }
+      running = false;
+
+      // Reset counts after finishing
+      totalRuns = 0;
+      currentRun = 0;
+      updateRunLabel();
+    }
+  </script>
+
+</body>
+</html>

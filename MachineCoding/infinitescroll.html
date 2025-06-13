@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            width: 100%;
+            padding: 20px;
+            margin: auto;
+        }
+        .list{
+            margin: 1rem;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid navajowhite;
+
+        }
+    </style>
+</head>
+<body>
+   <div id="container" class="container">
+   </div>
+   <div id="senti">
+   </div>
+   <script>
+    const container = document.getElementById("container");
+    const senti = document.getElementById("senti");
+
+    const BATCH_SIZE=15;
+    let count=0;
+    const generate=()=>{
+        for(let i=0;i<BATCH_SIZE;i++){
+            const newdiv=document.createElement("div");
+            newdiv.textContent=`Div count-${count}`;
+            newdiv.classList.add('list');
+            container.appendChild(newdiv);
+            count++;
+        }
+    }
+    window.addEventListener("load",()=>generate());
+    const intersection = new IntersectionObserver((entry)=>{
+        entry.forEach((entr)=>{
+            if(entr.isIntersecting){
+                generate();
+            }
+        })
+    })
+    // IntersectionObserver is a built-in JavaScript object that allows you to monitor t
+    // he visibility (or intersection) of elements in relation to a parent (viewport by default). 
+    // When the observed element enters or exits the viewport (or the specified root), the observer triggers 
+    // the callback function you provide.
+//     The callback function is executed whenever the intersection status of an observed element changes.
+// entry is an array of IntersectionObserverEntry objects, each of which represents a specific
+//  element being observed.
+    intersection.observe(senti)
+
+   </script>
+</body>
+</html>

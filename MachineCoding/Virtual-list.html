@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .listcontainer{
+             width: 100%;
+             height: 100vh;
+             background-color: antiquewhite;
+             position: relative;
+             overflow-y: auto;
+        }
+        .item{
+             width: 100%;
+             box-sizing: border-box;
+             padding: 15px;
+             border-bottom: 1px solid green;
+             position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="list-container" class="listcontainer">
+     <div id="spacer">
+
+     </div>
+     <div id="list"></div>
+    </div>
+    <script>
+        const TOTAL_ITEMS = 10000;
+const ITEM_HEIGHT = 50;
+const CONTAINER_HEIGHT = window.innerHeight;
+const EXTRA_BUFFER_ITEMS = 5;
+       const listContainer = document.getElementById("list-container");
+const list = document.getElementById("list");
+const spacer = document.getElementById("spacer");
+
+spacer.style.height = `${TOTAL_ITEMS * ITEM_HEIGHT}px`;
+
+const createList = () => {
+  let scrollTop = listContainer.scrollTop;
+  let startNode = Math.floor(scrollTop / ITEM_HEIGHT) - EXTRA_BUFFER_ITEMS;
+  let visibleNodes =
+    Math.ceil(CONTAINER_HEIGHT / ITEM_HEIGHT) + EXTRA_BUFFER_ITEMS;
+
+  let startIndex = Math.max(0, startNode);
+  let endIndex = Math.min(startIndex + visibleNodes, TOTAL_ITEMS);
+
+  list.innerHTML = "";
+
+  for (let i = startIndex; i < endIndex; i++) {
+    const itemDiv = document.createElement("div");
+    itemDiv.classList.add("item");
+    itemDiv.textContent = `Div ${i}`;
+    itemDiv.style.top = `${i * ITEM_HEIGHT}px`;
+    itemDiv.style.height = `${ITEM_HEIGHT}px`;
+    list.appendChild(itemDiv);
+  }
+
+  listContainer.appendChild(list);
+};
+
+window.addEventListener("load", () => createList());
+
+listContainer.addEventListener("scroll", () => {
+  console.log("scroll");
+  createList();
+});
+
+    </script>
+</body>
+</html>

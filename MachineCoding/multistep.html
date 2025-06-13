@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div id="main-div">
+            <form id="form">
+             <div id="fnamecontaineter"> 
+              <label>First Name</label>
+              <input type="text" id="fname"/>
+              <span id="ferror"></span>
+             </div>
+             <div id="lnamecontaineter"> 
+              <label>Last Name</label>
+              <input type="text" id="lname"/>
+              <span id="lerror"></span>
+             </div>
+             <div id="emailcontaineter"> 
+              <label>Email</label>
+              <input type="text" id="email"/>
+              <span id="eerror"></span>
+             </div>
+             <div id="feedbackcontainer"> 
+              <label>Feedback</label>
+              <input type="text" id="feedback"/>
+              <span id="feederror"></span>
+             </div>
+             <button id="next">Next</button>
+             <button id="submit">Submit</button>
+            </form>
+            <div id="success"></div>
+    </div>
+    <script>
+        const form = document.getElementById("form");
+        const fname = document.getElementById("fname");
+        const lname = document.getElementById("lname");
+        const email = document.getElementById("email");
+        const feedback = document.getElementById("feedback");
+        let count=0;
+
+        const next = document.getElementById("next");
+        const submit  =  document.getElementById("submit");
+
+        const fnamecon = document.getElementById("fnamecontaineter");
+        const lnamecon = document.getElementById("lnamecontaineter");
+        const emailcon = document.getElementById("emailcontaineter");
+        const feedbackcon = document.getElementById("feedbackcontainer");
+
+        const ferr = document.getElementById("ferror");
+        const lerr = document.getElementById("lerror");
+        const emailerr = document.getElementById("eerror");
+        const feederr = document.getElementById("feederror");
+
+        const inputelement=[fnamecon,lnamecon,emailcon,feedbackcon];
+        let first="",last="",feedbacktext="",emailadd="";
+
+        const display=(index)=>{
+            inputelement.forEach((container,i)=>{
+                container.style.display = i==index?"block":"none";
+            })
+        }
+        fname.addEventListener("input",(e)=>{
+            first=e.target.value;
+        })
+        lname.addEventListener("input",(e)=>{
+            last=e.target.value;
+        })
+        email.addEventListener("input",(e)=>{
+            emailadd=e.target.value;
+        })
+        feedback.addEventListener("input",(e)=>{
+            feedbacktext=e.target.value;
+        })
+        const setError=(span,input,text)=>{
+            span.textContent = text;
+            input.style.border="1px solid red";
+        }
+        const removeerror=(span,input)=>{
+            span.textContent="";
+            input.style.border="1px solid black";
+        }
+        const validate=(index)=>{
+            let errorarr=[];
+            switch(index){
+                case 0:
+                    if(fname.length==0){
+                        setError(ferr,fname,"error happend!");
+                        errorarr.push("first name error")
+                    }else{
+                        removeerror(ferr,fname)
+                    }
+                    case 1:
+                    if(lval.length===0){
+                        setError(lname,lerr,"last name empty");
+                        errorarr.push("empty last name")
+                    }else{
+                        removeerror(lname,lerr)
+                    }
+                    break;
+                case 2:
+                    if(evalue.length===0||!evalue.includes("@")){
+                        setError(email,emailerr,"email error");
+                        errorarr.push("empty mail")
+                    }else{
+                        removeerror(email,emailerr)
+                    }
+                    break;
+                case 3:
+                     if(feedval.length===0){
+                        setError(feedback,feederr,"first name empty");
+                        errorarr.push("empty first name")
+                    }else{
+                        removeerror(feedback,feederr)
+                    }
+                    break;
+                default:
+                    break;  
+            }
+            return errorarr;
+        }
+        next.addEventListener("click",(e)=>{
+            e.preventDefault();
+            let erro=validate(count);
+            if(erro.length===0){
+                count++;
+                display(count);
+            }else{
+                console.log(erro);
+            }
+             if(count==inputelement.length-1){
+                next.style.display="none";
+                submit.style.display="block"
+             }
+        })
+    </script>
+</body>
+</html>

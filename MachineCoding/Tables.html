@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="main-div">
+        <form id="form">
+            <div id="rowdiv">
+              <label>Insert Rows</label>
+              <input type="number" id="row"/>
+            </div>
+            <div id="coldiv">
+                <label>Insert Cols</label>
+                <input type="number" id="col"/>
+              </div>
+            <button id="submit">Submit</button>
+        </form>
+        <div id="tablecontainer">
+
+        </div>
+    </div>
+    <script>
+        const numrow = document.getElementById("row")
+        const form = document.getElementById("form")
+        const numcol = document.getElementById("col")
+        const tableContainer = document.getElementById("tablecontainer");
+        let row=0;
+        let col=0;
+
+        numrow.addEventListener("change",(e)=>{
+              row=e.target.value;
+        })
+        numcol.addEventListener("change",(e)=>{
+            col=e.target.value;
+        })
+        function CreateTable(rows,cols){
+            const table = document.createElement("table");
+            const thead = document.createElement("thead");
+            for(let i=0;i<cols;i++){
+                const th = document.createElement("th");
+                th.textContent = `Header-${i+1}`;
+                thead.appendChild(th)
+            }
+            const tablebody = document.createElement("tbody");
+            for(let i=0;i<rows;i++){
+                const tr = document.createElement("tr");
+                for(let j=0;j<cols;j++){
+                   const td = document.createElement("td");
+                   td.textContent = `Row-${i+1} Col-${j+1}`;
+                   tr.appendChild(td);
+                }
+                tablebody.appendChild(tr);
+            }
+            table.appendChild(thead);
+            table.appendChild(tablebody);
+            tableContainer.appendChild(table);
+        }
+        form.addEventListener("submit",(e)=>{
+              e.preventDefault();
+              CreateTable(row,col);
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="main-div">
+        stop watch
+        <button id="start"></button>
+        <button id="stop"></button>
+        <button id="pause"></button>
+        <div id="timer">
+          <div id="hr"></div>
+          <div id="min"></div>
+          <div id="sec"></div>
+        </div>
+    </div>
+    <script>
+        const startbtn = document.getElementById("start");
+        const reset = document.getElementById("stop");
+        const hour  = document.getElementById("hr");
+        const min = document.getElementById("min");
+        const sec = document.getElementById("sec");
+        const pause = document.getElementById("pause");
+        let isRunning=false;
+pause.textContent = "pause";
+        startbtn.textContent = "start";
+        reset.textContent = "reset";
+        let second=0;
+        let inte=null;
+
+       const  resetwatch=()=>{
+            hour.textContent = "00";
+            min.textContent = "00";
+            sec.textContent = "00";
+        }
+        const startInterval = () => {
+    inte = setInterval(() => {
+        second++;
+        let mindisplay = Math.floor(second / 60);
+        let hourdisplay = Math.floor(second / 3600);
+        let secdisplay = second % 60;
+
+        hour.textContent = hourdisplay.toString().padStart(2, "0");
+        min.textContent = mindisplay.toString().padStart(2, "0");
+        sec.textContent = secdisplay.toString().padStart(2, "0");
+    }, 1000);
+    isRunning = true;
+};
+        startbtn.addEventListener("click",()=>{
+            startbtn.style.pointerEvents = "none";
+    pause.style.pointerEvents = "auto";
+    if (!isRunning) {
+        startInterval();
+        pause.textContent = "Pause";
+    }
+        })
+        pause.addEventListener("click", () => {
+            if (isRunning) {
+        // Pause
+        clearInterval(inte);
+        inte = null;
+        isRunning = false;
+        pause.textContent = "Resume";
+    } else {
+        // Resume
+        startInterval();
+        pause.textContent = "Pause";
+    }
+    });
+
+       window.addEventListener("load",()=>resetwatch());
+       reset.addEventListener('click',()=>{
+        startbtn.style.pointerEvents='auto'
+        clearInterval(inte);
+        second=0;
+        isRunning = false;
+        pause.textContent="Pause"
+        resetwatch();
+
+       })
+
+    </script>
+</body>
+</html>

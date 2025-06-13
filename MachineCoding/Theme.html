@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+    margin: 0;
+    background-color: white;
+}
+
+#main-div {
+    height: 100vh;
+    width: 100vw;
+}
+
+.light {
+    background-color: white;
+}
+
+.dark {
+    background-color: rgb(39, 38, 38);
+}
+
+.card {
+    width: 250px;
+    background-color: white;
+    border: 1px solid black;
+    padding: 25px;
+}
+
+.card.dark {
+    background-color: rgb(39, 38, 38);
+    border: 1px solid black;
+    border: 1px solid white;
+}
+
+.intro {
+    font-weight: 600;
+    color: black;
+}
+
+.desc {
+    margin-top: 10px;
+    color: black;
+}
+
+.intro.dark {
+    color: white;
+}
+
+.desc.dark {
+    color: white;
+}
+
+button {
+    cursor: pointer;
+    padding: 5px;
+    margin: 25px;
+}
+    </style>
+</head>
+
+<body id="body-container">
+
+    <div id="main-div">
+        <div class="card">
+            <div class="intro">Hello</div>
+            <div class="desc">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nulla voluptatem rem accusantium nisi aut vel, mollitia necessitatibus quaerat consectetur magni consequuntur molestiae voluptate velit. Voluptatem ad doloribus quidem expedita omnis?
+            </div>
+        </div>
+        <button id="toggle-theme"> Toggle</button>
+    </div>
+
+</body>
+<!-- <script src="script.js"> -->
+    <script>
+        const toggleBtn = document.getElementById("toggle-theme");
+const bodyContainer = document.getElementById("body-container");
+const card = document.querySelector(".card");
+const intro = document.querySelector(".intro");
+const desc = document.querySelector(".desc");
+
+toggleBtn.addEventListener("click", () => {
+  bodyContainer.classList.toggle("dark");
+
+  if(bodyContainer.classList.contains('dark')){
+    localStorage.setItem('theme', 'dark')
+  }else{
+    localStorage.setItem('theme', 'light')
+  }
+
+  card.classList.toggle("dark");
+  intro.classList.toggle("dark");
+  desc.classList.toggle("dark");
+});
+
+(() => {
+    let currentTheme = localStorage.getItem('theme')   
+    if(currentTheme === null){
+        localStorage.setItem('theme', 'light')
+        bodyContainer.classList.add('light')
+        card.classList.add('light')
+        intro.classList.add('light')
+        desc.classList.add('light')
+    }
+    if(currentTheme === 'dark'){
+        bodyContainer.classList.add('dark')
+        card.classList.add('dark')
+        intro.classList.add('dark')
+        desc.classList.add('dark')
+    }
+})()
+    </script>
+</script>
+
+</html>

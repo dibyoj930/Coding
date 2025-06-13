@@ -28,7 +28,7 @@ function MyPromise(execute){
              callback(value)
              isResolved=true;
          }
-         return true;
+         return this;
      }
      this.catch = function(callback){
         onReject=callback;

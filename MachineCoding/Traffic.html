@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .machine{
+            background-color:antiquewhite;
+            width: 100px;
+            height: 200px;
+            border-radius: 10px;
+           margin: 0;
+          display: flex;
+          flex-direction: column;
+            
+        }
+        .bulb{
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            background-color: white;
+            margin: auto 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="machine" class="machine">
+      <div id="red" class="red bulb"></div>
+      <div id="yellow" class="yellow bulb"></div>
+      <div id="green" class="green bulb"></div>
+    </div>
+    <script>
+       const redBulb = document.getElementById('red')
+const yellowBulb = document.getElementById('yellow')
+const greenBulb = document.getElementById('green')
+
+const colors = ['red', 'yellow', 'green']
+
+let activeIndex = 0;
+
+(() => {
+  setInterval(() => {
+    
+    const bulbs = document.querySelectorAll('.bulb')
+    bulbs.forEach((item) => {
+      if(item.classList.contains(colors[activeIndex])){
+        item.style.backgroundColor = (colors[activeIndex]);
+      }else{
+        item.style.backgroundColor = 'whitesmoke';
+      }
+    })
+    if(activeIndex === colors.length -1){
+      activeIndex = 0
+    }else{
+      activeIndex++
+    }
+
+  }, 1000);
+})()
+    </script>
+</body>
+</html>

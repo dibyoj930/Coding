@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="main-div">
+       <button id="like">Like</button>
+
+       </div>
+    </div>
+    <script>
+      const button =   document.getElementById("like");
+      const handlelike=()=>{
+        return new Promise((res,rej)=>{
+            fetch("https://jsonplaceholder.typicode.com/posts",{
+                method:"Post",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({
+                    title:"foo",
+                    userId:1,
+                    body:"test"
+                })
+            }).then(res).catch(rej)
+        })
+      }
+      button.addEventListener("click",async(e)=>{
+          e.preventDefault();
+          button.textContent="loading";
+          handlelike().then((x)=>{
+            console.log(x)
+            if(x.status==200||x.status==201){
+                button.textContent="Liked"
+            }else{
+                button.textContent="error"
+            }
+          }).catch((e)=>{
+            console.log(e);
+             button.textContent="error"
+          })
+
+      })
+    </script>
+</body>
+</html>

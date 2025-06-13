@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Star Rating</title>
+  <style>
+    .rating {
+      font-size: 2rem;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .star {
+      color: lightgray;
+      transition: color 0.2s;
+    }
+
+    .star.active {
+      color: gold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="rating">
+    <span class="star">&#9733;</span>
+    <span class="star">&#9733;</span>
+    <span class="star">&#9733;</span>
+    <span class="star">&#9733;</span>
+    <span class="star">&#9733;</span>
+  </div>
+
+  <script>
+    const stars = document.querySelectorAll('.star');
+    let selected = 0;
+
+    stars.forEach((star, index) => {
+      // Hover effect
+      star.addEventListener('mouseover', () => {
+        highlight(index + 1);
+      });
+
+      // Reset on mouseout
+      star.addEventListener('mouseout', () => {
+        update();
+      });
+
+      // Set rating on click
+      star.addEventListener('click', () => {
+        selected = index + 1;
+        update();
+      });
+    });
+
+    function highlight(count) {
+      stars.forEach((star, i) => {
+        star.classList.toggle('active', i < count);
+      });
+    }
+
+    function update() {
+      stars.forEach((star, i) => {
+        star.classList.toggle('active', i < selected);
+      });
+    }
+  </script>
+
+</body>
+</html>

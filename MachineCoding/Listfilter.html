@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="main-div">
+        <input type="text" id="input" />
+        <div id="filter"></div>
+    </div>
+    <script>
+        const locations = [
+  "Sydney",
+  "Tokyo",
+  "New York",
+  "London",
+  "Paris",
+  "Toronto",
+  "Rio de Janeiro",
+  "Cape Town",
+  "Berlin",
+  "Buenos Aires",
+  "Melbourne",
+  "Los Angeles",
+  "Barcelona",
+  "Vancouver",
+  "Rome",
+  "Zurich",
+  "Stockholm",
+  "Vienna",
+  "Auckland",
+  "Madrid",
+  "Hong Kong",
+  "Montreal",
+  "Lisbon",
+  "Prague",
+  "Athens",
+  "Copenhagen",
+  "Oslo",
+  "Helsinki",
+  "Chicago",
+  "Brussels",
+  "Dublin",
+  "Edinburgh",
+  "Amsterdam",
+  "Florence",
+  "Venice",
+  "San Francisco",
+  "Seoul",
+  "Munich",
+  "Perth",
+  "Reykjavik",
+  "Mumbai",
+  "Delhi",
+  "Bangalore",
+  "Chennai",
+  "Hyderabad",
+  "Kolkata",
+  "Pune",
+  "Jaipur",
+  "Ahmedabad",
+  "Goa"
+];
+
+        const filter = document.getElementById("filter");
+        const input = document.getElementById("input");
+
+        const createlist=(items)=>{
+            filter.innerHTML=''
+             const unorder = document.createElement("ul");
+             items.forEach((value)=>{
+                const livalue = document.createElement("li");
+                livalue.textContent = value;
+                unorder.appendChild(livalue);
+             })
+             filter.appendChild(unorder);
+
+        }
+        window.addEventListener("load",()=>{
+             createlist(locations);
+        })
+        input.addEventListener("keyup",(e)=>{
+            let serach = e.target.value;
+            let filteredlist = locations.filter((value)=>value.toLowerCase().includes(serach));
+            createlist(filteredlist);
+
+        })
+    </script>
+</body>
+</html>

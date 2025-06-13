@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .bar{
+            width: 50%;
+            height: 20px;
+            background-color: aliceblue;
+            border-radius: 8px;
+            border: 1px solid yellow;
+        }
+        .progress{
+            width: 40%;
+            height: 100%;
+            border-radius: 8px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-div">
+     <div id="bar" class="bar">
+       <div id="progress" class="progress">
+
+       </div>
+     </div>
+    </div>
+    <script>
+        const progress = document.getElementById("progress");
+        let ini=10;
+        progress.style.width=`${ini}%`;
+        window.addEventListener("load",()=>{
+            let timer=setInterval(()=>{
+                ini+=10;
+                if(ini<=40){
+                    progress.style.backgroundColor="yellow"
+                }else if(ini<=60){
+                    progress.style.backgroundColor="yellowgreen"
+                }else{
+                    progress.style.backgroundColor="green"
+                }
+                progress.style.width=`${ini}%`;
+                if(ini>=100){
+                    clearInterval(timer);
+                }
+            },1000)
+        })
+    </script>
+</body>
+</html>

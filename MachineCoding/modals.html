@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .modalbody{
+            width: 80%;
+            top:50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            position: absolute;
+            background: lightblue;
+            border: 1px solid green;
+            display: none;
+        }
+        .body{
+          padding: 10px;
+          background-color: antiquewhite;
+          height: 100px;
+        }
+        .header{
+          padding: 10px;
+          display: flex;
+          justify-content: space-between;
+        }
+
+    </style>
+</head>
+<body>
+    <button onclick=handleopen()>Open</button>
+    <div id="modal" class="modalbody">
+     <div class="header">
+        <p>header items</p>
+        <button id="btn" onclick=handleclose()>close</button>
+     </div>
+     <div class="body">
+      Modal content will display here!
+     </div>
+    </div>
+    <script>
+     const handleopen=()=>{
+         document.getElementById("modal").style.display="block";
+     }
+     const handleclose=()=>{
+        document.getElementById("modal").style.display="none";
+     }
+    </script>
+</body>
+</html>

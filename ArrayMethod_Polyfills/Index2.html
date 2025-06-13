@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>getElementById Example</title>
+    <style>
+        .highlight {
+          background-color: yellow;
+        }
+        .newvalue{
+            color:aqua;
+            padding: 10px;
+            background-color: beige;
+        }
+        .style{
+          color: blue;
+          text-decoration: line-through;
+        }
+        .height{
+              color: blue;
+        }
+        .classmate{
+          color: yellowgreen;
+        }
+      </style>
+</head>
+<body>
+    <div id="myDiv">Hello, World!</div>
+    <h1>Example Heading</h1>
+    <p class="highlight">This is a paragraph.</p>
+    <div>
+      <p class="highlight">This is another paragraph.</p>
+    </div>
+    <h1>Example Heading New</h1>
+    <h2 id="myh2" class="classmate">New examples</h2>
+    <h2 id="my" class="classmate">New examples for values</h2>
+    <input id="test" type="text" name="myname" value="Dibyo" class="test" />
+  <input type="text" name="username"  />
+  <input type="text" name="username2" value="Jane Smith" />
+  <input type="text" name="email" value="john@example.com" />
+  <input type="text" name="email" value="jane@example.com" />
+  <div id="con">
+  <input type="text" id="input"/>
+  <button id="but">submit</button>
+</div>
+  <p class="height">This is another paragraph.</p>
+  <div class="foo bar baz">
+    <span class="bar baz">Span</span>
+    <p class="foo baz">Paragraph</p>
+    <div class="foo bar"></div>
+  </div>
+ <!-- <script src="Tagname.js"></script> -->
+    <!-- <script src="GetbyId.js"></script>  -->
+    <script src="GetbyClass.js"></script>
+     <!-- <script src="GetbyName.js"></script> -->
+    <!-- <script src="Queryselector.js"></script> -->
+    <!-- <script src="Practice.js"></script>  -->
+
+
+    <script>
+      const input = document.getElementById("input");
+      const button =  document.getElementById("but");
+      const con = document.getElementById("con");
+
+      button.addEventListener("click",()=>{
+       if(input.value.length==0){
+        alert("empty task!");
+       }
+       const typed = input.value;
+       addTask(typed);
+       input.value="";
+      })
+      const addTask=(text)=>{
+        const list =  document.createElement("ul");
+        const ele = document.createElement("li");
+        const textspan = document.createElement("span");
+        textspan.textContent=text;
+
+        ele.appendChild(textspan);
+
+        //delete button
+        const deletebutton=document.createElement("button");
+        deletebutton.textContent="Delete Task";
+        deletebutton.addEventListener("click",()=>{
+          con.removeChild(list);
+        })
+        //edit button
+        const edit = document.createElement("button");
+        edit.textContent="Edit"
+        ele.appendChild(edit)
+        edit.addEventListener("click",()=>{
+          const inputedit  = document.createElement("input");
+          inputedit.type="text";
+          inputedit.value=textspan.textContent;
+          ele.replaceChild(inputedit,textspan);
+          edit.textContent="save";
+           
+          edit.onclick=()=>{
+            textspan.textContent=inputedit.value;
+            ele.replaceChild(textspan,inputedit);
+            edit.textContent="edit";
+            edit.onclick=editButtonHandler
+          }  
+        })
+        const editButtonHandler = edit.onclick;
+        ele.appendChild(deletebutton)
+        list.appendChild(ele);
+        con.appendChild(list);
+        
+      }
+
+    </script>
+   
+</body>
+</html>
