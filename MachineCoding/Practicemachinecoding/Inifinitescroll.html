@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container{
+            display: flex;
+  justify-content: center; /* horizontal */
+  align-items: center;     /* vertical */
+  flex-direction: column;
+          
+        }
+        #senti {
+      text-align: center;
+      padding: 20px;
+      font-weight: bold;
+      color: gray;
+    }
+        .senti{
+            text-align: center;
+            padding: 10px;
+            background-color: bisque;
+            margin: 10px;
+            height: 20px;
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <div id="senti">Loading....</div>
+    <script>
+        const container =  document.getElementById("container");
+        const below = document.getElementById("senti");
+        const BATCH_SIZE=30;
+        let count=0;
+        let loading = false;
+        const generate=()=>{
+            if (loading) return;
+            loading = true;
+            setTimeout(()=>{
+                for(let i=0;i<BATCH_SIZE;i++){
+            const div=document.createElement("div");
+            div.textContent=`Div ${count}`;
+            div.classList.add("senti");
+            container.appendChild(div)
+            count++;
+            }
+            loading=false;
+            },800)
+            
+        }
+        window.addEventListener("load",()=>generate());
+        const inter =  new IntersectionObserver((entry)=>{
+           entry.forEach((e)=>{
+            if(e.isIntersecting){
+                generate();
+            }
+           })
+        })
+        inter.observe(below)
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="main">
+      <input type="text" id="ipt"/>
+      <div id="filter"></div>
+    </div>
+    <script>
+         const locations = [
+  "Sydney",
+  "Tokyo",
+  "New York",
+  "London",
+  "Paris",
+  "Toronto",
+  "Rio de Janeiro",
+  "Cape Town",
+  "Berlin",
+  "Buenos Aires",
+  "Melbourne",
+  "Los Angeles",
+  "Barcelona",
+  "Vancouver",
+  "Rome",
+  "Zurich",
+  "Stockholm",
+  "Vienna",
+  "Auckland",
+  "Madrid",
+  "Hong Kong",
+  "Montreal",
+  "Lisbon",
+  "Prague",
+  "Athens",
+  "Copenhagen",
+  "Oslo",
+  "Helsinki",
+  "Chicago",
+  "Brussels",
+  "Dublin",
+  "Edinburgh",
+  "Amsterdam",
+  "Florence",
+  "Venice",
+  "San Francisco",
+  "Seoul",
+  "Munich",
+  "Perth",
+  "Reykjavik",
+  "Mumbai",
+  "Delhi",
+  "Bangalore",
+  "Chennai",
+  "Hyderabad",
+  "Kolkata",
+  "Pune",
+  "Jaipur",
+  "Ahmedabad",
+  "Goa"
+];
+        const filter = document.getElementById("filter");
+        const input  = document.getElementById("ipt");
+
+        const createlist=(location)=>{
+            filter.innerHTML=''
+            const ul =  document.createElement("ul");
+            location.forEach((item)=>{
+                const li=document.createElement("li");
+                li.textContent=item;
+                ul.appendChild(li);
+            })
+            filter.appendChild(ul)
+        }
+        input.addEventListener("keyup",(e)=>{
+           let val=e.target.value;
+           let filteredlist = locations.filter((x)=>x.toLowerCase().includes(val))
+           createlist(filteredlist)
+        })
+        window.addEventListener("load",()=>createlist(locations))
+    </script>
+</body>
+</html>

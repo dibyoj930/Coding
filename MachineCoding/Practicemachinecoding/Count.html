@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="main">
+       <div id="content"></div>
+       <button id="plus"></button>
+       <button id="minus"></button>
+    </div>
+    <script>
+        let value=0;
+        const content = document.getElementById("content");
+        const pls = document.getElementById("plus");
+        const min = document.getElementById("minus");
+
+        pls.textContent="+";
+        min.textContent="-";
+        content.textContent=value;
+        const handle = (func)=>{
+            func=="+"?++value:--value;
+            content.textContent=value;
+        }
+        pls.addEventListener("click",()=>handle("+"));
+        min.addEventListener("click",()=>handle("-"))
+    </script>
+</body>
+</html>

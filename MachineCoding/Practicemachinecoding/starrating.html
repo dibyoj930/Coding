@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 1rem;
+            font-size: 5rem;
+            gap: 0.5rem;
+        }
+        .start{
+            color:aqua;
+            transition: color 0.3s;
+        }
+        .start.active{
+            color: gold;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+      <span class="start" id="start">&#9733;</span>
+      <span class="start" id="start">&#9733;</span>
+      <span class="start" id="start">&#9733;</span>
+      <span class="start" id="start">&#9733;</span>
+      <span class="start" id="start">&#9733;</span>
+    </div>
+    <script>
+        const con = document.getElementById("container");
+        const star = document.querySelectorAll(".start");
+        let selected=0;
+        
+        star.forEach((item,index)=>{
+            item.addEventListener("mouseover",()=>{
+               highlight(index+1);
+            })
+            item.addEventListener("mouseout",()=>{
+                update();
+            })
+            item.addEventListener("click",()=>{
+                selected=index+1
+                update();
+            })
+        })
+        function highlight(value){
+         star.forEach((x,i)=>{
+            x.classList.toggle("active",i<value);
+         })
+        }
+        function update(){
+            star.forEach((s,i)=>{
+                s.classList.toggle("active",i<selected);
+            })
+        }
+
+
+    </script>
+</body>
+</html>

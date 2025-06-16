@@ -32,3 +32,4 @@ const DeepFlat = (input,keyName)=>{
 }
 
 console.log("Flatted Object->",DeepFlat(input))
+

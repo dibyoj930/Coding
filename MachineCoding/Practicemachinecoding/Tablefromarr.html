@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <input type="text" id="input"/>
+    <table id="table">
+        <thead>
+         <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Country</th>
+         </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+    </table>
+    
+
+    <script>
+          const data = [
+  { name: 'John', age: 28, country: 'USA' },
+  { name: 'Alice', age: 24, country: 'Canada' },
+  { name: 'Bob', age: 32, country: 'UK' },
+];  
+      const createtable=(values)=>{
+        
+        const tbody = document.getElementById("tbody");
+      
+        tbody.innerHTML=''
+        values.forEach((x)=>{
+          const row = document.createElement("tr");
+          let arr=Object.keys(x);
+          arr.forEach((y)=>{
+            const td=document.createElement("td");
+            td.textContent=x[y];
+            row.appendChild(td)
+          })
+          tbody.appendChild(row)
+        })
+      }
+      window.addEventListener("load",()=>createtable(data));
+
+      const input =  document.getElementById("input");
+      input.addEventListener("input",(e)=>{
+        let val =e.target.value.toLowerCase();
+        const mod = data.filter((x)=>x.name.toLowerCase().includes(val)||x.country.toLowerCase().includes(val));
+        console.log(mod)
+        createtable(mod);
+      })
+
+      
+    </script>
+</body>
+</html>

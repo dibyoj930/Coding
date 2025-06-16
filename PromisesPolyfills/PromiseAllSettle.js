@@ -41,4 +41,12 @@ const p3 = new Promise((res,rej)=>{
         res("Resolved 3rd!")
     },3000)
 })
-Promise.MYallSettle([p1,p2,p3]).then((x)=>console.log(x)).catch((e)=>console.log(e))
+Promise.MYallSettle([p1,p2,p3]).then((x)=>console.log(x)).catch((e)=>console.log(e));
+
+// Promise.MyRace = function(array){
+//     return new Promise((res,rej)=>{
+//         array.forEach((x)=>{
+//             x.then(res).catch(rej)
+//         })
+//     })
+// }
