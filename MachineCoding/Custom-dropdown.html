@@ -5,33 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Custom Dropdown</title>
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding-top: 60px;
+    }
+    
+    #main-div {
+      width: 100%;
+      max-width: 400px;
     }
 
     #selected-option {
-      font-size: 18px;
-      padding: 20px;
+      font-size: 16px;
+      padding: 15px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
 
     #dropdown {
       position: relative;
-      width: 250px;
-      margin: 50px;
+      width: 100%;
     }
 
     #search-container {
-      border: 1px solid gray;
-      border-radius: 5px;
-      cursor: text;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      overflow: hidden;
+      background-color: white;
+      transition: border-color 0.2s ease;
+    }
+
+    #search-container:focus-within {
+      border-color: #007BFF;
     }
 
     #search {
       border: none;
-      padding: 10px;
+      padding: 12px 14px;
       width: 100%;
+      font-size: 15px;
       outline: none;
-      font-size: 14px;
+      background-color: transparent;
     }
 
     #search-items {
@@ -41,23 +69,35 @@
       left: 0;
       right: 0;
       background-color: white;
-      border: 1px solid gray;
+      border: 1px solid #ccc;
       border-top: none;
-      max-height: 200px;
+      border-radius: 0 0 6px 6px;
+      max-height: 220px;
       overflow-y: auto;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
       z-index: 1000;
     }
 
     .list-item {
       cursor: pointer;
-      padding: 10px;
-      font-size: 14px;
-      border-bottom: 1px solid #ddd;
+      padding: 12px 14px;
+      font-size: 15px;
+      /* transition: background 0.2s ease; */
     }
 
     .list-item:hover {
-      background-color: #f0f0f0;
+      background-color: #f0f8ff;
     }
+
+    /* Scrollbar styling for better aesthetics (optional) */
+    /* #search-items::-webkit-scrollbar {
+      width: 6px;
+    } */
+
+    /* #search-items::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 3px;
+    } */
   </style>
 </head>
 <body>
@@ -68,7 +108,7 @@
       </div>
       <div id="search-items"></div>
     </div>
-    <div id="selected-option"></div>
+    <div id="selected-option">Your selected city will appear here.</div>
   </div>
 
   <script>
@@ -106,12 +146,10 @@
       searchItems.style.display = 'block';
     });
 
-    // Toggle dropdown on input focus
     searchBar.addEventListener('focus', () => {
       searchItems.style.display = 'block';
     });
 
-    // Close dropdown if clicking outside
     document.addEventListener('click', (e) => {
       if (!dropdownContainer.contains(e.target)) {
         searchItems.style.display = 'none';

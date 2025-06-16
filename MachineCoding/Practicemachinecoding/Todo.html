@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="task"/>
+    <button id="button">Submit</button>
+    <div id="taskholder"></div>
+    <script>
+       const holder =  document.getElementById("taskholder");
+       const button=document.getElementById("button");
+       const input = document.getElementById("task");
+
+       button.addEventListener("click",()=>{
+        if(input.value===''){
+            alert("empty task!");
+        }
+        const typed = input.value;
+        addtask(typed);
+        input.value='';
+
+       })
+       const addtask=(text)=>{
+         const tasktable=document.createElement("ul");
+         const element = document.createElement("li");
+         const textspan = document.createElement("span");
+         textspan.textContent=text;
+         element.appendChild(textspan);
+         const deleted = document.createElement("button");
+         deleted.textContent="Delete";
+         deleted.addEventListener("click",()=>{
+            holder.removeChild(tasktable);
+         })
+         const editbutton = document.createElement("button");
+         editbutton.textContent="Edit";
+         editbutton.addEventListener("click",function handleedit(){
+            const editinput = document.createElement("input");
+            editinput.type="text";
+            editinput.value=textspan.textContent;
+            element.replaceChild(editinput,textspan);
+            editbutton.textContent="Save";
+            editbutton.removeEventListener("click",handleedit);
+
+            editbutton.addEventListener("click",function handlesave(){
+                textspan.textContent=editinput.value;
+                editbutton.textContent="Edit"
+                element.replaceChild(textspan,editinput);
+                editbutton.removeEventListener("click",handlesave);
+                editbutton.addEventListener("click",handleedit);
+            })
+         })
+         element.appendChild(editbutton);
+         element.appendChild(deleted);
+         tasktable.appendChild(element);
+         holder.appendChild(tasktable);
+       }
+    </script>
+</body>
+</html>

@@ -1,87 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stopwatch with Milliseconds</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #main-div {
+      background-color: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 350px;
+    }
+
+    #main-div h1 {
+      margin-bottom: 30px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    #timer {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      font-size: 40px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: #007bff;
+      letter-spacing: 1px;
+    }
+
+    #timer div {
+      min-width: 50px;
+    }
+
+    #ms {
+      font-size: 24px;
+      color: #666;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 0 5px;
+      border: none;
+      border-radius: 6px;
+      background-color: #007bff;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body>
-    <div id="main-div">
-        stop watch
-        <button id="start"></button>
-        <button id="stop"></button>
-        <button id="pause"></button>
-        <div id="timer">
-          <div id="hr"></div>
-          <div id="min"></div>
-          <div id="sec"></div>
-        </div>
+  <div id="main-div">
+    <h1>Stopwatch</h1>
+    <div id="timer">
+      <div id="hr">00</div>:
+      <div id="min">00</div>:
+      <div id="sec">00</div>:
+      <div id="ms">00</div>
     </div>
-    <script>
-        const startbtn = document.getElementById("start");
-        const reset = document.getElementById("stop");
-        const hour  = document.getElementById("hr");
-        const min = document.getElementById("min");
-        const sec = document.getElementById("sec");
-        const pause = document.getElementById("pause");
-        let isRunning=false;
-pause.textContent = "pause";
-        startbtn.textContent = "start";
-        reset.textContent = "reset";
-        let second=0;
-        let inte=null;
+    <div>
+      <button id="start">Start</button>
+      <button id="pause">Pause</button>
+      <button id="stop">Reset</button>
+    </div>
+  </div>
 
-       const  resetwatch=()=>{
-            hour.textContent = "00";
-            min.textContent = "00";
-            sec.textContent = "00";
-        }
-        const startInterval = () => {
-    inte = setInterval(() => {
-        second++;
-        let mindisplay = Math.floor(second / 60);
-        let hourdisplay = Math.floor(second / 3600);
-        let secdisplay = second % 60;
+  <script>
+    const startbtn = document.getElementById("start");
+    const reset = document.getElementById("stop");
+    const hour = document.getElementById("hr");
+    const min = document.getElementById("min");
+    const sec = document.getElementById("sec");
+    const ms = document.getElementById("ms");
+    const pause = document.getElementById("pause");
 
-        hour.textContent = hourdisplay.toString().padStart(2, "0");
-        min.textContent = mindisplay.toString().padStart(2, "0");
-        sec.textContent = secdisplay.toString().padStart(2, "0");
-    }, 1000);
-    isRunning = true;
-};
-        startbtn.addEventListener("click",()=>{
-            startbtn.style.pointerEvents = "none";
-    pause.style.pointerEvents = "auto";
-    if (!isRunning) {
-        startInterval();
-        pause.textContent = "Pause";
-    }
-        })
-        pause.addEventListener("click", () => {
-            if (isRunning) {
-        // Pause
-        clearInterval(inte);
-        inte = null;
-        isRunning = false;
-        pause.textContent = "Resume";
-    } else {
-        // Resume
-        startInterval();
-        pause.textContent = "Pause";
-    }
+    let isRunning = false;
+    let milliseconds = 0;
+    let interval = null;
+
+    const resetWatch = () => {
+      hour.textContent = "00";
+      min.textContent = "00";
+      sec.textContent = "00";
+      ms.textContent = "00";
+    };
+
+    const updateDisplay = () => {
+      let totalSeconds = Math.floor(milliseconds / 100);
+      let msDisplay = milliseconds % 100;
+      let secDisplay = totalSeconds % 60;
+      let minDisplay = Math.floor((totalSeconds / 60)) % 60;
+      let hourDisplay = Math.floor(totalSeconds / 3600);
+
+      hour.textContent = hourDisplay.toString().padStart(2, '0');
+      min.textContent = minDisplay.toString().padStart(2, '0');
+      sec.textContent = secDisplay.toString().padStart(2, '0');
+      ms.textContent = msDisplay.toString().padStart(2, '0');
+    };
+
+    const startInterval = () => {
+      interval = setInterval(() => {
+        milliseconds++;
+        updateDisplay();
+      }, 10); // Update every 10ms
+      isRunning = true;
+    };
+
+    window.addEventListener("load", () => {
+      resetWatch();
+      pause.textContent = "Pause";
     });
 
-       window.addEventListener("load",()=>resetwatch());
-       reset.addEventListener('click',()=>{
-        startbtn.style.pointerEvents='auto'
-        clearInterval(inte);
-        second=0;
+    startbtn.addEventListener("click", () => {
+      startbtn.disabled = true;
+      pause.disabled = false;
+      if (!isRunning) {
+        startInterval();
+        pause.textContent = "Pause";
+      }
+    });
+
+    pause.addEventListener("click", () => {
+      if (isRunning) {
+        clearInterval(interval);
         isRunning = false;
-        pause.textContent="Pause"
-        resetwatch();
+        pause.textContent = "Resume";
+      } else {
+        startInterval();
+        pause.textContent = "Pause";
+      }
+    });
 
-       })
-
-    </script>
+    reset.addEventListener("click", () => {
+      startbtn.disabled = false;
+      pause.disabled = false;
+      clearInterval(interval);
+      milliseconds = 0;
+      isRunning = false;
+      pause.textContent = "Pause";
+      resetWatch();
+    });
+  </script>
 </body>
 </html>

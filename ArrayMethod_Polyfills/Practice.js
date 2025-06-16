@@ -56,18 +56,18 @@ Array.prototype.rever = function(){
 }
 const arr2=[2,5,7,8,9,9,0]
 console.log(arr2.rever())
-const Deepflat=(obj,newkey='')=>{
-    let res={};
-    for(let key in obj){
-        let mkey = newkey?`${newkey}.${key}`:`${key}`;
-        if(typeof obj[key]=="object"&&!Array.isArray(obj[key])&&obj[key]!==null){
-            res={...res,...Deepflat(obj[key],mkey)}
-        }else{
-            res[mkey] = obj[key]
-        }
-    }
-    return res;
-}
+// const Deepflat=(obj,newkey='')=>{
+//     let res={};
+//     for(let key in obj){
+//         let mkey = newkey?`${newkey}.${key}`:`${key}`;
+//         if(typeof obj[key]=="object"&&!Array.isArray(obj[key])&&obj[key]!==null){
+//             res={...res,...Deepflat(obj[key],mkey)}
+//         }else{
+//             res[mkey] = obj[key]
+//         }
+//     }
+//     return res;
+// }
 const input = {
     name: 'Mansi',
     age: 25,
@@ -86,7 +86,7 @@ const input = {
     skills: ['javascript', 'node.js', 'html']
   }
 // const res = Dee
-console.log(Deepflat(input))
+// console.log(Deepflat(input))
 
 //memoize 
 const memofun = (fn)=>{
@@ -610,3 +610,487 @@ console.log(classNames(
 //valueof-->
 
 
+
+//Promise
+Promise.Myall=function(array){
+  let result=[];
+  let count=0;
+  return new Promise((resolve,reject)=>{
+    for(let i=0;i<array.length;i++){
+        let p = array[i];
+        p.then((x)=>{
+            result[i]=x;
+            count++;
+            if(count==array.length){
+                resolve(result);
+            }
+        }).catch(reject)
+    }
+    return result;
+  })
+}
+// const p1 = new Promise((res,rej)=>{
+//     setTimeout(()=>{
+//         rej("Resolved 1st!")
+//     },1000)
+// })
+// const p2 = new Promise((res,rej)=>{
+//     setTimeout(()=>{
+//         rej("Resolved 2nd!")
+//     },2000)
+// })
+// const p3 = new Promise((res,rej)=>{
+//     setTimeout(()=>{
+//         rej("Resolved 3rd!")
+//     },3000)
+// })
+// Promise.Myall([p1,p2,p3]).then((x)=>console.log(x)).catch(e=>console.log(e));
+Promise.Myany = function(array){
+    let res=[];
+    let count=0;
+    return new Promise((resolve,reject)=>{
+        for(let i=0;i<array.length;i++){
+            let p1=array[i];
+            p1.then(resolve).catch((e)=>{
+                res[i]=e;
+                count++;
+                if(count===array.length){
+                   reject(new AggregateError("error happend",res));
+                }
+            })
+        }
+    })
+}
+// Promise.Myany([p1,p2,p3]).then((x)=>console.log(x)).catch((e)=>console.log(e))
+Promise.Myallsettle = function(array){
+    const res=[];
+    let count=0;
+    return new Promise((resolve,reject)=>{
+      for(let i=0;i<array.length;i++){
+        let p1=array[i];
+        p1.then((x)=>{
+            res[i]={
+                status:"success",
+                value:x
+            }
+        }).catch((e)=>{
+            res[i]={
+                status:"Rejected",
+                error:e
+            }
+        }).finally(()=>{
+            count++;
+            if(count==array.length){
+                resolve()
+            }
+        })
+      }
+      return res;
+    })
+}
+
+function Mypromise(execute){
+    let isResolve=false;
+    let isReject=false;
+    let isCalled=false;
+    let onResolve;
+    let onReject;
+    let val;
+    let error;
+    function resolve(x){
+        val=x;
+        isResolve=true;
+        if(!isCalled&&typeof onResolve=="function"){
+            onResolve(val);
+            isCalled=true;
+        }
+    }
+    function reject(e){
+         error=e;
+         isReject=true;
+         if(!isCalled&&typeof onReject=="function"){
+            onReject(error);
+            isCalled=true;
+         }
+    }
+    this.then=function(callback){
+        onResolve=callback;
+        if(isResolve&&!isCalled){
+            callback(val);
+            isResolve=true;
+        }
+        return this;
+    }
+    this.catch=function(callback){
+        onReject=callback;
+        if(isReject&&!isCalled){
+            callback(error);
+            isReject=true;
+        }
+        return this;
+    }
+    execute(resolve,reject);
+}
+
+//design browser history
+// class BrowserHistory{
+//     constructor(){
+//         this.history=[];
+//         this.index=-1;
+//         this.visit=function(url){
+//             this.history[++this.index]=url;
+//         }
+//         this.current = function(){
+//             return this.history[this.index];
+//         }
+//         this.previous = function(){
+//             this.index=Math.max(0,--this.index);
+//         }
+//         this.forward = function(){
+//             this.index = Math.min(this.history.length-1,++this.index)
+//         }
+//     }
+// }
+
+// const data1 =  new BrowserHistory();
+
+// data1.visit("https://duckduckgo.com/");
+// data1.visit("https://medium.com/");
+// data1.visit("https://dev.to/");
+
+// data1.current();
+// console.log(data1.current());
+// data1.previous();
+// console.log(data1.current());
+// data1.forward()
+// console.log(data1.current());
+// data1.previous();
+// data1.previous();
+// data1.previous();
+// console.log(data1.current());
+
+
+//memoizeonce
+function Memoizeonce(fn,isequal=check){
+   let lastthis;
+   let lastargs;
+   let lastres;
+   return function(...args){
+    if(lastargs!==null&&isequal(lastargs,args)&&lastthis==this){
+        return lastres;
+    }
+    lastthis=this;
+    lastargs=args;
+    lastres = fn.apply(this,args);
+    return lastres;
+   }
+}
+function check(lastarg,currargs){
+    if(lastarg.length!=currargs.length)return false;
+    for(let i=0;i<lastarg.length;i++){
+        if(lastarg[i]!==currargs[i])return false;
+    }
+    return true;
+}
+
+const undefinedToNull=(obj)=>{
+    Object.keys(obj).map((value)=>{
+       if(typeof obj[value]=="object"&&obj[value]!==null&&!Array.isArray(obj[value])){
+        undefinedToNull(obj[value])
+       }
+       if(Array.isArray(obj[value])){
+       obj[value]= obj[value].map((x)=>x==undefined?null:x);
+       }
+       else{
+        if(obj[value]==undefined){
+           obj[value]=null
+        }
+       }
+       
+    })
+    return obj;
+}
+const re2sq=undefinedToNull(({a: undefined, b: { c: { d: undefined, e: ['BFE.dev', undefined]} }}))
+console.log(re2sq,re2sq.b.c.e);
+
+//Groupby
+function GroupBy(arr,key){
+    return arr.reduce((acc,obj)=>{
+        let groupkey=obj[key];
+        if(!acc[groupkey]){
+            acc[groupkey]=[];
+        }
+        acc[groupkey].push(obj)
+        return acc;
+    },{})
+}
+const arr2a=[{ id: 1, name: "Shubham", departmentId: 101 }, { id: 2, name: "Krutika", departmentId: 101 }, { id: 3, name: "Sakshi", departmentId: 102 }]
+console.log(GroupBy(arr2a,'departmentId'))
+
+//----------------latest----------------------//
+//------------------latest--------------------//
+//-----------------latest---------------------//
+//-------------------latest-------------------//
+//---------new start---------------//
+//Apply 
+const testobject={
+    name:"Deep",
+    id:"103"
+}
+function Callobj(city,dist){
+    return `Hey I am ${this.name} my id is ${this.id}, I live in ${city}, of ${dist}`;
+}
+Function.prototype.myApply=function(obj,args){
+    if(typeof this!=="function"){
+        throw new TypeError("error in type!")
+    }
+   if(!Array.isArray(args)){
+    throw new TypeError("error in type!");
+   }
+    obj.fn=this;
+   return  obj.fn(...args)
+}
+console.log(Callobj.myApply(testobject,["Berhampore","West Bengal"]))
+//Call
+Function.prototype.myCall=function(obj,...args){
+   if(typeof this!=="function"){
+    throw new TypeError("error in type!");
+   }
+   obj.fn=this;
+   return obj.fn(...args)
+}
+console.log(Callobj.myCall(testobject,"Gurgaon","Delhi"));
+//Compare deeply nested
+const CompareFun=(obj1,obj2)=>{
+    if(obj1===obj2)return true;
+    if(typeof obj1!=="object"||typeof obj2!=="object"||obj1==null||obj2==null)return false;
+    let keys1=Object.keys(obj1);
+    let keys2=Object.keys(obj2);
+    if(keys1.length!==keys2.length)return false;
+    for(let k of keys1){
+        if(!keys2.includes(k)||!CompareFun(obj1[k],obj2[k]))return false
+    }
+    return true;
+}
+const newtest={
+    name:"DEV",
+    address:{
+        line1:"test line1",
+        line2:"test line2",
+        pin:{
+         list:"742103"
+        }
+    }
+}
+const newtest2={
+    name:"DEV",
+    address:{
+        line1:"test line1",
+        line2:"test line2",
+        pin:{
+            list:"742103"
+           }
+    }
+}
+console.log(CompareFun(newtest,newtest2))
+//concatenate
+Array.prototype.ConCat=function(){
+    let newarr=[];
+    for(let i=0;i<this.length;i++){
+        newarr.push(this[i]);
+    }
+    for(let i=0;i<arguments.length;i++){
+        let arg = arguments[i];
+        if(Array.isArray(arg)){
+            for(let j=0;j<arg.length;j++){
+                newarr.push(arg[j]);
+            }
+        }else{
+            newarr.push(arg);
+        }
+    }
+    return newarr;
+}
+console.log([1,2,3,4,5].ConCat([1,2,3],3,4))
+//customdeepcopy
+const deepCustomDeepest=(obj)=>{
+   if(typeof obj!=="object"||obj==null)return obj;
+   if(Array.isArray(obj)){
+    return obj.map((x)=>deepCustomDeep(x));
+   }
+   let newobj={};
+   for(let x in obj){
+      newobj[x]=deepCustomDeepest(obj[x])
+   }
+   return newobj;
+}
+const testobjecte={
+    name:"test",
+    address:{
+        line1:"test1"
+    }
+}
+const finalobj = deepCustomDeepest(testobjecte);
+console.log(finalobj)
+
+//flat array and object
+//recursive approach
+Array.prototype.MFlat=function(){
+    let final=[];
+    for(let i of this){
+      if(Array.isArray(i)){
+        final.push(...i.MFlat());
+      }else{
+        final.push(i)
+      }
+    }
+    return final;
+}
+//iterative approach
+Array.prototype.RFlat=function(){
+    let final=[...this];
+    let curr=0;
+    while(curr<final.length){
+        let el=final[curr];
+        if(Array.isArray(el)){
+            final.splice(curr,1,...el)
+        }else{
+            curr++;
+        }
+    }
+    return final; 
+}
+console.log([2,3,4,[4,5,6,[7,8,9,[10,11,12]]]].RFlat())
+
+const inputobject = {
+    name: 'Mansi',
+    age: 25,
+    department: {
+      name: 'Customer Experience',
+      section: 'Technical',
+      branch: {
+         name: 'Bangalore',
+         timezone: 'IST'
+      }
+    },
+    company: {
+     name: 'SAP',
+     customers: ['Ford', 'Nestle']
+    },
+    skills: ['javascript', 'node.js', 'html']
+  }
+  const inputobject2 = {
+    a: 1,
+    b: {
+        c: 2,
+        d: {
+            e: 3
+        }
+    },
+    f: null
+};
+const deepflatobj=(obj,key='')=>{
+    let res={};
+    for(let k in obj){
+        let newkey = key?`${key}.${k}`:`${k}`;
+        if (!obj.hasOwnProperty(k)) continue; 
+        if(typeof obj[k]=="object"&&!Array.isArray(obj[k])&&obj[k]!==null){
+            res={...res,...deepflatobj(obj[k],newkey)};
+        }
+        else{
+            res[newkey]=obj[k];
+        }
+    }
+    return res;
+}
+console.log(deepflatobj(inputobject))
+
+//filter
+Array.prototype.myFill = function(cb){
+    if(!Array.isArray(this)){
+        throw new TypeError("error is type!")
+    }
+    let res=[];
+    for(let i=0;i<this.length;i++){
+      if(cb(this[i])){
+        res.push(this[i])
+      }
+    }
+    return res;
+}
+console.log([1,2,3,4,5,6,7].myFill((x)=>x%2==1))
+//custom load->
+const datas = { a: { b: { c: 42 } } };
+const cust=(obj,path,val)=>{
+   return path.split(".").reduce((acc,key)=>acc[key],obj)||val
+}
+console.log(cust(datas,"a.b.c","default"));
+//foreach
+Array.prototype.myFor = function(cb){
+    for(let i=0;i<this.length;i++){
+         cb(this[i])
+    }
+}
+console.log([2,4,5,6].myFor((x)=>x**2))
+//map
+Array.prototype.myMap=function(cb){
+  let res=[];
+  for(let i=0;i<this.length;i++){
+    res.push(cb(this[i]))
+  }
+  return res;
+}
+console.log([4,2,6,8].myMap((x)=>x**3));
+
+Function.prototype.myApply = function(args1){
+    let args = args1.slice(1);
+    let obj = this;
+    return function(...args2){
+        return obj.apply(args1[0],[...args,...args2])
+    }
+}
+
+
+//join 
+Array.prototype.myJoin = function(value){
+    let str="";
+    for(let i=0;i<this.length;i++){
+        if(i>0){
+            str+=value;
+        }
+        if(this[i]!==undefined&&this[i]!==null){
+            str+=this[i]
+        }
+    }
+    return str;
+}
+console.log([1,2,3,4].myJoin("-"));
+
+
+//theory 
+const a=[1,2,3,4,5]
+const [b,c]=[...a]//spread
+const [x,...y]=a;//rest 
+console.log(b,c,x,y)
+const ax={
+    name:"test",age:20,num:'23'
+}
+const {name,...rest}=ax;
+console.log(name,rest)
+const p=new Promise((res,rej)=>{
+    setTimeout(()=>{
+       res("print after 3sec")
+        
+    },3000)
+})
+// p.then((x)=>console.log(x)).catch((e)=>console.log(e))
+
+
+function sum(a,b){
+    let x=10;
+    return function(c){
+        console.log(x)
+       return a+b+c+x;
+    }
+}
+console.log(sum(10,10)(10))

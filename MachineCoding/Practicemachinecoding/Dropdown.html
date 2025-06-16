@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        #list{
+            display: none;
+        }
+        #main-div{
+            max-width: 500px;
+            width: 100%;
+        }
+        #dropdown{
+            position: relative;
+            width: 100%;
+        }
+        .item{
+            font-size: 12px;
+            cursor: pointer;
+            padding: 12px;
+        }
+        #show{
+            margin-top: 20px;
+  font-size: 14px;
+  color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-div">
+        <div id="dropdown">
+           <div id="searchbar">
+            <input id="input" type="text"/>
+           </div>
+           <div id="list"></div>
+        </div>
+       <div id="show"></div>
+    </div>
+    <script>
+        const dropdown=document.getElementById("dropdown");
+        const searchinput = document.getElementById("input");
+        const list = document.getElementById("list");
+        const show = document.getElementById("show");
+
+        const OPTIONS = [
+      "Sydney", "Tokyo", "New York", "London", "Paris",
+      "Toronto", "Rio de Janeiro", "Cape Town", "Berlin", "Buenos Aires"
+    ];
+      
+
+    const createList=(array)=>{
+       list.innerHTML='';
+       array.forEach((x)=>{
+        const item =  document.createElement("div");
+        item.classList.add("item");
+        item.textContent = x;
+        item.addEventListener("click",()=>{
+            list.style.display="none";
+            searchinput.value=x;
+            show.textContent=x;
+        })
+      list.appendChild(item);
+       })
+
+    }
+    window.addEventListener("load",()=>createList(OPTIONS));
+    searchinput.addEventListener("input",(e)=>{
+        const search = e.target.value.toLowerCase();
+        const filterlist = OPTIONS.filter((x)=>x.toLowerCase().includes(search));
+        createList(filterlist);
+        list.style.display="block"
+    })
+    searchinput.addEventListener("focus",()=>{
+        list.style.display="block"
+    })
+    document.addEventListener("click",(e)=>{
+        if(!dropdown.contains(e.target)){
+            list.style.display="none"
+        }
+    })
+
+    </script>
+</body>
+
+</html>

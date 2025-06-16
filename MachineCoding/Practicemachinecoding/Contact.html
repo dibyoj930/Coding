@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+       <form id="form">
+        <div>
+            <label>First Name</label>
+            <input type="text" id="fname" />
+            <span id="ferr"></span>
+        </div>
+        <div>
+            <label>Last Name</label>
+            <input type="text" id="lname" />
+            <span id="lerr"></span>
+        </div>
+        <div>
+            <label>Email</label>
+            <input type="text" id="email" />
+            <span id="err"></span>
+        </div>
+        <div>
+            <label>Feedback</label>
+            <input type="text" id="feed" />
+            <span id="feederr"></span>
+        </div>
+        <button  id="submit">Submit</button>
+       </form>   
+       <div id="res"></div>
+    </div>
+    <script>
+        const form = document.getElementById("form")
+        const fname = document.getElementById("fname");
+        const lname =  document.getElementById("lname");
+        const email = document.getElementById("email");
+        const feed = document.getElementById("feed");
+        const ferr = document.getElementById("ferr");
+        const lerr =  document.getElementById("lerr");
+        const error = document.getElementById("err");
+        const feederr = document.getElementById("feederr");
+
+        let first="",last = '',mail='',fed='';
+
+        fname.addEventListener("input",(e)=>{
+            first=e.target.value;
+        })
+        lname.addEventListener("input",(e)=>{
+            last=e.target.value;
+        })
+        email.addEventListener("input",(e)=>{
+            mail=e.target.value;
+        })
+        feed.addEventListener("input",(e)=>{
+            fed=e.target.value;
+        })
+        const seterror=(input,span,msg)=>{
+            input.style.border="1px solid red";
+            span.textContent = msg;
+            span.style.color="red";
+        }
+        const removeerror=(input,span)=>{
+           input.style.border="1px solid black";
+           span.textContent='';
+        }
+        const validate=()=>{
+            let error2=[];
+            if(first===""){
+                seterror(fname,ferr,"first name can't be empty!");
+                error2.push("first name")
+            }else{
+                removeerror(fname,ferr)
+            }
+            if(last===""){
+                seterror(lname,lerr,"last na");
+                error2.push("err")
+            }else{
+                removeerror(lname,lerr)
+            }
+            if(mail===''||!mail.includes('@')){
+                seterror(email,error,"error");
+                error2.push("wrong email")
+            }else{
+                removeerror(email,error)
+            }if(fed===""){
+                seterror(feed,feederr,"error");
+                error2.push("wrong feed")
+            }else{
+                removeerror(feed,feederr)
+            }
+            return error2;
+        }
+        form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            let res = validate();
+            if(res.length===0){
+                const value =  document.createElement("p");
+              value.textContent=`Hi, I am ${first} ${last}, my mail id-${mail} and feedback for this course is ${fed}`
+              document.getElementById("container").appendChild(value)
+            }
+        })
+
+    </script>
+
+</body>
+</html>
