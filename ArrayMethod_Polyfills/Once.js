@@ -1,9 +1,10 @@
 const Once = (fn)=>{
     let ran;
+    let called=false;
     return function(...args){
-        if(fn){
+        if(!called){
             ran = fn.apply(this,...args);
-            fn=null;
+            called=true;
         }
         return ran;
     }

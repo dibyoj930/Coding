@@ -25,21 +25,26 @@
 </head>
 <body>
     <div id="myDiv">Hello, World!</div>
-    <h1>Example Heading</h1>
-    <p class="highlight">This is a paragraph.</p>
     <div>
-      <p class="highlight">This is another paragraph.</p>
+      <div>
+        <p>Test</p>
+      </div>
+    </div>
+    <h1>Example Heading</h1>
+    <p class="highlight active box">This is a paragraph.</p>
+    <div>
+      <p class="highlight box">This is another paragraph.</p>
     </div>
     <h1>Example Heading New</h1>
     <h2 id="myh2" class="classmate">New examples</h2>
     <h2 id="my" class="classmate">New examples for values</h2>
     <input id="test" type="text" name="myname" value="Dibyo" class="test" />
-  <input type="text" name="username"  />
-  <input type="text" name="username2" value="Jane Smith" />
+  <input type="text" name="username" value="test" />
+  <input type="text" name="username" value="Jane Smith" />
   <input type="text" name="email" value="john@example.com" />
   <input type="text" name="email" value="jane@example.com" />
   <div id="con">
-  <input type="text" id="input"/>
+  <input type="text" value="name" id="input"/>
   <button id="but">submit</button>
 </div>
   <p class="height">This is another paragraph.</p>
@@ -57,57 +62,123 @@
 
 
     <script>
-      const input = document.getElementById("input");
-      const button =  document.getElementById("but");
-      const con = document.getElementById("con");
+      function hasclass(classes,target){
+        const all = classes.trim().split(" ");    // handles extra spaces
+    const required = target.trim().split(" ");
+    return required.every(cl => all.includes(cl));
+      }
+      function GetByClass(classname){
+        let res=[];
+         function traverse(node){
+          if(node.nodeType==1&&  typeof node.className === "string" &&hasclass(node.className,classname)){
+               res.push(node);
+          }
+          for(let child of node.children){
+            traverse(child);
+          }
+         }
+         traverse(document.body);
+         return res;
+      }
+      const resclass = GetByClass("highlight box");
+      console.log("res-->",resclass.map((x)=>x.textContent))
 
-      button.addEventListener("click",()=>{
-       if(input.value.length==0){
-        alert("empty task!");
-       }
-       const typed = input.value;
-       addTask(typed);
-       input.value="";
-      })
-      const addTask=(text)=>{
-        const list =  document.createElement("ul");
-        const ele = document.createElement("li");
-        const textspan = document.createElement("span");
-        textspan.textContent=text;
+      function GetById(id){
+        const traverse=(node)=>{
+          if(node.id===id)return node;
+          for(let child of node.children){
+            let res = traverse(child);
+            if(res)return res;
+          }
+          return null;
+        }
+        return traverse(document.body)
+      }
+      const res = GetTag("p");
+      console.log(res.map((x)=>x.textContent))
+      const input = GetById("input");
+      input.value="test"
+      const final = getName("username");
+      console.log(final.map((x)=>x.value))
+      console.log(input.value);
+      function GetTag(tag){
+        let res=[];
+        let test = tag.toLowerCase();
+        function traverse(node){
+          if(node.tagName&&node.tagName.toLowerCase()===test)res.push(node);
+          for(let child of node.children){
+            traverse(child);
+          }
+          return res;
+        }
+        traverse(document.body);
+        return res;
 
-        ele.appendChild(textspan);
-
-        //delete button
-        const deletebutton=document.createElement("button");
-        deletebutton.textContent="Delete Task";
-        deletebutton.addEventListener("click",()=>{
-          con.removeChild(list);
-        })
-        //edit button
-        const edit = document.createElement("button");
-        edit.textContent="Edit"
-        ele.appendChild(edit)
-        edit.addEventListener("click",()=>{
-          const inputedit  = document.createElement("input");
-          inputedit.type="text";
-          inputedit.value=textspan.textContent;
-          ele.replaceChild(inputedit,textspan);
-          edit.textContent="save";
-           
-          edit.onclick=()=>{
-            textspan.textContent=inputedit.value;
-            ele.replaceChild(textspan,inputedit);
-            edit.textContent="edit";
-            edit.onclick=editButtonHandler
-          }  
-        })
-        const editButtonHandler = edit.onclick;
-        ele.appendChild(deletebutton)
-        list.appendChild(ele);
-        con.appendChild(list);
-        
       }
 
+      function getName(name){
+        let res=[];
+         function traverse(node){
+          let nametest = node.getAttribute("name");
+          if(nametest===name){res.push(node)}
+          for(let child of node.children){
+            traverse(child);
+          }
+         }
+         traverse(document.body);
+         return res;
+      }
+
+      // const button =  document.getElementById("but");
+      // const con = document.getElementById("con");
+
+      // button.addEventListener("click",()=>{
+      //  if(input.value.length==0){
+      //   alert("empty task!");
+      //  }
+      //  const typed = input.value;
+      //  addTask(typed);
+      //  input.value="";
+      // })
+      // const addTask=(text)=>{
+      //   const list =  document.createElement("ul");
+      //   const ele = document.createElement("li");
+      //   const textspan = document.createElement("span");
+      //   textspan.textContent=text;
+
+      //   ele.appendChild(textspan);
+
+      //   //delete button
+      //   const deletebutton=document.createElement("button");
+      //   deletebutton.textContent="Delete Task";
+      //   deletebutton.addEventListener("click",()=>{
+      //     con.removeChild(list);
+      //   })
+      //   //edit button
+      //   const edit = document.createElement("button");
+      //   edit.textContent="Edit"
+      //   ele.appendChild(edit)
+      //   edit.addEventListener("click",()=>{
+      //     const inputedit  = document.createElement("input");
+      //     inputedit.type="text";
+      //     inputedit.value=textspan.textContent;
+      //     ele.replaceChild(inputedit,textspan);
+      //     edit.textContent="save";
+           
+      //     edit.onclick=()=>{
+      //       textspan.textContent=inputedit.value;
+      //       ele.replaceChild(textspan,inputedit);
+      //       edit.textContent="edit";
+      //       edit.onclick=editButtonHandler
+      //     }  
+      //   })
+      //   const editButtonHandler = edit.onclick;
+      //   ele.appendChild(deletebutton)
+      //   list.appendChild(ele);
+      //   con.appendChild(list);
+        
+      // }
+     
     </script>
    
 </body>
