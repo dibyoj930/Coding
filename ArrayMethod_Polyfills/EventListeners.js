@@ -12,7 +12,7 @@ function AddListener(eventname,callback,useCapture){
 
 
 //removeEventListener
-Element.prototype.MyremoveListener=function(eventname,callback,useCapture){
+Element.prototype.MyremoveListener=function(eventname,callback){
    if(!this._event)return;
    if(!this._event[eventname])return;
    let index = this._event[eventname].indexOf(callback);

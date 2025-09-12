@@ -26,3 +26,25 @@ Document.prototype.querySelectornew = function(selectors) {
     console.log("highlight",highlightedElement)
     highlightedElement.style.color = 'red';
   })
+
+Document.prototype.myQuerySelector=function(selector){
+   const idselector = selector.split("#")[1];
+   const classselector = selector.split(".")[1];
+   const tagselector = selector.split(" ")[0];
+   if(idselector){
+    return document.getElementById(idselector);
+   }else if(classselector){
+    var elements  = document.getElementsByTagName("*");
+    for(let i=0;i<elements.length;i++){
+      var classnames = elements[i].className.split(" ");
+      if(classnames.indexOf(classselector)!=-1){
+        return elements[i];
+      }
+    }
+   }
+   else if(tagselector){
+    return document.getElementsByTagName(tagselector)[0];
+   }else{
+    return null;
+   }
+}

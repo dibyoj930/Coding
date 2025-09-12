@@ -24,11 +24,40 @@
 </head>
 <body>
     
-    <input type="text" onkeyup="mydev()" id="search" />
+    <input type="text" onkeyup="mydeV()" id="search" />
     <button id="button" onclick="called()">Click</button>
-    <!-- <script src="Throttle.js"></script>
-    <script src="Debounce.js"></script> -->
+    <!-- <script src="Practice.js"></script> -->
     <script>
+      const throttle = (fn,delay)=>{
+         return function(...args){
+          document.getElementById("button").disabled=true;
+          setTimeout(()=>{
+            fn(...args);
+          },delay)
+         }
+      }
+      const called=throttle(()=>{
+        document.getElementById("button").disabled=false;
+        console.log("executed!");
+      },2000)
+      const test = (fn,delay)=>{
+    let timer;
+    return function(...args){
+       if(timer)clearTimeout(timer);
+       timer = setTimeout(()=>{
+        fn(...args);
+       },delay)
+    }
+}
+const mydeV=test(()=>{
+    console.log("user has typed something!!!")
+},2000)
+    </script>
+    <!-- <script src="Debounce.js"></script> -->
+    <!-- <script>
+
+
+      
      
      const fn =()=>{
         console.log("typed again...")
@@ -55,7 +84,7 @@
         console.log("button clicked!!!");
         document.getElementById("button").disabled=false;
      },2000)
-    </script>
+    </script> -->
 
     <div class="spinner"></div>
 
