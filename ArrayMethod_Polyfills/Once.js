@@ -14,5 +14,5 @@ const changes = (num1,num2)=>{
 }
 const res = Once(changes(1,2))
 res();
-res()
-res()
+res();
+res();
