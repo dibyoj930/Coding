@@ -42,19 +42,24 @@
     <div id="board"></div>
     <button id="rolldice"></button>
     <script>
-        document.addEventListener("DOMContentLoaded",()=>{
-            const button = document.getElementById("rolldice");
-            const board = document.getElementById("board");
-            board.classList.add("board");
 
+        document.addEventListener("DOMContentLoaded",()=>{
+            const board = document.getElementById("board");
+            const rollbtn  = document.getElementById("rolldice");
+            board.classList.add("board");
+            rollbtn.textContent="roll dice"
             for(let i=1;i<=100;i++){
-                const cell=document.createElement("div");
+                const cell = document.createElement("div");
                 cell.classList.add("cell");
                 cell.textContent=i;
                 cell.id=i;
                 board.appendChild(cell);
             }
-
+            
+            const getplayerpos=(curr,value)=>{
+                const newpos = curr+value;
+                return snakesAndLadders[newpos]||newpos;
+            }
             const snakesAndLadders = {
         16: 6,
         47: 26,
@@ -67,38 +72,92 @@
         95: 75,
         98: 78,
     };
-        for(let [start,end] of Object.entries(snakesAndLadders)){
-            document.getElementById(start).classList.add("snake");
-            document.getElementById(end).classList.add("ladder");
-        }
-        let playerpos = 1;
-        function rolldice(){
+         for(let [snake,ladder] of Object.entries(snakesAndLadders)){
+            document.getElementById(snake).classList.add("snake");
+            document.getElementById(ladder).classList.add("ladder");
+         }
+         const getrandom = ()=>{
             return Math.floor(Math.random()*6)+1;
-        }
-        function Moveplayer(curr,pos){
-            let newpos = curr+pos;
-            return snakesAndLadders[newpos]||newpos;
-        }
-        button.textContent="roll Dice";
-        function updatePosition(){
-            const cells=document.querySelectorAll(".cell");
-            cells.forEach((c)=>c.classList.remove("active"));
+         }
+         let playerpos=1;
+         
+         const updatepos=()=>{
+            const cells = document.querySelectorAll(".cell");
+            cells.forEach((x)=>x.classList.remove("active"));
             document.getElementById(playerpos).classList.add("active");
-        }
-        button.addEventListener("click",()=>{
-            const value = rolldice();
-            alert(`you have got a value of ${value}`);
-            playerpos = Moveplayer(playerpos,value);
-            alert(`you landed on position ${playerpos}`);
-            updatePosition();
-        })
-        if(playerpos>99){
+         }
+         const fun =()=>{
+            const newp = getrandom();
+            alert("you got "+newp);
+            playerpos = getplayerpos(playerpos,newp);
+            alert("you will be landed "+playerpos);
+            updatepos();
+         }
+         if(playerpos>99){
             const div=document.createElement("div");
             div.textContent='Your game is completed!';
             board.appendChild(div);
         }
-        updatePosition();
+         rollbtn.addEventListener("click",()=>fun())
+          updatepos();
         })
+    //     document.addEventListener("DOMContentLoaded",()=>{
+    //         const button = document.getElementById("rolldice");
+    //         const board = document.getElementById("board");
+    //         board.classList.add("board");
+
+    //         for(let i=1;i<=100;i++){
+    //             const cell=document.createElement("div");
+    //             cell.classList.add("cell");
+    //             cell.textContent=i;
+    //             cell.id=i;
+    //             board.appendChild(cell);
+    //         }
+
+    //         const snakesAndLadders = {
+    //     16: 6,
+    //     47: 26,
+    //     49: 11,
+    //     56: 53,
+    //     62: 19,
+    //     64: 60,
+    //     87: 24,
+    //     93: 73,
+    //     95: 75,
+    //     98: 78,
+    // };
+    //     for(let [start,end] of Object.entries(snakesAndLadders)){
+    //         document.getElementById(start).classList.add("snake");
+    //         document.getElementById(end).classList.add("ladder");
+    //     }
+    //     let playerpos = 1;
+    //     function rolldice(){
+    //         return Math.floor(Math.random()*6)+1;
+    //     }
+    //     function Moveplayer(curr,pos){
+    //         let newpos = curr+pos;
+    //         return snakesAndLadders[newpos]||newpos;
+    //     }
+    //     button.textContent="roll Dice";
+    //     function updatePosition(){
+    //         const cells=document.querySelectorAll(".cell");
+    //         cells.forEach((c)=>c.classList.remove("active"));
+    //         document.getElementById(playerpos).classList.add("active");
+    //     }
+    //     button.addEventListener("click",()=>{
+    //         const value = rolldice();
+    //         alert(`you have got a value of ${value}`);
+    //         playerpos = Moveplayer(playerpos,value);
+    //         alert(`you landed on position ${playerpos}`);
+    //         updatePosition();
+    //     })
+    //     if(playerpos>99){
+    //         const div=document.createElement("div");
+    //         div.textContent='Your game is completed!';
+    //         board.appendChild(div);
+    //     }
+    //     updatePosition();
+    //     })
     </script>
 </body>
 </html>

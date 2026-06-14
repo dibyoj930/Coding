@@ -5,7 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+
         .container{
+            width: 100%;
+            padding: 25px;
+            margin: auto;
+        }
+        .list{
+            background-color: aqua;
+            padding: 0.5rem;
+            border: 1px solid yellow;
+            border-radius: 8px;
+            margin: 1rem;
+            text-align: center;
+        }
+        /* .container{
             width: 100%;
             padding: 20px;
             margin: auto;
@@ -16,7 +30,7 @@
             text-align: center;
             border: 1px solid navajowhite;
 
-        }
+        } */
     </style>
 </head>
 <body>
@@ -25,28 +39,88 @@
    <div id="senti">
    </div>
    <script>
-    const container = document.getElementById("container");
-    const senti = document.getElementById("senti");
+    
 
-    const BATCH_SIZE=15;
-    let count=0;
-    const generate=()=>{
-        for(let i=0;i<BATCH_SIZE;i++){
-            const newdiv=document.createElement("div");
-            newdiv.textContent=`Div count-${count}`;
-            newdiv.classList.add('list');
-            container.appendChild(newdiv);
-            count++;
-        }
+
+    // const BATCH_SIZE=20;
+    // const container = document.getElementById("container");
+    // const check =  document.getElementById("senti");
+    // let count=0;
+
+    // const generate = ()=>{
+    //     for(let i=0;i<BATCH_SIZE;i++){
+    //         const div = document.createElement("div");
+    //         div.classList.add("list");
+    //         div.textContent=`Div Number-${count+1}`
+    //         count++;
+    //         container.appendChild(div);
+    //     }
+    //     // container.appendChild(check)
+    // }
+    // generate();
+
+    // const observe = new IntersectionObserver((entry)=>{
+    //     entry.forEach((x)=>{
+    //         if(x.isIntersecting){
+    //             generate();
+    //         }
+    //     })
+    // })
+    // observe.observe(check);
+    // window.addEventListener("load",()=>{generate();
+    //     observe.observe(check);
+    // })
+
+    
+   
+    // window.addEventListener("load",()=>generate());
+   
+    
+
+
+
+
+
+
+
+
+
+
+
+    const BATCH_SIZE = 30;
+const container = document.getElementById("container");
+const intersect = document.getElementById("senti");
+let count = 0;
+
+const generate = () => {
+    for (let i = 0; i < BATCH_SIZE; i++) {
+        const mydiv = document.createElement("div");
+        mydiv.textContent = `Mydiv-${count + 1}`;
+        mydiv.classList.add("list");
+        container.appendChild(mydiv);
+        count++;
     }
-    window.addEventListener("load",()=>generate());
-    const intersection = new IntersectionObserver((entry)=>{
-        entry.forEach((entr)=>{
-            if(entr.isIntersecting){
-                generate();
-            }
-        })
-    })
+};
+
+// generate();
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            generate();
+        }
+    });
+});
+
+observer.observe(intersect);
+    // window.addEventListener("load",()=>generate())
+
+
+
+
+
+
+
     // IntersectionObserver is a built-in JavaScript object that allows you to monitor t
     // he visibility (or intersection) of elements in relation to a parent (viewport by default). 
     // When the observed element enters or exits the viewport (or the specified root), the observer triggers 
@@ -54,7 +128,7 @@
 //     The callback function is executed whenever the intersection status of an observed element changes.
 // entry is an array of IntersectionObserverEntry objects, each of which represents a specific
 //  element being observed.
-    intersection.observe(senti)
+    // intersection.observe(senti)
 
    </script>
 </body>

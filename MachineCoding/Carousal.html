@@ -18,8 +18,8 @@
     </style>
 </head>
 <body>
-    <div id="main-div" >
-       <div id="imageholder" class="main">
+    <div id="main-div"  >
+       <div id="imageholder" class="main" style="display: flex;align-items: center;justify-items: center;">
         
        </div>
        <button id="prev"></button>
@@ -54,41 +54,91 @@
   },
 ];
 
-  let activeindex=0;
-  const imageholder =  document.getElementById("imageholder");
-  const prev = document.getElementById("prev");
-  const next = document.getElementById("next");
-  prev.textContent="Previous";
-  next.textContent="Next"
-  console.log(activeindex)
-  const imagelement = document.createElement("img");
-  imageholder.appendChild(imagelement);
-  imagelement.classList.add("image")
-  const updateimage = ()=>{
-    console.log("called!!!!",activeindex)
-        imagelement.url = images[activeindex].src
-        imagelement.alt = images[activeindex].alt
-        imagelement.title = images[activeindex].title
-     }
-     updateimage();
+ let activeindex=0;
+ const imageholder = document.getElementById("imageholder");
+ const prev = document.getElementById("prev");
+ const next = document.getElementById("next");
+
+ const image = document.createElement("img");
+ imageholder.appendChild(image);
+
+ image.classList.add("images");
+
+ prev.textContent="prev";
+ next.textContent="next";
+
+ const updateimage = ()=>{
+  image.src = images[activeindex].src;
+  image.alt = images[activeindex].alt;
+  image.title = images[activeindex].title;
+ }
+
  next.addEventListener("click",()=>{
-        if(activeindex===images.length-1){
-            activeindex=0;
-            updateimage();
-        }else{
-            activeindex++;
-            updateimage();
-        }
-     })
-    prev.addEventListener("click",()=>{
-        if(activeindex===0){
-            activeindex=images.length-1;
-            updateimage();
-        }else{
-            activeindex--;
-            updateimage();
-        }
-     })
+  if(activeindex===images.length-1){
+    activeindex=0;
+    updateimage();
+  }else{
+    activeindex++;
+    updateimage();
+  }
+ })
+
+ prev.addEventListener("click",()=>{
+  if(activeindex===0){
+    activeindex=images.length-1;
+    updateimage();
+  }else{
+      activeindex--;
+      updateimage();
+  }
+ })
+
+
+ 
+
+
+
+
+
+
+
+
+
+//   let activeindex=0;
+//   const imageholder =  document.getElementById("imageholder");
+//   const prev = document.getElementById("prev");
+//   const next = document.getElementById("next");
+//   prev.textContent="Previous";
+//   next.textContent="Next"
+//   console.log(activeindex)
+//   const imagelement = document.createElement("img");
+//   imageholder.appendChild(imagelement);
+//   imagelement.classList.add("image")
+//   const updateimage = ()=>{
+//     console.log("called!!!!",activeindex)
+//         imagelement.url = images[activeindex].src
+//         imagelement.alt = images[activeindex].alt
+//         imagelement.title = images[activeindex].title
+//      }
+//      updateimage();
+//  next.addEventListener("click",()=>{
+//         if(activeindex===images.length-1){
+//             activeindex=0;
+//             updateimage();
+//         }else{
+//             activeindex++;
+//             updateimage();
+//         }
+//      })
+//     prev.addEventListener("click",()=>{
+//         if(activeindex===0){
+//             activeindex=images.length-1;
+//             updateimage();
+//         }else{
+//             activeindex--;
+//             updateimage();
+//         }
+//      })
     </script>
 </body>
 </html>

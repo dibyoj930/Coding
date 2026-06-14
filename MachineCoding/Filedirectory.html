@@ -60,26 +60,42 @@
     ],
   };
 
-    function Rendertree(data,parent){
-       const unorderlist=document.createElement("ul");
-       parent.appendChild(unorderlist);
-       data.forEach((ele)=>{
-        console.log(ele)
-        const li = document.createElement('li');
-        const span=document.createElement("span");
-        span.textContent=ele.name;
-        span.className=ele.type;
+   function Rendertree(data,parent){
+      const ul=document.createElement("ul");
+      parent.appendChild(ul);
+      data.forEach((x)=>{
+        const li = document.createElement("li");
+        const span = document.createElement("span");
+        span.textContent=x.name;
+        span.className=x.type;
         li.appendChild(span);
-        unorderlist.appendChild(li);
-        if(ele.children&&ele.children.length>0){
-            Rendertree(ele.children,li);
+        ul.appendChild(li);
+        if(x.children&&x.children.length>0){
+          Rendertree(x.children,li);
         }
-       })
-       
-    }
-    const elem=document.getElementById("tree");
-    console.log(elem,data)
-    Rendertree([data],elem)
+      })
+   }
+   Rendertree([data],tree);
+
+  // function Rendertree(data,parent){
+  //   const ul = document.createElement("ul");
+  //   parent.appendChild(ul);
+  //   data.forEach((x)=>{
+  //     const chi=document.createElement("li");
+  //     const span=document.createElement("span");
+  //     span.textContent=x.name;
+  //     span.className=x.type;
+  //     chi.appendChild(span);
+  //     ul.appendChild(chi);
+  //     if(x.children&&x.children.length>0){
+  //       Rendertree(x.children,chi);
+  //     }
+  //   })
+  // }
+     
+  // const tree = document.getElementById("tree");
+  // Rendertree([data],tree)
+
     </script>
 </body>
 </html>

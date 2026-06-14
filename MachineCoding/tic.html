@@ -75,17 +75,20 @@ h1 {
     <div id="endGame">
         <input type="button" value="Restart" id="restartButton" onclick="restartButton()"/>
     </div> 
+    <div id="full" style="display: flex;justify-content: center;align-items: center;">
+
+    </div>
     <script>
-        const board = document.getElementById("board");
-        const square = document.getElementsByClassName("square");
-        const players = ["X","O"];
-        let currentPlayer=players[0];
-        const h2 = document.createElement("h2");
+        const board =  document.getElementById("board");
+        const square = document.querySelectorAll(".square");
+        const players = ['X','O'];
+        let currentPlayer = players[0];
+        const full = document.getElementById("full");
+        const h2 =  document.createElement("h2");
         h2.textContent = `${currentPlayer}'s Turn`;
-        h2.style.marginTop = "1rem"
-        h2.style.textAlign = "center"
-        board.after(h2);
-        const winning=[
+        full.appendChild(h2);
+
+        const winning = [
             [0,1,2],
             [0,3,6],
             [1,4,7],
@@ -95,54 +98,117 @@ h1 {
             [2,4,6],
             [0,4,8]
         ]
-       for(let i=0;i<square.length;i++){
-        square[i].addEventListener('click',()=>{
-            if(square[i].textContent!==""){
-                return;
-            }
-            square[i].textContent = currentPlayer
-            if(checkwin(currentPlayer)){
-                h2.textContent= `Player ${currentPlayer} wins`;
-                return;
-            }
-            if(checktie()){
-                h2.textContent= `It's a Draw`;
-                return;
-            }
-            currentPlayer = (currentPlayer===players[0])?players[1]:players[0];
-            if(currentPlayer===players[0]){
-                h2.textContent="X's turn";
-            }else{
-                h2.textContent="O's turn"
-            }
 
-        })
-       }
-       const checkwin=(currentPlayer)=>{
-         for(let i=0;i<winning.length;i++){
-            let [a,b,c]=winning[i];
-            if(square[a].textContent===currentPlayer&&square[b].textContent===currentPlayer&&square[c].textContent===currentPlayer){
-                 return true;
+        for(let i=0;i<square.length;i++){
+            square[i].addEventListener("click",()=>{
+                if(square[i].textContent!==""){
+                    return;
+                }
+                square[i].textContent=currentPlayer;
+                if(checkWin(currentPlayer)){
+                    h2.textContent=`Player ${currentPlayer} won!`;
+                    return;
+                }
+                if(checkTie()){
+                    h2.textContent=`It's a draw`;
+                    return;
+                }
+                currentPlayer=currentPlayer===players[0]?players[1]:players[0];
+                if(currentPlayer===players[0]){
+                    h2.textContent=`X's turn`;
+                }else{
+                    h2.textContent=`O's turn`;
+                }
+
+            })
+        }
+
+        function checkWin(currentPlayer){
+            for(let i=0;i<winning.length;i++){
+                const [a,b,c]=winning[i];
+                if(square[a].textContent===currentPlayer&&square[b].textContent===currentPlayer&&square[c].textContent===currentPlayer){
+                    return true;
+                }
             }
-           
-         }
-         return false;
-       }
-       const checktie=()=>{
-         for(let i=0;i<square.length;i++){
+            return false;
+        }
+        
+
+        function checkTie(){
+            for(let i=0;i<square.length;i++){
             if(square[i].textContent===""){
                 return false;
             }
          }
          return true;
-       }
-       const restartButton =()=>{
-        for(let i=0;i<square.length;i++){
-            square[i].textContent="";
-         }
-         h2.textContent = "X's turn";
-         currentPlayer=players[0];
-       }
+        }
+    //     const board = document.getElementById("board");
+    //     const square = document.getElementsByClassName("square");
+    //     const players = ["X","O"];
+    //     let currentPlayer=players[0];
+    //     const h2 = document.createElement("h2");
+    //     h2.textContent = `${currentPlayer}'s Turn`;
+    //     h2.style.marginTop = "1rem"
+    //     h2.style.textAlign = "center"
+    //     board.after(h2);
+    //     const winning=[
+    //         [0,1,2],
+    //         [0,3,6],
+    //         [1,4,7],
+    //         [2,5,8],
+    //         [3,4,5],
+    //         [6,7,8],
+    //         [2,4,6],
+    //         [0,4,8]
+    //     ]
+    //    for(let i=0;i<square.length;i++){
+    //     square[i].addEventListener('click',()=>{
+    //         if(square[i].textContent!==""){
+    //             return;
+    //         }
+    //         square[i].textContent = currentPlayer
+    //         if(checkwin(currentPlayer)){
+    //             h2.textContent= `Player ${currentPlayer} wins`;
+    //             return;
+    //         }
+    //         if(checktie()){
+    //             h2.textContent= `It's a Draw`;
+    //             return;
+    //         }
+    //         currentPlayer = (currentPlayer===players[0])?players[1]:players[0];
+    //         if(currentPlayer===players[0]){
+    //             h2.textContent="X's turn";
+    //         }else{
+    //             h2.textContent="O's turn"
+    //         }
+
+    //     })
+    //    }
+    //    const checkwin=(currentPlayer)=>{
+    //      for(let i=0;i<winning.length;i++){
+    //         let [a,b,c]=winning[i];
+    //         if(square[a].textContent===currentPlayer&&square[b].textContent===currentPlayer&&square[c].textContent===currentPlayer){
+    //              return true;
+    //         }
+           
+    //      }
+    //      return false;
+    //    }
+    //    const checktie=()=>{
+    //      for(let i=0;i<square.length;i++){
+    //         if(square[i].textContent===""){
+    //             return false;
+    //         }
+    //      }
+    //      return true;
+    //    }
+    //    const restartButton =()=>{
+    //     for(let i=0;i<square.length;i++){
+    //         square[i].textContent="";
+    //      }
+    //      h2.textContent = "X's turn";
+    //      currentPlayer=players[0];
+    //    }
     </script>
 </body>
 </html>

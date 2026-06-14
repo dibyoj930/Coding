@@ -11,6 +11,25 @@
         <div id="filter"></div>
     </div>
     <script>
+        const searchinput = document.getElementById("input");
+        const filter = document.getElementById("filter");
+        searchinput.addEventListener("input",(e)=>{
+            let val = e.target.value.toLowerCase();
+            const filterlist = locations.filter((x)=>x.toLowerCase().includes(val));
+            createList(filterlist);
+        })
+        const createList = (arr)=>{
+           filter.innerHTML='';
+           const ul =  document.createElement("ul");
+           arr.forEach((x)=>{
+            const li = document.createElement("li");
+            li.textContent=x;
+            ul.appendChild(li);
+           })
+           filter.appendChild(ul);
+        }
+        window.addEventListener("load",()=>createList(locations));
+
         const locations = [
   "Sydney",
   "Tokyo",
@@ -64,29 +83,29 @@
   "Goa"
 ];
 
-        const filter = document.getElementById("filter");
-        const input = document.getElementById("input");
+        // const filter = document.getElementById("filter");
+        // const input = document.getElementById("input");
 
-        const createlist=(items)=>{
-            filter.innerHTML=''
-             const unorder = document.createElement("ul");
-             items.forEach((value)=>{
-                const livalue = document.createElement("li");
-                livalue.textContent = value;
-                unorder.appendChild(livalue);
-             })
-             filter.appendChild(unorder);
+        // const createlist=(items)=>{
+        //     filter.innerHTML=''
+        //      const unorder = document.createElement("ul");
+        //      items.forEach((value)=>{
+        //         const livalue = document.createElement("li");
+        //         livalue.textContent = value;
+        //         unorder.appendChild(livalue);
+        //      })
+        //      filter.appendChild(unorder);
 
-        }
-        window.addEventListener("load",()=>{
-             createlist(locations);
-        })
-        input.addEventListener("keyup",(e)=>{
-            let serach = e.target.value;
-            let filteredlist = locations.filter((value)=>value.toLowerCase().includes(serach));
-            createlist(filteredlist);
+        // }
+        // window.addEventListener("load",()=>{
+        //      createlist(locations);
+        // })
+        // input.addEventListener("keyup",(e)=>{
+        //     let serach = e.target.value;
+        //     let filteredlist = locations.filter((value)=>value.toLowerCase().includes(serach));
+        //     createlist(filteredlist);
 
-        })
+        // })
     </script>
 </body>
 </html>

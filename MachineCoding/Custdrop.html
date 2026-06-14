@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #search{
+            width: 100%;
+            padding: 12px;
+            border: none;
+            outline: none;
+        }
+        #dropdown{
+           position: relative;
+           width: 100%;
+        }
+        #search-items{
+            position: absolute;
+            display: none;
+            top: 100%;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+            overflow-y: auto;
+            height: 200px;
+            background-color: antiquewhite;
+            border: 1px solid yellow;
+        }
+        #search-container{
+            overflow: hidden;
+            background-color: aliceblue;
+            border: 1px solid wheat;
+            border-radius: 8px;
+        }
+       .list-item{
+        cursor: pointer;
+        padding: 12px 14px;
+        font-size: 15px;
+       }
+    </style>
+</head>
+<body>
+    <div>
+        <div id="dropdown">
+          <div id="search-container">
+             <input type="text" id="search" placeholder="Enter a city...."/>
+          </div>
+          <div id="search-items"></div>
+        </div>
+        <div id="selected-option"></div>
+    </div>
+    <script>
+       const dropdown=document.getElementById("dropdown");
+       const searchCon = document.getElementById("search-container");
+       const searchinput = document.getElementById("search");
+       const items = document.getElementById("search-items");
+       const option  = document.getElementById("selected-option");
+
+       const OPTIONS = [
+      "Sydney", "Tokyo", "New York", "London", "Paris",
+      "Toronto", "Rio de Janeiro", "Cape Town", "Berlin", "Buenos Aires"
+    ];
+     
+    const createList=(array)=>{
+        items.innerHTML='';
+        array.forEach((x)=>{
+            const listitem=document.createElement("div");
+            listitem.classList.add("list-item");
+            listitem.textContent=x;
+            listitem.addEventListener("click",()=>{
+                searchinput.value=listitem.textContent;
+                items.style.display="none";
+                option.textContent=`you selected ${listitem.textContent}`
+
+            })
+            items.appendChild(listitem);
+        
+        })
+        
+    }
+    searchinput.addEventListener("input",(e)=>{
+         const value=e.target.value.toLowerCase();
+         const filtered = OPTIONS.filter((x)=>x.toLowerCase().includes(value));
+         createList(filtered);
+         items.style.display="block"
+    })
+    searchinput.addEventListener("focus",()=>{
+        items.style.display="block"
+    })
+    document.addEventListener("click",(e)=>{
+        if(!dropdown.contains(e.target)){
+            items.style.display="none"
+        }
+    })
+    window.addEventListener("load",()=>createList(OPTIONS))
+    </script>
+</body>
+</html>

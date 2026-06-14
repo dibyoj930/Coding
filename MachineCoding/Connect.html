@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Connect 4 Game</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(7, 60px);
+      grid-template-rows: repeat(6, 60px);
+      gap: 5px;
+      background: #1877f2;
+      padding: 5px;
+      border-radius: 10px;
+    }
+
+    .cell {
+      width: 60px;
+      height: 60px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: inset 0 0 4px #0003;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .red {
+      background-color: red;
+    }
+
+    .yellow {
+      background-color: gold;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <div id="board"></div>
+    <div id="message"></div>
+    <button onclick="resetGame()">Restart Game</button>
+  </div>
+
+  <script>
+    const ROWS = 6;
+    const COLS = 7;
+    const boardEl = document.getElementById("board");
+    const messageEl = document.getElementById("message");
+
+    let board = [];
+    let currentPlayer = "red";
+    let gameOver = false;
+
+    // Initialize board array
+    function initBoard() {
+      board = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+    }
+
+    // Render the board grid
+    function renderBoard() {
+      boardEl.innerHTML = '';
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          const cell = document.createElement("div");
+          cell.classList.add("cell");
+          if (board[r][c]) {
+            cell.classList.add(board[r][c]);
+          }
+          cell.dataset.col = c;
+          boardEl.appendChild(cell);
+        }
+      }
+    }
+
+    // Drop disc into column
+    function dropDisc(col) {
+      if (gameOver) return;
+
+      for (let r = ROWS - 1; r >= 0; r--) {
+        if (!board[r][col]) {
+          board[r][col] = currentPlayer;
+          break;
+        }
+      }
+
+      renderBoard();
+
+      if (checkWinner()) {
+        messageEl.textContent = `${currentPlayer.toUpperCase()} wins! 🎉`;
+        gameOver = true;
+        return;
+      }
+
+      if (isBoardFull()) {
+        messageEl.textContent = "It's a draw!";
+        gameOver = true;
+        return;
+      }
+
+      currentPlayer = currentPlayer === "red" ? "yellow" : "red";
+    }
+
+    // Check for 4 in a row
+    function checkWinner() {
+      const directions = [
+        [0, 1], [1, 0], [1, 1], [1, -1]
+      ];
+
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          if (!board[r][c]) continue;
+
+          for (let [dr, dc] of directions) {
+            let count = 1;
+            for (let k = 1; k < 4; k++) {
+              const nr = r + dr * k;
+              const nc = c + dc * k;
+              if (
+                nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS ||
+                board[nr][nc] !== board[r][c]
+              ) break;
+              count++;
+            }
+            if (count === 4) return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    function isBoardFull() {
+      return board.every(row => row.every(cell => cell !== null));
+    }
+
+    // Click handler
+    boardEl.addEventListener("click", (e) => {
+      const col = e.target.dataset.col;
+      if (col !== undefined) {
+        dropDisc(parseInt(col));
+      }
+    });
+
+    function resetGame() {
+      initBoard();
+      renderBoard();
+      messageEl.textContent = '';
+      currentPlayer = "red";
+      gameOver = false;
+    }
+
+    // Init
+    initBoard();
+    renderBoard();
+  </script>
+
+</body>
+</html>

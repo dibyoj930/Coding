@@ -2,112 +2,98 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Styled Tree View</title>
+  <title>Simple Folder Tree</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9f9f9;
-      padding: 2rem;
+      font-family: sans-serif;
+      padding: 20px;
     }
-
-    #tree {
-      max-width: 600px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      padding: 1rem 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-    }
-
     ul {
-      list-style-type: none;
+      list-style: none;
       padding-left: 1rem;
-      margin: 0;
     }
-
     li {
-      margin: 0.5rem 0;
-      line-height: 1.6;
+      margin: 5px 0;
     }
-
+    .folder {
+      cursor: pointer;
+      font-weight: bold;
+    }
     .folder::before {
       content: "📁 ";
-      font-size: 1.1rem;
     }
-
     .file::before {
       content: "📄 ";
-      font-size: 1.1rem;
     }
-
-    .folder {
-      font-weight: 600;
-      color: #d2691e;
-      cursor: pointer;
-    }
-
-    .file {
-      color: #2e8b57;
-    }
-
-    span:hover {
-      text-decoration: underline;
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
+
+  <h3>Folder Tree</h3>
   <div id="tree"></div>
 
   <script>
     const data = {
-      name: 'root',
-      type: 'folder',
+      name: "root",
+      type: "folder",
       children: [
         {
-          name: 'folder1',
-          type: 'folder',
+          name: "folder1",
+          type: "folder",
           children: [
-            { name: 'file1.txt', type: 'file' },
-            { name: 'file2.txt', type: 'file' },
+            { name: "file1.txt", type: "file" },
+            { name: "script.js", type: "file" },
           ],
         },
         {
-          name: 'folder2',
-          type: 'folder',
+          name: "folder2",
+          type: "folder",
           children: [
             {
-              name: 'subfolder',
-              type: 'folder',
-              children: [{ name: 'file3.txt', type: 'file' }],
+              name: "subfolder",
+              type: "folder",
+              children: [{ name: "file3.html", type: "file" }],
             },
-            { name: 'file4.txt', type: 'file' },
+            { name: "styles.css", type: "file" },
           ],
         },
-        { name: 'file5.txt', type: 'file' },
+        { name: "README.md", type: "file" },
       ],
     };
 
-    const generateTree = (data, parent) => {
-      const ul = document.createElement("ul");
-      parent.appendChild(ul);
+    function createTree(item) {
+      const li = document.createElement("li");
+      const span = document.createElement("span");
+      span.textContent = item.name;
+      span.className = item.type;
 
-      data.forEach((item) => {
-        const li = document.createElement("li");
-        const span = document.createElement("span");
-        span.textContent = item.name;
-        span.className = item.type;
-        li.appendChild(span);
-        ul.appendChild(li);
+      li.appendChild(span);
 
-        if (item.children && item.children.length > 0) {
-          generateTree(item.children, li);
-        }
-      });
-    };
+      if (item.children) {
+        const ul = document.createElement("ul");
+        ul.classList.add("hidden");
+
+        item.children.forEach(child => {
+          ul.appendChild(createTree(child));
+        });
+
+        span.addEventListener("click", () => {
+          ul.classList.toggle("hidden");
+        });
+
+        li.appendChild(ul);
+      }
+
+      return li;
+    }
 
     const tree = document.getElementById("tree");
-    generateTree([data], tree);
+    const ul = document.createElement("ul");
+    ul.appendChild(createTree(data));
+    tree.appendChild(ul);
   </script>
 </body>
 </html>

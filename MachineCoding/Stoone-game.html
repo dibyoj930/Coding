@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="display: flex;align-items: center;justify-content: center; margin: 1rem;">
+       <div style="display: flex;align-items: center; gap: 1rem;">
+         <button id="stone">Stone</button>
+         <button id="paper">Paper</button>
+         <button id="scissor">Scissor</button>
+       </div>
+       <div id="result" style="margin-top: 1rem; font-size: 1.2rem;"></div>
+       <div id="score" style="margin-top: 0.5rem;"></div>
+    </div>
+    <script>
+        const stone = document.getElementById("stone");
+        const paper = document.getElementById("paper");
+        const scissor = document.getElementById("scissor");
+        const resultDiv = document.getElementById("result");
+        const scoreDiv = document.getElementById("score");
+
+        let userScore=0;
+        let computerScore=0;
+
+        const choices=["stone","paper","scissor"];
+        const getRandomChoice=()=>{
+          return choices[Math.floor(Math.random()*choices.length)];
+        }
+
+        const getResult=(userChoice,Computer)=>{
+          if(userChoice===Computer)return "Draw!";
+          if(userChoice=="stone"&&Computer=="scissor"||userChoice=="paper"&&Computer=="stone"||userChoice=="scissor"&&Computer=="paper"){
+            return "win!"
+          }else{
+            return "lose!"
+          }
+        }
+
+        const playRound=(user)=>{
+          const computer = getRandomChoice();
+          const result = getResult(user,computer);
+          if(result=="win!"){
+            userScore++;
+            resultDiv.textContent=`You chose ${user}|computer chose ${computer}. You win!`
+          }else if(result=="lose!"){
+            computerScore++;
+            resultDiv.textContent=`You chose ${user}|computer chose ${computer}. you lose!`
+          }else{
+            resultDiv.textContent=`You and computer both chose ${user} | It's a draw!`
+          }
+          scoreDiv.textContent=`Your score ${userScore} | computer score-${computerScore}`;
+        }
+
+        stone.addEventListener("click",()=>playRound("stone"));
+        paper.addEventListener("click",()=>playRound("paper"))
+        scissor.addEventListener("click",()=>playRound("scissor"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //       const choices = ["stone","paper","scissor"];
+  //       const getRandomChoice = ()=>{
+  //           const index = Math.floor(Math.random()*choices.length);
+  //           return choices[index];
+  //       }
+  //       const getResult = (user,comp)=>{
+  //           if(user===comp)return "draw";
+  //           if(comp==="stone"&&user=="paper"||comp=="paper"&&user=="scissor"||comp=="scissor"&&user=="stone"){
+  //               return "win";
+  //           }
+  //               return "lose"
+            
+  //       }
+  //       const playRound = (userChoice) => {
+  //   const compChoice = getRandomChoice();
+  //   const outcome = getResult(userChoice, compChoice);
+
+  //   if (outcome === "win") {
+  //     userScore++;
+  //     resultDiv.textContent = `You chose ${userChoice}. Computer chose ${compChoice}. ✅ You Win!`;
+  //   } else if (outcome === "lose") {
+  //     computerScore++;
+  //     resultDiv.textContent = `You chose ${userChoice}. Computer chose ${compChoice}. ❌ You Lose.`;
+  //   } else {
+  //     resultDiv.textContent = `You both chose ${userChoice}. 🤝 It's a Draw.`;
+  //   }
+
+  //   scoreDiv.textContent = `Score — You: ${userScore} | Computer: ${computerScore}`;
+  // };
+
+  // // Add event listeners
+  // stone.addEventListener("click", () => playRound("stone"));
+  // paper.addEventListener("click", () => playRound("paper"));
+  // scissor.addEventListener("click", () => playRound("scissor"));
+
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="main-div">
+        <h1>Stopwatch</h1>
+        <div style="display: flex;">
+          <div id="hr">00</div>:
+          <div id="min">00</div>:
+          <div id="sec">00</div>:
+          <div id="ms">00</div>
+        </div>
+        <div>
+          <button id="start">Start</button>
+          <button id="pause">Pause</button>
+          <button id="stop">Reset</button>
+        </div>
+      </div>
+      <script>
+        const startbtn = document.getElementById("start");
+    const reset = document.getElementById("stop");
+    const hour = document.getElementById("hr");
+    const min = document.getElementById("min");
+    const sec = document.getElementById("sec");
+    const ms = document.getElementById("ms");
+    const pause = document.getElementById("pause");
+    let inter;
+
+    let isRunning=false;
+    let milliseconds=0;
+    let interval=null;
+    const resetWatch=()=>{
+        hour.textContent="00 ";
+        min.textContent="00 ";
+        sec.textContent="00 ";
+        ms.textContent="00";
+    }
+    const startInterval=()=>{
+         inter=setInterval(()=>{
+            milliseconds++;
+            updateDisplay();
+        },10)
+        isRunning=true;
+    }
+    const updateDisplay=()=>{
+        console.log(milliseconds)
+        let milli=milliseconds%100;
+        let totalSeconds=Math.floor(milliseconds/100);
+        let secs = totalSeconds%60;
+        let hours = Math.floor(totalSeconds/3600);
+        let mins = Math.floor((totalSeconds)/60)%60;
+        
+        hour.textContent = hours.toString().padStart(2,"0");
+        min.textContent=mins.toString().padStart(2,"0");
+        sec.textContent=secs.toString().padStart(2,"0");
+        ms.textContent=milli.toString().padStart(2,"0");
+    }
+    startbtn.addEventListener("click",()=>{
+        startbtn.disabled=true;
+        pause.disabled=false
+        if(!isRunning){
+            startInterval();
+            pause.textContent="pause";
+        }
+    })
+    pause.addEventListener("click",()=>{
+        if(isRunning){
+            clearInterval(inter);
+            isRunning=false;
+            pause.textContent="Resume";
+        }else{
+            startInterval();
+            pause.textContent="pause"
+        }
+    })
+    reset.addEventListener("click",()=>{
+        pause.textContent="pause";
+        startbtn.disabled=false;
+        resetWatch();
+        isRunning=false;
+        clearInterval(inter)
+        milliseconds=0;
+    })
+    window.addEventListener("load",()=>{
+        resetWatch();
+        pause.textContent="Pause"
+    })
+      </script>
+</body>
+</html>

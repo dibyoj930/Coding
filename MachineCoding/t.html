@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .tab{
+          border: 1px solid black;
+          border-radius: 8px;
+          background-color: antiquewhite;
+          width: 150px;
+          height: 200px;
+          cursor: pointer;
+          padding: 10px;
+        }
+        .tab:hover{
+            background-color: blueviolet;
+        }
+        .active{
+            border: 2px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div id="container" style="display: flex;justify-content: center;align-items: center;gap: 10px;">
+    </div>
+    <div id="content"></div>
+
+    <script>
+
+        const tab =  document.getElementById("container");
+        const content = document.getElementById("content");
+        const tabarr  = new Array(6).fill().map((_,index)=>index);
+        const contentarr = new Array(6).fill().map((_,index)=>{return `Content of ${index+1}`});
+        let active = 0;
+        content.textContent = contentarr[active];
+
+        tabarr.forEach((tabs,index)=>{
+            const newdiv = document.createElement("div");
+            index==0?newdiv.classList.add("tab","active"):newdiv.classList.add("tab");
+            newdiv.textContent = `Tab number - ${index+1}`;
+
+            newdiv.addEventListener("click",()=>{
+                const alltabs = document.querySelectorAll(".tab");
+                alltabs.forEach((x)=>x.classList.remove("active"));
+                newdiv.classList.add("active");
+                active=index;
+                content.textContent=contentarr[active]
+            })
+            tab.appendChild(newdiv)
+        })
+
+        // const tab=document.getElementById("container");
+        // const content=document.getElementById("content");
+        // const tabarr=new Array(5).fill().map((_,index)=>index);
+        // const contentarr=new Array(5).fill().map((_,index)=>{return `Content of ${index+1}`});
+
+        // let active=0;
+        // content.textContent=contentarr[active];
+        // tabarr.forEach((x,i)=>{
+        //     const newtab=document.createElement("div");
+        //     i==0?newtab.classList.add('tab','active'):newtab.classList.add('tab');
+        //     newtab.textContent=`Tab content for tab-${i+1}`
+            
+        //     newtab.addEventListener("click",()=>{
+        //         const alltabs=document.querySelectorAll(".tab");
+        //         alltabs.forEach((x)=>x.classList.remove("active"));
+        //         newtab.classList.add("active");
+        //         active=i;
+        //         content.textContent=contentarr[i]
+        //     })
+
+
+        //     tab.appendChild(newtab)
+        // })
+
+    </script>
+</body>
+</html>

@@ -65,42 +65,78 @@
     title: "Peaceful Lake",
   },
 ];
+
    let activeindex=0;
-   const image =  document.createElement("img");
+   const prev=document.getElementById("prev");
+   const  next=document.getElementById("next");
+   const image = document.createElement("img");
+   image.classList.add("imagestyle")
    const main = document.getElementById("imageholder");
-   main.appendChild(image);
-   const updateimage = ()=>{
-    image.src=images[activeindex].src;
-    image.alt=images[activeindex].alt;
-    image.title=images[activeindex].title;
+   main.appendChild(image)
+   const updateimage=()=>{
+      image.src=images[activeindex].src;
+      image.alt = images[activeindex].alt;
+      image.title=images[activeindex].title;
    }
-  
-   updateimage();
-   const prev = document.getElementById("prev");
-   const next = document.getElementById("next");
-   image.classList.add("imagestyle");
-   prev.textContent="Prev";
-   next.textContent="Next"
-   prev.style.cursor="pointer";
-   next.style.cursor="pointer"
-   prev.addEventListener("click",()=>{
-    if(activeindex===0){
-        activeindex=images.length-1;
-        updateimage();
-    }else{
-        activeindex--;
-        updateimage();
-    }
-   })
+   
    next.addEventListener("click",()=>{
     if(activeindex===images.length-1){
-        activeindex=0;
-        updateimage();
+      activeindex=0;
+      updateimage();
     }else{
-        activeindex++;
-        updateimage();
+      activeindex++;
+      updateimage()
     }
    })
+   updateimage();
+   next.textContent="Next";
+   prev.textContent="Prev";
+   prev.addEventListener("click",()=>{
+    if(activeindex===0){
+      activeindex=images.length-1;
+      updateimage();
+    }else{
+      activeindex--;
+      updateimage()
+    }
+   })
+
+  //  let activeindex=0;
+  //  const image =  document.createElement("img");
+  //  const main = document.getElementById("imageholder");
+  //  main.appendChild(image);
+  //  const updateimage = ()=>{
+  //   image.src=images[activeindex].src;
+  //   image.alt=images[activeindex].alt;
+  //   image.title=images[activeindex].title;
+  //  }
+  
+  //  updateimage();
+  //  const prev = document.getElementById("prev");
+  //  const next = document.getElementById("next");
+  //  image.classList.add("imagestyle");
+  //  prev.textContent="Prev";
+  //  next.textContent="Next"
+  //  prev.style.cursor="pointer";
+  //  next.style.cursor="pointer"
+  //  prev.addEventListener("click",()=>{
+  //   if(activeindex===0){
+  //       activeindex=images.length-1;
+  //       updateimage();
+  //   }else{
+  //       activeindex--;
+  //       updateimage();
+  //   }
+  //  })
+  //  next.addEventListener("click",()=>{
+  //   if(activeindex===images.length-1){
+  //       activeindex=0;
+  //       updateimage();
+  //   }else{
+  //       activeindex++;
+  //       updateimage();
+  //   }
+  //  })
 
     </script>
 

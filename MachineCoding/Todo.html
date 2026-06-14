@@ -11,72 +11,72 @@
     <button id="submit">Submit</button>
     <div id="todoholder"></div>
     <script>
-        const taskholder =  document.getElementById("todoholder");
-        const submit  = document.getElementById("submit");
+
+        const taskholder = document.getElementById("todoholder");
+        const submit = document.getElementById("submit");
+       
         submit.addEventListener("click",()=>{
-            const inputelement = document.getElementById("input");
-            if(inputelement.value.length==0){
-                alert("empty input");
-            }
-            const typed = inputelement.value;
-            addtask(typed)
-            inputelement.value="";
+            const input = document.getElementById("input");
+            const value = input.value;
+            if(value==="")alert("empty value!");
+            addtask(value);
+            input.value=""
         })
-const addtask = (input) => {
-    const list = document.createElement("ul");
 
-    const todo = document.createElement('li');
+        const addtask=(text)=>{
+            const todoholder = document.createElement("ul");
+            const task = document.createElement("li");
+            const tasktext = document.createElement("span");
+            tasktext.textContent=text;
 
-    // Create a span to hold the task text
-    const textSpan = document.createElement('span');
-    textSpan.textContent = input;
-    todo.appendChild(textSpan);
+            const editButton = document.createElement("button");
+            editButton.textContent = "Edit";
 
-    // Delete button
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.addEventListener("click", () => {
-        taskholder.removeChild(list);
-    });
+            editButton.addEventListener("click",function handleEdit(){
+                  const editinputholder = document.createElement("input");
+                  editinputholder.type="text";
+                  editinputholder.value=tasktext.textContent;
+                  task.replaceChild(editinputholder,tasktext);
+                  editButton.textContent = "Save";
 
-    // Edit button
-    const editButton = document.createElement("button");
-    editButton.textContent = "Edit";
-    editButton.addEventListener("click",  function handleEditClick() {
-  const editInput = document.createElement("input");
-  editInput.type = "text";
-  editInput.value = textSpan.textContent;
+                  editButton.removeEventListener("click",handleEdit)
 
-  todo.replaceChild(editInput, textSpan);
-  editButton.textContent = "Save";
+                  //again another handler 
+                //   editButton.removeEventListener(handleEdit);
+                  editButton.addEventListener("click",function handlesave(){
+                    tasktext.textContent = editinputholder.value;
+                    editButton.textContent = "Edit";
+                    task.replaceChild(tasktext,editinputholder);
+                    editButton.removeEventListener("click",handlesave);
+                  
+                    editButton.addEventListener("click",handleEdit)
+                  })
+                 
+            })
+           
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
 
-  // Remove current edit listener
-  editButton.removeEventListener("click", handleEditClick);
+            deleteButton.addEventListener("click",()=>{
+                todoholder.removeChild(task)
+            })
 
-  // Add inline Save behavior
-  editButton.addEventListener("click", function handleSaveClick() {
-    textSpan.textContent = editInput.value;
-    todo.replaceChild(textSpan, editInput);
-    editButton.textContent = "Edit";
+            
+            
+            task.appendChild(tasktext);
+            task.appendChild(editButton);
+            task.appendChild(deleteButton)
+            todoholder.appendChild(task);
+            taskholder.appendChild(todoholder)
+        }
 
-    // Remove save listener
-    editButton.removeEventListener("click", handleSaveClick);
 
-    // Reattach edit behavior
-    editButton.addEventListener("click", handleEditClick);
-    });
-})
 
-    // Store original edit handler for reuse
-    // const editButtonHandler = editButton.onclick;
 
-    // Append buttons
-    todo.appendChild(editButton);
-    todo.appendChild(deleteButton);
-    list.appendChild(todo);
-    // Add to DOM
-    taskholder.appendChild(list);
-};
+
+
+
+
     </script>
 </body>
 </html>

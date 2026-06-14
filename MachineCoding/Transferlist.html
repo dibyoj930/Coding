@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkbox Transfer List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .container {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .list {
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-width: 200px;
+    }
+
+    .item {
+      margin-bottom: 5px;
+    }
+
+    button {
+      padding: 5px 10px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Available List -->
+    <div>
+      <h3>Available</h3>
+      <div id="availableList" class="list"></div>
+    </div>
+
+    <!-- Buttons -->
+    <div>
+      <button id="toSelected">➡️</button><br>
+      <button id="toAvailable">⬅️</button>
+    </div>
+
+    <!-- Selected List -->
+    <div>
+      <h3>Selected</h3>
+      <div id="selectedList" class="list"></div>
+    </div>
+  </div>
+
+  <script>
+
+    const availableList = document.getElementById("availableList");
+    const selectedList = document.getElementById("selectedList");
+    const toSelect = document.getElementById("toSelected");
+    const toAvailable = document.getElementById("toAvailable");
+    const initialItems = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
+
+    function CreateList(item){
+      const fdiv = document.createElement("div");
+      const label = document.createElement("label");
+      const check = document.createElement("input");
+      check.type = "checkbox";
+      fdiv.className="item";
+      label.textContent = item;
+      fdiv.appendChild(label);
+      fdiv.appendChild(check);
+      return fdiv;
+    }
+    initialItems.forEach((x)=> availableList.appendChild(CreateList(x)))
+
+    function MoveList(from,to){
+      const allitems = from.querySelectorAll(".item");
+      console.log(allitems);
+      allitems.forEach((x)=>{
+        const itemstatus = x.querySelector("input[type=checkbox]");
+        if(itemstatus.checked){
+          itemstatus.checked=false;
+          to.append(x);
+        }
+      })
+    }
+   
+
+   toSelect.addEventListener("click",()=>MoveList(availableList,selectedList));
+   toAvailable.addEventListener("click",()=>MoveList(selectedList,availableList));
+
+  </script>
+
+</body>
+</html>

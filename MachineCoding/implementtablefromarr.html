@@ -20,51 +20,35 @@
         </table>
     </div>
     <script>
-//         function populateTable(data) {
-//   tableData.querySelector('tbody').innerHTML = '';
-
-  // Populate Data
-//   data.forEach(item => {
-//     let row = tableData.querySelector('tbody').insertRow();
-//     let nameCell = row.insertCell(0);
-//     let ageCell = row.insertCell(1);
-//     let countryCell = row.insertCell(2);
-
-//     nameCell.innerHTML = item.name;
-//     ageCell.innerHTML = item.age;
-//     countryCell.innerHTML = item.country;
-//   });
-// }
-   const search = document.getElementById('searchInput');
-   const table = document.querySelector("tbody");
-   const data = [
+       const data = [
   { name: 'John', age: 28, country: 'USA' },
   { name: 'Alice', age: 24, country: 'Canada' },
-  { name: 'Bob', age: 32, country: 'UK' },
-  // ... more data
-];
+  { name: 'Bob', age: 32, country: 'UK' },]
 
-   //populate table different way
-     function CreateTable(data){
-        
-        table.innerHTML='';
-        data.forEach((value)=>{
-            let row = document.createElement('tr');
-            row.innerHTML=`<td>${value.name}</td>${value.age}<td></td><td>${value.country}</td>`;
-            table.appendChild(row)
-        })  
-     }
-     function Search(query){
-        const filtered= data.filter((val)=>{
-           return val.name.toLowerCase().includes(query)||val.country.toLowerCase().includes(query);
+      const searchinput = document.getElementById("searchInput");
+      const table = document.getElementById("dataTable");
+      const tbody = document.querySelector("tbody");
+
+      const createTable = (arr)=>{
+        tbody.innerHTML=''
+        arr.forEach((x)=>{
+          const tr = document.createElement("tr");
+          for(let key of Object.keys(x)){
+            const data = document.createElement("td");
+            data.textContent = x[key];
+            tr.appendChild(data);
+          }
+          tbody.appendChild(tr);
         })
-        CreateTable(filtered);
-     }
-     search.addEventListener("input",(e)=>{
-        const query=e.target.value.toLowerCase();
-        Search(query)
-     });
-     CreateTable(data)
+      }
+
+      searchinput.addEventListener("input",(e)=>{
+        const value  = e.target.value.toLowerCase();
+        const filteredList = data.filter((x)=>x.name.toLowerCase().includes(value)||x.country.toLowerCase().includes(value));
+        createTable(filteredList);
+      })
+      window.addEventListener("load",()=>createTable(data))
+
     </script>
 </body>
 </html>

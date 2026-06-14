@@ -15,83 +15,146 @@
         <div id="tablecon"></div>
     </div>
     <script>
-        const row =  document.getElementById("row")
-        const col = document.getElementById("col")
-        const tablecon = document.getElementById("tablecon")
-        let rowval=0;
-        let colval=0;
-        row.addEventListener("input",(e)=>{
-           rowval=e.target.value;
-        })
-        col.addEventListener("input",(e)=>{
-            colval=e.target.value;
-        })
-        function Generate(rows,cols){
-            tablecon.innerHTML=''
-            const table = document.createElement("table");
-            table.style.border = "2px solid black";
-table.style.borderCollapse = "collapse"; // Ensures clean cell borders
-table.style.marginTop = "20px";
-table.style.width = "100%";
-            const thead = document.createElement("thead");
-            for(let i=0;i<cols;i++){
-                const th=document.createElement("th");
-                th.textContent=`Header-${i+1}`;
-                th.style.border = "1px solid black";
-                th.style.padding = "8px";
-                th.style.backgroundColor = "#f0f0f0";
-                thead.appendChild(th);
-            }
-            const tablebody = document.createElement("tbody");
-            let counter=1;
-            tablebody.style.padding="10px"
-            for(let i=0;i<rows;i++){
-                const tr = document.createElement("tr");
-                const temp=[];
-                for(let j=0;j<cols;j++){
-                    temp.push(counter);
-                    counter++;
-                }
-            //         // const td = document.createElement("td");
-            //         // td.textContent=`Row-${i+1} Cols-${j+1}`;
-            //         if ((i + 1) % 2 !== 0) {
-            //     // Odd rows: increasing numbers
-            //     td.textContent = j + 1;
-            // } else {
-            //     // Even rows: decreasing numbers
-            //     td.textContent = cols - j;
-            // }
-        //             td.style.border = "1px solid black";
-        // td.style.padding = "8px";
-        //             tr.appendChild(td);
-        if((i+1)%2==0){
-            temp.reverse();
-        }
-        temp.forEach((item)=>{
-              const td = document.createElement("td");
-                td.textContent=item;
-                td.style.border = "1px solid black";
-                td.style.padding = "8px";
-                td.style.alignItems="center"
-                tr.appendChild(td)
+      
+      const rowInput = document.getElementById("row");
+      const ColInput = document.getElementById("col");
+      const tables = document.getElementById("tablecon");
 
-        })
-                
-                tablebody.appendChild(tr);
-            }
-            table.appendChild(thead);
-            table.appendChild(tablebody);
-            tablecon.appendChild(table);
+      let rows='';
+      let cols='';
+
+      rowInput.addEventListener("input",(e)=>{
+        rows=e.target.value;
+      })
+      ColInput.addEventListener("input",(e)=>{
+        cols=e.target.value;
+      })
+      
+      const createTable=(rows,cols)=>{
+        tables.innerHTML='';
+        const table=document.createElement("table");
+        table.style.border="1px solid black"
+        table.cellPadding="10px";
+        table.cellSpacing="10px"
+        const thead = document.createElement("thead");
+        // thead.style.border="1px solid black"
+        for(let i=0;i<cols;i++){
+            const th=document.createElement("th");
+            th.textContent=`Header-${i+1}`;
+            thead.appendChild(th);
         }
-        const sub = document.getElementById("submit");
-        sub.addEventListener("click",()=>{
-            if(rowval==0&&colval==0){
-                alert("please enter numbers")
+        table.appendChild(thead);
+        for(let i=0;i<rows;i++){
+            const tr = document.createElement("tr");
+            // tr.style.border="1px solid black"
+            for(let j=0;j<cols;j++){
+                const td=document.createElement("td");
+                td.textContent=`Row-${i+1},Col-${j+1}`;
+                td.style.border="1px solid black"
+                tr.appendChild(td);
             }
-            else{
-                Generate(rowval,colval)
-            }
-        })
+            table.appendChild(tr);
+        }
+        tables.appendChild(table);
+      }
+    
+      document.getElementById("submit").addEventListener("click",()=>{
+        createTable(rows,cols)
+      })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//         const row =  document.getElementById("row")
+//         const col = document.getElementById("col")
+//         const tablecon = document.getElementById("tablecon")
+//         let rowval=0;
+//         let colval=0;
+//         row.addEventListener("input",(e)=>{
+//            rowval=e.target.value;
+//         })
+//         col.addEventListener("input",(e)=>{
+//             colval=e.target.value;
+//         })
+//         function Generate(rows,cols){
+//             tablecon.innerHTML=''
+//             const table = document.createElement("table");
+//             table.style.border = "2px solid black";
+// table.style.borderCollapse = "collapse"; // Ensures clean cell borders
+// table.style.marginTop = "20px";
+// table.style.width = "100%";
+//             const thead = document.createElement("thead");
+//             for(let i=0;i<cols;i++){
+//                 const th=document.createElement("th");
+//                 th.textContent=`Header-${i+1}`;
+//                 th.style.border = "1px solid black";
+//                 th.style.padding = "8px";
+//                 th.style.backgroundColor = "#f0f0f0";
+//                 thead.appendChild(th);
+//             }
+//             const tablebody = document.createElement("tbody");
+//             let counter=1;
+//             tablebody.style.padding="10px"
+//             for(let i=0;i<rows;i++){
+//                 const tr = document.createElement("tr");
+//                 const temp=[];
+//                 for(let j=0;j<cols;j++){
+//                     temp.push(counter);
+//                     counter++;
+//                 }
+//             //         // const td = document.createElement("td");
+//             //         // td.textContent=`Row-${i+1} Cols-${j+1}`;
+//             //         if ((i + 1) % 2 !== 0) {
+//             //     // Odd rows: increasing numbers
+//             //     td.textContent = j + 1;
+//             // } else {
+//             //     // Even rows: decreasing numbers
+//             //     td.textContent = cols - j;
+//             // }
+//         //             td.style.border = "1px solid black";
+//         // td.style.padding = "8px";
+//         //             tr.appendChild(td);
+//         if((i+1)%2==0){
+//             temp.reverse();
+//         }
+//         temp.forEach((item)=>{
+//               const td = document.createElement("td");
+//                 td.textContent=item;
+//                 td.style.border = "1px solid black";
+//                 td.style.padding = "8px";
+//                 td.style.alignItems="center"
+//                 tr.appendChild(td)
+
+//         })
+                
+//                 tablebody.appendChild(tr);
+//             }
+//             table.appendChild(thead);
+//             table.appendChild(tablebody);
+//             tablecon.appendChild(table);
+//         }
+//         const sub = document.getElementById("submit");
+//         sub.addEventListener("click",()=>{
+//             if(rowval==0&&colval==0){
+//                 alert("please enter numbers")
+//             }
+//             else{
+//                 Generate(rowval,colval)
+//             }
+//         })
 
     </script>
 </body>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .accordion{
+        /* .accordion{
             max-width: 600px;
             width: 100%;
             border: 1px solid gray;
@@ -24,18 +24,47 @@
             display: none;
             background-color: #555;
             padding: 15px;
-        }
+        } */
         /* .accordion-body{
             display: none;
         } */
-        .accordion-body.active{
+        /* .accordion-body.active{
             display: block;
-        }
+        } */
+
+       body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+       }
+       .accordion{
+        width: 100%;
+        border: 1px solid yellow;
+        border-radius: 8px;
+        padding: 10px;
+       }
+
+       .accordion-header{
+        background-color: aliceblue;
+            padding: 15px;
+            font-weight: bold;
+            cursor: pointer;
+       }
+       .accordion-body{
+        border: 1px solid yellow;
+        /* border-radius: 8px; */
+        padding: 10px;
+        display: none;
+       }
+       .accordion-body.active{
+        display: block;
+       }
+
 
     </style>
 </head>
 <body>
-    <div id="container">
+    <div id="container" style="width: 100%;">
 
     </div>
     <script>
@@ -57,24 +86,48 @@
     content: "This is the content for item 4.",
   },
 ];
-        const container = document.getElementById("container");
-        data.forEach((items)=>{
-            const accordionItem = document.createElement("div");
-            accordionItem.classList.add("accordion-item");
-            const accordionbody = document.createElement("div");
-            accordionbody.classList.add("accordion-body");
-            accordionbody.textContent = items.content
-            const accordionheader = document.createElement("div");
-            accordionheader.classList.add("accordion-header");
-            accordionheader.textContent=items.title;
-            accordionItem.addEventListener("click",()=>{
-                let content = accordionItem.querySelector(".accordion-body");
-                content.classList.toggle("active")
-            })
-            accordionItem.appendChild(accordionheader);
-            accordionItem.appendChild(accordionbody);
-            container.appendChild(accordionItem);
-        })
+  const container = document.getElementById("container");
+
+   data.forEach((accordion,index)=>{
+    const accordionItem = document.createElement("div");
+    accordionItem.classList.add("accordion");
+    const header = document.createElement("div");
+    header.textContent = accordion.title
+    header.classList.add("accordion-header");
+    const content = document.createElement("div");
+    content.classList.add("accordion-body");
+    content.textContent = accordion.content;
+    header.addEventListener("click",()=>{
+        const content = accordionItem.querySelector(".accordion-body");
+        content.classList.toggle("active")
+    })
+    accordionItem.appendChild(header);
+    accordionItem.appendChild(content);
+    container.appendChild(accordionItem);
+   })
+
+//    const container = document.getElementById("container");
+//         data.forEach((x)=>{
+//             const accordionItem = document.createElement("div");
+//             const accordionHeader = document.createElement("div");
+//             const accordionBody = document.createElement("div");
+
+//             accordionItem.classList.add("accordion-item");
+//             accordionBody.classList.add("accordion-body");
+//             accordionHeader.classList.add("accordion-header");
+
+//             accordionHeader.textContent = x.title;
+//             accordionBody.textContent = x.content;
+
+//             accordionItem.addEventListener("click",()=>{
+//                let content = accordionItem.querySelector(".accordion-body");
+//                content.classList.toggle("active")
+//             })
+//             accordionItem.appendChild(accordionHeader);
+//             accordionItem.appendChild(accordionBody);
+//             container.appendChild(accordionItem)
+//         })
+        
     </script>
 </body>
 </html>

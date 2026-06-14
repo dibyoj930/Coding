@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+        }
         .item{
             cursor: pointer;
     padding: 10px;
@@ -23,32 +29,36 @@
        </div>
     </div>
     <script>
-        let startdiv;
-        const doc = document.getElementById("items");
-        const num  = 8;
-        const items = new Array(num).fill().map((_,index)=>index);
-        items.forEach((it)=>{
-            const newdiv = document.createElement("div");
-            newdiv.classList.add("item");
-            newdiv.textContent = `item->${it}`;
-            newdiv.draggable=true;
-            // newdiv.classList.add(`${it}`);
 
+        let startDiv;
+        let NUM=5;
+        let item=new Array(NUM).fill().map((_,index)=>index);
+
+        const maindiv = document.getElementById("items");
+        item.forEach((x,i)=>{
+            const newdiv=document.createElement("div");
+            newdiv.textContent=`Div-${i+1}`;
+            newdiv.draggable=true;
+            newdiv.classList.add("item")
             newdiv.addEventListener("dragstart",(e)=>{
-                startdiv = e.target;
-            });
+                startDiv=e.target;
+            })
             newdiv.addEventListener("dragover",(e)=>{
                 e.preventDefault();
             })
             newdiv.addEventListener("drop",(e)=>{
-                e.preventDefault();
-                // let target = document.getElementById(startdiv);
-                if(startdiv!==e.target){
-                    doc.insertBefore(startdiv,e.target)
+               if(e.target!==startDiv){
+                const islast=e.target===maindiv.lastChild;
+                if(islast){
+                    maindiv.appendChild(startDiv);
+                }else{
+                    maindiv.insertBefore(startDiv,e.target);
                 }
+               }
             })
-            doc.appendChild(newdiv)
+            maindiv.appendChild(newdiv);
         })
+
     </script>
 </body>
 </html>

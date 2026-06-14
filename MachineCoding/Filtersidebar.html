@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Filter Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .filter-panel {
+      width: 300px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .accordion {
+      margin-bottom: 10px;
+    }
+
+    .accordion-header {
+      background: #f0f0f0;
+      padding: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid #ccc;
+    }
+
+    .accordion-body {
+      display: none;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+
+    .accordion-body.active {
+      display: block;
+    }
+
+    .filter-section label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    #clear-filters {
+      background-color: #d9534f;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    #clear-filters:hover {
+      background-color: #c9302c;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="filter-panel">
+    <div class="accordion" data-section="category">
+      <div class="accordion-header">Category <span>+</span></div>
+      <div class="accordion-body">
+        <label><input type="checkbox" class="filter" name="category" value="Electronics" /> Electronics</label>
+        <label><input type="checkbox" class="filter" name="category" value="Clothing" /> Clothing</label>
+        <label><input type="checkbox" class="filter" name="category" value="Books" /> Books</label>
+      </div>
+    </div>
+
+    <div class="accordion" data-section="price">
+      <div class="accordion-header">Price Range <span>+</span></div>
+      <div class="accordion-body">
+        <label><input type="checkbox" class="filter" name="price" value="0-50" /> $0 - $50</label>
+        <label><input type="checkbox" class="filter" name="price" value="51-100" /> $51 - $100</label>
+        <label><input type="checkbox" class="filter" name="price" value="101-200" /> $101 - $200</label>
+      </div>
+    </div>
+
+    <div class="accordion" data-section="brand">
+      <div class="accordion-header">Brands <span>+</span></div>
+      <div class="accordion-body">
+        <label><input type="checkbox" class="filter" name="brand" value="Apple" /> Apple</label>
+        <label><input type="checkbox" class="filter" name="brand" value="Samsung" /> Samsung</label>
+        <label><input type="checkbox" class="filter" name="brand" value="Nike" /> Nike</label>
+      </div>
+    </div>
+
+    <div class="accordion" data-section="rating">
+      <div class="accordion-header">Customer Ratings <span>+</span></div>
+      <div class="accordion-body">
+        <label><input type="checkbox" class="filter" name="rating" value="4" /> 4 stars & up</label>
+        <label><input type="checkbox" class="filter" name="rating" value="3" /> 3 stars & up</label>
+        <label><input type="checkbox" class="filter" name="rating" value="2" /> 2 stars & up</label>
+      </div>
+    </div>
+
+    <button id="clear-filters">Clear All Filters</button>
+  </div>
+
+  <script>
+
+    document.querySelectorAll(".accordion-header").forEach((header)=>{
+      header.addEventListener("click",()=>{
+        const body = header.nextElementSibling;
+        body.classList.toggle("active");
+        const icon = header.querySelector("span");
+        icon.textContent = body.classList.contains("active")?"-":"+"
+      })
+      
+    })
+
+    document.getElementById("clear-filters").addEventListener("click",()=>{
+      document.querySelectorAll(".filter").forEach((check)=>{
+        check.checked = false
+      })
+    })
+
+
+
+
+
+    // // Accordion toggle
+    // document.querySelectorAll('.accordion-header').forEach(header => {
+    //   header.addEventListener('click', () => {
+    //     const body = header.nextElementSibling;
+    //     body.classList.toggle('active');
+
+    //     const icon = header.querySelector('span');
+    //     icon.textContent = body.classList.contains('active') ? '-' : '+';
+    //   });
+    // });
+
+    // // Clear all filters
+    // document.getElementById('clear-filters').addEventListener('click', () => {
+    //   document.querySelectorAll('.filter').forEach(checkbox => {
+    //     checkbox.checked = false;
+    //   });
+    // });
+  </script>
+
+</body>
+</html>

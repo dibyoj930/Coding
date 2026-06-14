@@ -11,42 +11,111 @@
     </style>
 </head>
 <body>
-    <form>
+    <form id="form">
         <label for="rows">Enter Row</label>
         <input type="number" id="row" min="1"/>
         <label for="rows">Enter Col</label>
         <input type="number" id="col" min="1"/>
-        <button type="button" id="generate">Generate</button>
+        <button type="submit" id="generate">Generate</button>
     </form>
     <div class="style" id="table"></div>
     <script>
-        const generateelement=document.getElementById("generate");
-        const tablecontainer = document.getElementById("table");
-        generateelement.addEventListener('click',Generate);
-        function Generate(){
-             const row = parseInt(document.getElementById("row").value,10);
-             const col = parseInt(document.getElementById("col").value,10);
-             console.log(row,col)
-             if(row>0&&col>0){
-                let tablehtml=`<table><thead><tr>`;
-                 for(let i=1;i<=col;i++){
-                    tablehtml+=`<th>Header${i}</th>`;
-                 }
-                 tablehtml+=`</tr></thead>`
-                //construct rowandcol
-                tablehtml+=`<tbody>`;
-                for(let i=1;i<=row;i++){
-                    tablehtml+=`<tr>`;
-                    for(let j=1;j<=col;j++){
-                        tablehtml+=`<td>row-${i}col-${j}</td>`;
-                    } 
-                    tablehtml+=`</tr>`;
-                }
-                tablecontainer.innerHTML=tablehtml;
-             }else{
-                alert("enter correct values!")
-             }
-        }
+
+       const row = document.getElementById("row");
+       const col = document.getElementById("col");
+       const table = document.getElementById("table");
+       const form = document.getElementById("form");
+      
+
+       let rows,cols;
+       row.addEventListener("input",(e)=>{
+        rows=e.target.value;
+       })
+       col.addEventListener("input",(e)=>{
+        cols=e.target.value;
+       })
+
+       const tab = document.createElement("table");
+        tab.style.border="1px solid black"
+       
+       function CreateTable(row,col){
+           tab.innerHTML=''
+          const thead = document.createElement("thead");
+          const tr = document.createElement("tr");
+          for(let i=0;i<col;i++){
+            const th =  document.createElement("th");
+            th.textContent = `Header-${i+1}`;
+            tr.appendChild(th);
+          }
+          thead.appendChild(tr);
+          const tbody =  document.createElement("tbody");
+          for(let i=0;i<row;i++){
+            const tr=document.createElement("tr");
+            tr.style.border="1px solid black";
+            for(let j=0;j<col;j++){
+                const td = document.createElement("td");
+                td.textContent=`row-${i+1},col-${j+1}`;
+                tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
+          }
+          tab.appendChild(thead);
+          tab.appendChild(tbody);
+          table.appendChild(tab);
+       }
+
+       
+       form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            console.log(rows,cols)
+            if(rows<=0||cols<=0){
+                alert("enter positive values");
+            }else{
+                CreateTable(rows,cols)
+            }
+       })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // const generateelement=document.getElementById("generate");
+        // const tablecontainer = document.getElementById("table");
+        // generateelement.addEventListener('click',Generate);
+        // function Generate(){
+        //      const row = parseInt(document.getElementById("row").value,10);
+        //      const col = parseInt(document.getElementById("col").value,10);
+        //      console.log(row,col)
+        //      if(row>0&&col>0){
+        //         let tablehtml=`<table><thead><tr>`;
+        //          for(let i=1;i<=col;i++){
+        //             tablehtml+=`<th>Header${i}</th>`;
+        //          }
+        //          tablehtml+=`</tr></thead>`
+        //         //construct rowandcol
+        //         tablehtml+=`<tbody>`;
+        //         for(let i=1;i<=row;i++){
+        //             tablehtml+=`<tr>`;
+        //             for(let j=1;j<=col;j++){
+        //                 tablehtml+=`<td>row-${i}col-${j}</td>`;
+        //             } 
+        //             tablehtml+=`</tr>`;
+        //         }
+        //         tablecontainer.innerHTML=tablehtml;
+        //      }else{
+        //         alert("enter correct values!")
+        //      }
+        // }
     </script>
 </body>
 </html>

@@ -76,76 +76,75 @@ h1 {
         <input type="button" value="Restart" id="restartButton" onclick="restartButton()"/>
     </div> 
     <script>
-        const board = document.getElementById('board')
-const squares = document.getElementsByClassName('square')
-const players = ['X', 'O']
-let currentPlayer = players[0]
-const endMessage = document.createElement('h2')
-endMessage.textContent = `X's turn!`
-endMessage.style.marginTop = '30px'
-endMessage.style.textAlign='center'
-board.after(endMessage)
 
-const winning_combinations = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-]
+        const board=document.getElementById("board");
+        const squares = document.querySelectorAll(".square");
+        const restart = document.getElementById("restartButton");
+        const endpart = document.createElement("p");
+        const players=['X','O']
+        let curr = players[0];
+        endpart.textContent=`${curr}'s turn`;
+        board.appendChild(endpart);
 
-for(let i = 0; i < squares.length; i++){
-    squares[i].addEventListener('click', () => {
-        if(squares[i].textContent !== ''){
-            return
-        }
-        squares[i].textContent = currentPlayer
-        if(checkWin(currentPlayer)) {
-            endMessage.textContent=`Game over! ${currentPlayer} wins!`
-            return
-        }
-        if(checkTie()) {
-            endMessage.textContent= `Game is tied!`
-            return
-        }
-        currentPlayer = (currentPlayer === players[0]) ? players[1] : players[0] 
-        if(currentPlayer == players[0]) {
-            endMessage.textContent= `X's turn!`
-        } else {
-            endMessage.textContent= `O's turn!`
-        }     
-    })   
-}
+        const winning_combinations=[
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+            [0,4,8],
+            [2,4,6]
+        ]
 
-function checkWin(currentPlayer) {
-    for(let i = 0; i < winning_combinations.length; i++){
-        const [a, b, c] = winning_combinations[i]
-        if(squares[a].textContent === currentPlayer && squares[b].textContent === currentPlayer && squares[c].textContent === currentPlayer){
-            return true
+        for(let i=0;i<squares.length;i++){
+            squares[i].addEventListener("click",()=>{
+                if(squares[i].textContent!==''){
+                    return;
+                }
+                squares[i].textContent=curr;
+                if(checkwin(curr)){
+                  endpart.textContent=`Player ${curr} has won!`
+                  return;
+                //   alert(`${curr} has won`);
+                }
+                if(checkdraw()){
+                  endpart.textContent=`Draw Match!`;
+                  alert("draw match!");
+                  return;
+                }
+                curr=curr===players[0]?players[1]:players[0];
+                endpart.textContent=`${curr}'s turn`
+            })
         }
-    }
-    return false
-}
 
-function checkTie(){
-    for(let i = 0; i < squares.length; i++) {
-        if(squares[i].textContent === '') {
+        function checkdraw(){
+           for(let i=0;i<squares.length;i++){
+            if(squares[i].textContent===''){
+                return false;
+            }
+           }
+           return true;
+        }
+        function checkwin(play){
+            for(let i=0;i<winning_combinations.length;i++){
+                const [a,b,c]=winning_combinations[i];
+                if(squares[a].textContent===curr&&squares[b].textContent===curr&&squares[c].textContent===curr){
+                    return true;
+                }
+            }
             return false;
         }
-    }
-    return true
-}
 
-function restartButton() {
-    for(let i = 0; i < squares.length; i++) {
-        squares[i].textContent = ""
-    }
-    endMessage.textContent=`X's turn!`
-    currentPlayer = players[0]
-}
+        restart.addEventListener("click",()=>{
+            for(let i=0;i<squares.length;i++){
+                squares[i].textContent='';
+            }
+            curr=players[0];
+            endpart.textContent=`${curr}'s Turn`
+        })
+
+
     </script>
 </body>
 </html>

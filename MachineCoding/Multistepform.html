@@ -52,109 +52,168 @@
         const lerr = document.getElementById("lerror");
         const emailerr = document.getElementById("eerror");
         const feederr = document.getElementById("feederror");
-      
-        const inputElements = [
-            fname,lname,email,feedback
-        ]
-        const inputContainers=[
-            fnamecon,lnamecon,emailcon,feedbackcon
-        ]
-        let fval="",lval="",evalue="",feedval="",count=0;
-        console.log("1111",count)
 
-        const display = (index)=>{
-            inputContainers.forEach((container, i) => {
-        container.style.display = i === index ? "block" : "none";
-    });
+        const inputElements=[fname,lname,feedback,email];
+        const inputContainers=[fnamecon,lnamecon,emailcon,feedbackcon];
+
+        let first='',last='',feed='',mail='';
+        fname.addEventListener("input",(e)=>{
+            first=e.target.value
+        })
+        lname.addEventListener("input",(e)=>{
+            last=e.target.value
+        })
+        email.addEventListener("input",(e)=>{
+           mail=e.target.value
+        })
+        feedback.addEventListener("input",(e)=>{
+            feed=e.target.value
+        })
+
+        const display=(index)=>{
+            inputContainers.forEach((x,i)=>{
+                x.style.display=i===index?"block":"none"
+            })
         }
-        window.addEventListener("load",()=>{
-            display(count);
-        })
-        fname.addEventListener("change",(e)=>{
-            fval=e.target.value
-        })
-        lname.addEventListener("change",(e)=>{
-            lval=e.target.value
-        })
-        email.addEventListener("change",(e)=>{
-            evalue=e.target.value
-        })
-        feedback.addEventListener("change",(e)=>{
-            feedval=e.target.value
-        })
-        const setError=(input,span,message)=>{
-            input.style.border = "1px solid red";
-            span.textContent = message;
-            span.style.color="red"
+        const setError=(input,span,msg)=>{
+            input.style.border="1px solid red";
+            span.textContent=msg;
         }
         const removeerror=(input,span)=>{
-            input.style.border = "1px solid black";
-            span.textContent = ""
+            input.style.border="1px solid black";
+            span.textContent='';
         }
-        next.addEventListener("click",(e)=>{
-              e.preventDefault();
-              let err=validate(count);
-              if(err.length>0){
-                console.log(err);
-              }else{
-                count++;
-                display(count);
-              }
-            if(count===inputContainers.length-1){
-                next.style.display="none";
-                submit.style.display="block"
-            }
-        })
+
         const validate=(index)=>{
             let errorarr=[];
             switch(index){
                 case 0:
-                    if(fval.length===0){
-                        setError(fname,ferr,"first name empty");
-                        errorarr.push("empty first name")
-                    }else{
-                        removeerror(fname,ferr)
+                    if(first.length===0){
+                        setError(fname,ferr,"first name error!");
+                        errorarr.push('fname error')
                     }
-                    break;
-                case 1:
-                    if(lval.length===0){
-                        setError(lname,lerr,"last name empty");
-                        errorarr.push("empty last name")
-                    }else{
-                        removeerror(lname,lerr)
-                    }
-                    break;
-                case 2:
-                    if(evalue.length===0||!evalue.includes("@")){
-                        setError(email,emailerr,"email error");
-                        errorarr.push("empty mail")
-                    }else{
-                        removeerror(email,emailerr)
-                    }
-                    break;
-                case 3:
-                     if(feedval.length===0){
-                        setError(feedback,feederr,"first name empty");
-                        errorarr.push("empty first name")
-                    }else{
-                        removeerror(feedback,feederr)
-                    }
-                    break;
-                default:
-                    break;  
             }
-            return errorarr;
         }
-        form.addEventListener("submit",(e)=>{
-            e.preventDefault();
-            let error = validate(inputContainers.length-1);
-            if(error.length===0){
-                console.log("form submitted -",fval,lval,evalue,feedval)
-                inputContainers[inputContainers.length-1].style.display="none"
-                submit.style.display="none"
-                document.getElementById("success").textContent="Form Submitted Successfully!"
-            }
-        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    //     const inputElements = [
+    //         fname,lname,email,feedback
+    //     ]
+    //     const inputContainers=[
+    //         fnamecon,lnamecon,emailcon,feedbackcon
+    //     ]
+    //     let fval="",lval="",evalue="",feedval="",count=0;
+    //     console.log("1111",count)
+
+    //     const display = (index)=>{
+    //         inputContainers.forEach((container, i) => {
+    //     container.style.display = i === index ? "block" : "none";
+    // });
+    //     }
+    //     window.addEventListener("load",()=>{
+    //         display(count);
+    //     })
+    //     fname.addEventListener("change",(e)=>{
+    //         fval=e.target.value
+    //     })
+    //     lname.addEventListener("change",(e)=>{
+    //         lval=e.target.value
+    //     })
+    //     email.addEventListener("change",(e)=>{
+    //         evalue=e.target.value
+    //     })
+    //     feedback.addEventListener("change",(e)=>{
+    //         feedval=e.target.value
+    //     })
+    //     const setError=(input,span,message)=>{
+    //         input.style.border = "1px solid red";
+    //         span.textContent = message;
+    //         span.style.color="red"
+    //     }
+    //     const removeerror=(input,span)=>{
+    //         input.style.border = "1px solid black";
+    //         span.textContent = ""
+    //     }
+    //     next.addEventListener("click",(e)=>{
+    //           e.preventDefault();
+    //           let err=validate(count);
+    //           if(err.length>0){
+    //             console.log(err);
+    //           }else{
+    //             count++;
+    //             display(count);
+    //           }
+    //         if(count===inputContainers.length-1){
+    //             next.style.display="none";
+    //             submit.style.display="block"
+    //         }
+    //     })
+    //     const validate=(index)=>{
+    //         let errorarr=[];
+    //         switch(index){
+    //             case 0:
+    //                 if(fval.length===0){
+    //                     setError(fname,ferr,"first name empty");
+    //                     errorarr.push("empty first name")
+    //                 }else{
+    //                     removeerror(fname,ferr)
+    //                 }
+    //                 break;
+    //             case 1:
+    //                 if(lval.length===0){
+    //                     setError(lname,lerr,"last name empty");
+    //                     errorarr.push("empty last name")
+    //                 }else{
+    //                     removeerror(lname,lerr)
+    //                 }
+    //                 break;
+    //             case 2:
+    //                 if(evalue.length===0||!evalue.includes("@")){
+    //                     setError(email,emailerr,"email error");
+    //                     errorarr.push("empty mail")
+    //                 }else{
+    //                     removeerror(email,emailerr)
+    //                 }
+    //                 break;
+    //             case 3:
+    //                  if(feedval.length===0){
+    //                     setError(feedback,feederr,"first name empty");
+    //                     errorarr.push("empty first name")
+    //                 }else{
+    //                     removeerror(feedback,feederr)
+    //                 }
+    //                 break;
+    //             default:
+    //                 break;  
+    //         }
+    //         return errorarr;
+    //     }
+    //     form.addEventListener("submit",(e)=>{
+    //         e.preventDefault();
+    //         let error = validate(inputContainers.length-1);
+    //         if(error.length===0){
+    //             console.log("form submitted -",fval,lval,evalue,feedval)
+    //             inputContainers[inputContainers.length-1].style.display="none"
+    //             submit.style.display="none"
+    //             document.getElementById("success").textContent="Form Submitted Successfully!"
+    //         }
+    //     })
     </script>
 </body>
 </html>

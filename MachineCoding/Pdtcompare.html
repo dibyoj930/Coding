@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding: 20px;
+        }
+        .pdtselect{
+           margin-bottom: 20px;
+        }
+        .compare-table{
+            border: 1px solid yellow;
+            margin-top: 1rem;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <h2>Select Products to Compare</h2>
+
+<div class="product-select" id="productSelect"></div>
+<button id="compareBtn">Compare</button>
+
+<div id="comparisonResult"></div>
+<script>
+    const product = document.getElementById("productSelect");
+    const button = document.getElementById("compareBtn");
+    const res = document.getElementById("comparisonResult");
+
+    const productsData = [
+  {
+    id: 1,
+    name: 'Product 1',
+    features: {
+      Size: 'Large',
+      Color: 'Red',
+      'Battery Life': '10 hours',
+    },
+  },
+  {
+    id: 2,
+    name: 'Product 2',
+    features: {
+      Size: 'Medium',
+      Color: 'Blue',
+      'Battery Life': '8 hours',
+    },
+  },
+  {
+    id: 3,
+    name: 'Product 3',
+    features: {
+      Size: 'Small',
+      Color: 'Green',
+      'Battery Life': '5 hours',
+    },
+  },
+];
+  productsData.forEach((x)=>{
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type="checkbox";
+    input.id = x.id;
+    label.append(`${x.name}`);
+    label.appendChild(input);
+    product.appendChild(label);
+  })
+  
+  button.addEventListener("click",()=>{
+    res.innerHTML='';
+    const selectedpdt = document.querySelectorAll(".product-select input[type=checkbox]");
+    const selectedId = Array.from(selectedpdt).filter((x)=>x.checked).map((x)=>Number(x.id));
+    const products = productsData.filter((x)=>selectedId.includes(x.id));
+    const unique = new Set();
+    productsData.map((x)=>Object.keys(x.features).forEach((y)=>unique.add(y)));
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+    thead.innerHTML = `<td>Feature</td>`+products.map((x)=>`<td>${x.name}</td>`).join(" ");
+    if(products.length<2){
+        alert("please select atleast 2 products for comparison!");
+        return;
+    }
+    unique.forEach((z)=>{
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>feature</td>`+products.map((s)=>
+     `<td>${s.features[z]||''}</td>`).join(" ");
+       tbody.appendChild(tr);
+    })
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    res.appendChild(table);
+    // tbody.innerHTML = `<td>feature</td>`+products.map((s)=>
+    //  `<td>${}</td>`)
+    console.log(unique)
+    console.log(selectedId,products);
+  })
+
+</script>
+</body>
+</html>

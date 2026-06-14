@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .modal{
+        /* .modal{
             background-color: lightgrey;
     position: absolute;
     left: 50%;
@@ -30,25 +30,42 @@
 }
 .button{
     cursor: pointer;
+} */
+
+.modal{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 50%;
+    border: 1px solid green;
+    border-radius: 8px;
+    display: none;
+}
+.modal-header{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+.modal-body{
+    padding: 10px;
+    height: 150px;
 }
     </style>
 </head>
 <body>
    <h1>Hello</h1>
   <button onClick=handleopen() class="button">Click here</button>
-  <div id="modal" class="modal">
-     <div id="header" class="modal-header">
-       <div id="left">
-
-       </div>
-       <div id="right">
-         <button id="button" onClick=handleclose() class="button">close</button>
-       </div>
-     </div>
-     <div id="body">
-        This modal will display information here
-     </div>
+  <div class="modal">
+<div class="modal-header">
+  <p>This is the header</p>
+  <button onclick=handleclose()>X</button>
+</div>
+<div class="modal-body">
+<div>Body content</div>
+</div>
   </div>
+
   <script>
     const handleopen=()=>{
         document.querySelector(".modal").style.display="block"

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    ul{
+        list-style: none;
+        padding-left: 1rem;
+    }
+    li{
+     margin: 5px 0;
+    }
+    .folder{
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .folder::before{
+        content:  "📁 ";
+    }
+    .file::before{
+        content: "📄 " ;
+    }
+    .hidden{
+        display: none;
+    }
+    </style>
+</head>
+<body>
+     <div id="main-div">
+        <div id="tree">
+
+        </div>
+      </div>
+
+    <script>
+     const data = {
+      name: "root",
+      type: "folder",
+      children: [
+        {
+          name: "folder1",
+          type: "folder",
+          children: [
+            { name: "file1.txt", type: "file" },
+            { name: "script.js", type: "file" },
+          ],
+        },
+        {
+          name: "folder2",
+          type: "folder",
+          children: [
+            {
+              name: "subfolder",
+              type: "folder",
+              children: [{ name: "file3.html", type: "file" }],
+            },
+            { name: "styles.css", type: "file" },
+          ],
+        },
+        { name: "README.md", type: "file" },
+      ],
+    };
+
+    function createTree(item){
+        const li=document.createElement("li");
+        const span=document.createElement("span");
+        span.textContent=item.name;
+        span.className=item.type;
+        li.appendChild(span);
+        if(item.children){
+            const ul=document.createElement("ul");
+            ul.classList.add("hidden");
+            item.children.forEach((x)=>{
+                ul.appendChild(createTree(x));
+            })
+            span.addEventListener("click",()=>{
+                ul.classList.toggle("hidden")
+            })
+            li.appendChild(ul);
+        }
+
+        return li;
+    }
+
+    const ul=document.createElement("ul");
+    const tree= document.getElementById("tree");
+    ul.appendChild(createTree(data));
+    tree.appendChild(ul);
+
+    </script>
+</body>
+</html>

@@ -90,80 +90,158 @@
   </div>
 
   <script>
-    const startbtn = document.getElementById("start");
-    const reset = document.getElementById("stop");
-    const hour = document.getElementById("hr");
-    const min = document.getElementById("min");
-    const sec = document.getElementById("sec");
-    const ms = document.getElementById("ms");
-    const pause = document.getElementById("pause");
+      const start =  document.getElementById("start");
+      const pause = document.getElementById("pause");
+      const Stop = document.getElementById("stop");
 
-    let isRunning = false;
-    let milliseconds = 0;
-    let interval = null;
+      const ms = document.getElementById("ms");
+      const sec = document.getElementById("sec");
+      const min = document.getElementById("min");
+      const hr = document.getElementById("hr");
 
-    const resetWatch = () => {
-      hour.textContent = "00";
-      min.textContent = "00";
-      sec.textContent = "00";
-      ms.textContent = "00";
-    };
+      let isRunning=false;
+      let time=0;
+      let timer=null;
+      
 
-    const updateDisplay = () => {
-      let totalSeconds = Math.floor(milliseconds / 100);
-      let msDisplay = milliseconds % 100;
-      let secDisplay = totalSeconds % 60;
-      let minDisplay = Math.floor((totalSeconds / 60)) % 60;
-      let hourDisplay = Math.floor(totalSeconds / 3600);
+      const updateDisplay=()=>{
+        let seconds = Math.floor(time/100);
+        let milliseconds = time%100;
+        let secs = (seconds%60);
+        let minutes = Math.floor((seconds/60)%60);
+        let hours = Math.floor((seconds/3600));
 
-      hour.textContent = hourDisplay.toString().padStart(2, '0');
-      min.textContent = minDisplay.toString().padStart(2, '0');
-      sec.textContent = secDisplay.toString().padStart(2, '0');
-      ms.textContent = msDisplay.toString().padStart(2, '0');
-    };
+        hr.textContent = hours.toString().padStart(2,"0");
+        min.textContent = minutes.toString().padStart(2,"0");
+        sec.textContent = secs.toString().padStart(2,"0");
+        ms.textContent = milliseconds.toString().padStart(2,"0");
 
-    const startInterval = () => {
-      interval = setInterval(() => {
-        milliseconds++;
+      }
+
+      const resetWatch = ()=>{
+        hr.textContent="00";
+        min.textContent="00";
+        sec.textContent="00";
+        ms.textContent="00";
         updateDisplay();
-      }, 10); // Update every 10ms
-      isRunning = true;
-    };
-
-    window.addEventListener("load", () => {
-      resetWatch();
-      pause.textContent = "Pause";
-    });
-
-    startbtn.addEventListener("click", () => {
-      startbtn.disabled = true;
-      pause.disabled = false;
-      if (!isRunning) {
-        startInterval();
-        pause.textContent = "Pause";
       }
-    });
 
-    pause.addEventListener("click", () => {
-      if (isRunning) {
-        clearInterval(interval);
-        isRunning = false;
-        pause.textContent = "Resume";
-      } else {
-        startInterval();
-        pause.textContent = "Pause";
+
+      const startInterval=()=>{
+        timer = setInterval(()=>{
+          time++;
+          updateDisplay();
+        },10)
+        isRunning=true;
       }
-    });
-
-    reset.addEventListener("click", () => {
-      startbtn.disabled = false;
-      pause.disabled = false;
-      clearInterval(interval);
+      
+      start.addEventListener("click",()=>{
+        start.disabled = true;
+        pause.disabled = false;
+        if(!isRunning){
+          startInterval();
+        }
+      })
+      Stop.addEventListener("click",()=>{
+      //   startbtn.disabled = false;
+      // pause.disabled = false;
+      clearInterval(timer);
       milliseconds = 0;
       isRunning = false;
       pause.textContent = "Pause";
       resetWatch();
-    });
+      });
+      window.addEventListener("click",()=>resetWatch());
+
+      pause.addEventListener("click",()=>{
+        if(isRunning){
+          pause.textContent="resume";
+          clearInterval(timer);
+          isRunning=false;
+        }else{
+          startInterval();
+          pause.textContent="pause";
+
+        }
+      })
+
+      //  stop.addEventListener
+
+
+    // const startbtn = document.getElementById("start");
+    // const reset = document.getElementById("stop");
+    // const hour = document.getElementById("hr");
+    // const min = document.getElementById("min");
+    // const sec = document.getElementById("sec");
+    // const ms = document.getElementById("ms");
+    // const pause = document.getElementById("pause");
+
+    // let isRunning = false;
+    // let milliseconds = 0;
+    // let interval = null;
+
+    // const resetWatch = () => {
+    //   hour.textContent = "00";
+    //   min.textContent = "00";
+    //   sec.textContent = "00";
+    //   ms.textContent = "00";
+    // };
+
+    // const updateDisplay = () => {
+    //   let totalSeconds = Math.floor(milliseconds / 100);
+    //   let msDisplay = milliseconds % 100;
+    //   let secDisplay = totalSeconds % 60;
+    //   let minDisplay = Math.floor((totalSeconds / 60)) % 60;
+    //   let hourDisplay = Math.floor(totalSeconds / 3600);
+
+    //   hour.textContent = hourDisplay.toString().padStart(2, '0');
+    //   min.textContent = minDisplay.toString().padStart(2, '0');
+    //   sec.textContent = secDisplay.toString().padStart(2, '0');
+    //   ms.textContent = msDisplay.toString().padStart(2, '0');
+    // };
+
+    // const startInterval = () => {
+    //   interval = setInterval(() => {
+    //     milliseconds++;
+    //     updateDisplay();
+    //   }, 10); // Update every 10ms
+    //   isRunning = true;
+    // };
+
+    // window.addEventListener("load", () => {
+    //   resetWatch();
+    //   pause.textContent = "Pause";
+    // });
+
+    // startbtn.addEventListener("click", () => {
+    //   startbtn.disabled = true;
+    //   pause.disabled = false;
+    //   if (!isRunning) {
+    //     startInterval();
+    //     pause.textContent = "Pause";
+    //   }
+    // });
+
+    // pause.addEventListener("click", () => {
+    //   if (isRunning) {
+    //     clearInterval(interval);
+    //     isRunning = false;
+    //     pause.textContent = "Resume";
+    //   } else {
+    //     startInterval();
+    //     pause.textContent = "Pause";
+    //   }
+    // });
+
+    // reset.addEventListener("click", () => {
+    //   startbtn.disabled = false;
+    //   pause.disabled = false;
+    //   clearInterval(interval);
+    //   milliseconds = 0;
+    //   isRunning = false;
+    //   pause.textContent = "Pause";
+    //   resetWatch();
+    // });
   </script>
 </body>
 </html>

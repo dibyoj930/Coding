@@ -112,49 +112,93 @@
   </div>
 
   <script>
-    const dropdownContainer = document.getElementById("dropdown");
-    const searchBar = document.getElementById('search');
-    const searchItems = document.getElementById('search-items');
-    const selectedOptionDisplay = document.getElementById('selected-option');
 
-    const OPTIONS = [
+    const searchcon = document.getElementById("search-container");
+    const dropdown = document.getElementById("dropdown");
+    const searchitem = document.getElementById("search-items");
+    const selected = document.getElementById("selected-option");
+    const searchinout = document.getElementById("search");
+     const OPTIONS = [
       "Sydney", "Tokyo", "New York", "London", "Paris",
       "Toronto", "Rio de Janeiro", "Cape Town", "Berlin", "Buenos Aires"
     ];
 
-    const createList = (array) => {
-      searchItems.innerHTML = '';
-      array.forEach(city => {
-        const listItem = document.createElement('div');
-        listItem.className = 'list-item';
-        listItem.textContent = city;
-        listItem.addEventListener('click', () => {
-          selectedOptionDisplay.textContent = `Your Selected City Is ${city}`;
-          searchItems.style.display = 'none';
-          searchBar.value = city;
-        });
-        searchItems.appendChild(listItem);
-      });
-    };
+    const createList=(array)=>{
+      searchitem.innerHTML='';
+      array.forEach((x)=>{
+        const listitem=document.createElement("div");
+        listitem.classList.add("list-item");
+        listitem.textContent=x;
+        listitem.addEventListener("click",()=>{
+          searchitem.style.display="none";
+          searchinout.value = listitem.textContent;
+          selected.textContent = `Your selected city is ${x}`
+        })
+        searchitem.appendChild(listitem);
+      })
+    }
+    window.addEventListener("load",()=>createList(OPTIONS));
+    searchinout.addEventListener("input",(e)=>{
+       const val = e.target.value.toLowerCase();
+       const filteredlist = OPTIONS.filter((x)=>x.toLowerCase().includes(val));
+       createList(filteredlist);
+       searchitem.style.display="block";
+    })
 
-    window.addEventListener('load', () => createList(OPTIONS));
+   searchinout.addEventListener("focus",()=>{
+    searchitem.style.display="block";
+   })
+   document.addEventListener("click",(e)=>{
+    if(!dropdown.contains(e.target)){
+      searchitem.style.display="none";
 
-    searchBar.addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase();
-      const filtered = OPTIONS.filter(city => city.toLowerCase().includes(searchTerm));
-      createList(filtered);
-      searchItems.style.display = 'block';
-    });
+    }
+   })
 
-    searchBar.addEventListener('focus', () => {
-      searchItems.style.display = 'block';
-    });
 
-    document.addEventListener('click', (e) => {
-      if (!dropdownContainer.contains(e.target)) {
-        searchItems.style.display = 'none';
-      }
-    });
+    // const dropdownContainer = document.getElementById("dropdown");
+    // const searchBar = document.getElementById('search');
+    // const searchItems = document.getElementById('search-items');
+    // const selectedOptionDisplay = document.getElementById('selected-option');
+
+    // const OPTIONS = [
+    //   "Sydney", "Tokyo", "New York", "London", "Paris",
+    //   "Toronto", "Rio de Janeiro", "Cape Town", "Berlin", "Buenos Aires"
+    // ];
+
+    // const createList = (array) => {
+    //   searchItems.innerHTML = '';
+    //   array.forEach(city => {
+    //     const listItem = document.createElement('div');
+    //     listItem.className = 'list-item';
+    //     listItem.textContent = city;
+    //     listItem.addEventListener('click', () => {
+    //       selectedOptionDisplay.textContent = `Your Selected City Is ${city}`;
+    //       searchItems.style.display = 'none';
+    //       searchBar.value = city;
+    //     });
+    //     searchItems.appendChild(listItem);
+    //   });
+    // };
+
+    // window.addEventListener('load', () => createList(OPTIONS));
+
+    // searchBar.addEventListener('input', (e) => {
+    //   const searchTerm = e.target.value.toLowerCase();
+    //   const filtered = OPTIONS.filter(city => city.toLowerCase().includes(searchTerm));
+    //   createList(filtered);
+    //   searchItems.style.display = 'block';
+    // });
+
+    // searchBar.addEventListener('focus', () => {
+    //   searchItems.style.display = 'block';
+    // });
+
+    // document.addEventListener('click', (e) => {
+    //   if (!dropdownContainer.contains(e.target)) {
+    //     searchItems.style.display = 'none';
+    //   }
+    // });
   </script>
 </body>
 </html>

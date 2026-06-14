@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .board{
+            width: 100%;
+            display: grid;
+           grid-template-columns: repeat(10,50px);
+           grid-template-rows: repeat(10,50px);
+           grid-gap: 10px;
+           border: 2px solid green;
+           margin-bottom: 20px;
+           padding: 10px;
+        }
+        .snake{
+            background-color: red;
+        }
+        .ladder{
+            background-color: green;
+        }
+        .cell{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            border: 1px solid grey;
+        }
+        .active{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-div">
+    <div class="board" id="board">
+  
+    </div>
+    <button id="rolldice"></button>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded",()=>{
+        const board=document.getElementById("board");
+        const rollbtn=document.getElementById("rolldice");
+         board.classList.add("board")
+        rollbtn.textContent="Roll Dice";
+        let playerpos=1;
+        for(let i=1;i<=100;i++){
+            const cell = document.createElement("div");
+            cell.textContent=i;
+            cell.id=i;
+            cell.classList.add("cell");
+            board.appendChild(cell)
+        }
+        const snakesAndLadders = {
+        16: 6,
+        47: 26,
+        49: 11,
+        56: 53,
+        62: 19,
+        64: 60,
+        87: 24,
+        93: 73,
+        95: 75,
+        98: 78,
+    };
+      for(let [snake,ladder] of Object.entries(snakesAndLadders)){
+        document.getElementById(snake).classList.add("snake");
+        document.getElementById(ladder).classList.add("ladder");
+      }
+      const getplayerpos=(playerpos,curr)=>{
+        let newpos=playerpos+curr;
+        return snakesAndLadders[newpos]||newpos;
+      }
+      const updatepos=()=>{
+          const cells=document.querySelectorAll(".cell");
+          cells.forEach((x)=>x.classList.remove("active"));
+          document.getElementById(playerpos).classList.add("active");
+      }
+      const getrandom=()=>{
+        return Math.floor(Math.random()*6)+1;
+      }
+      const fun=()=>{
+        const getrandomvalue=getrandom();
+        alert("you got "+getrandomvalue);
+        playerpos = getplayerpos(playerpos,getrandomvalue);
+        alert(`You will now be landed on ${playerpos}`);
+        updatepos();
+
+      }
+      if(playerpos>99){
+        const div=document.createElement("div");
+            div.textContent='Your game is completed!';
+            board.appendChild(div);
+      }
+      rollbtn.addEventListener("click",()=>{
+        fun();
+      })
+      updatepos();
+
+
+    })
+  
+
+</script>
+</body>
+</html>

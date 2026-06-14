@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="display: flex;align-items: center;justify-content: center;">
+        <div id="container">
+           <!-- <p>Product 1</p>
+           <div>Price:</div> -->
+        </div>
+        <!-- <div id="total">
+        
+        </div> -->
+    </div>
+    <script>
+        const container = document.getElementById("container");
+        // const total= document.getElementById("total");
+        let totalvalue=0;
+        const initial = [
+        {
+          id: 'unique-product-id-1',
+          name: 'Product Name1',
+          price: 100.0,
+          thumbnail: 'url-to-image.jpg',
+          quantity: 1,
+        },
+        {
+          id: 'unique-product-id-2',
+          name: 'Product Name2',
+          price: 100.0,
+          thumbnail: 'url-to-image.jpg',
+          quantity: 1,
+        },
+        {
+          id: 'unique-product-id-3',
+          name: 'Product Name3',
+          price: 300.0,
+          thumbnail: 'url-to-image.jpg',
+          quantity: 2,
+        },
+      ];
+      initial.forEach((item)=>{
+        totalvalue += item.price * item.quantity;
+        const div1 = document.createElement("div");
+        div1.textContent = item.name;
+        const p = document.createElement("p");
+        p.textContent=item.price;
+        const divbutton = document.createElement("div");
+        divbutton.style.display="flex";
+        divbutton.style.marginTop="0.5rem";
+        const buttonplus = document.createElement("button");
+        const buttonminus = document.createElement("button");
+        buttonplus.textContent="+";
+        buttonminus.textContent="-";
+        divbutton.appendChild(buttonplus);
+        divbutton.appendChild(buttonminus);
+        const p2 = document.createElement("p");
+        p2.textContent=item.quantity;
+        let qty = item.quantity;
+        console.log("1s",totalvalue,qty)
+        buttonplus.addEventListener("click",()=>{
+            item.quantity++;
+            p2.textContent=item.quantity;
+            totalvalue+=item.price;
+            updateTotal();
+        })
+        buttonminus.addEventListener("click",()=>{
+            if (item.quantity > 0) {
+        item.quantity--;
+        p2.textContent = item.quantity;
+        totalvalue -= item.price;
+        updateTotal();
+      }
+        })
+        div1.appendChild(p);
+        div1.appendChild(p2);
+        div1.appendChild(divbutton);
+        container.appendChild(div1);
+
+      })
+      const total = document.createElement("div");
+      const updateTotal = ()=>{
+        total.textContent=`total amount is - ${totalvalue}`;
+      }
+      container.appendChild(total);
+      updateTotal();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Comparison</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .product-select {
+      margin-bottom: 20px;
+    }
+    .product-select label {
+      margin-right: 15px;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .comparison-table th,
+    .comparison-table td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    .comparison-table th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Select Products to Compare</h2>
+
+<div class="product-select" id="productSelect"></div>
+<button id="compareBtn">Compare</button>
+
+<div id="comparisonResult"></div>
+
+<script>
+const productsData = [
+  {
+    id: 1,
+    name: 'Product 1',
+    features: {
+      Size: 'Large',
+      Color: 'Red',
+      'Battery Life': '10 hours',
+    },
+  },
+  {
+    id: 2,
+    name: 'Product 2',
+    features: {
+      Size: 'Medium',
+      Color: 'Blue',
+      'Battery Life': '8 hours',
+    },
+  },
+  {
+    id: 3,
+    name: 'Product 3',
+    features: {
+      Size: 'Small',
+      Color: 'Green',
+      'Battery Life': '5 hours',
+    },
+  },
+];
+const pdtselect = document.getElementById("productSelect");
+const compare = document.getElementById("compareBtn");
+
+
+// productsData.forEach((x)=>{
+//   const label = document.createElement("label");
+//   const checkbox = document.createElement("input");
+//   checkbox.type="checkbox";
+//   checkbox.id=x.id;
+//   label.appendChild(checkbox);
+//   label.append(`${x.name}`)
+//   pdtselect.appendChild(label)
+// })
+
+//label and checkbox addition
+productsData.forEach((x)=>{
+  const label=document.createElement("label");
+  const input = document.createElement("input");
+  input.type="checkbox";
+  input.id=x.id;
+  label.appendChild(input);
+  label.append(`${x.name}`);
+  pdtselect.appendChild(label);
+})
+
+
+//render with checkbox
+// productsData.forEach((x)=>{
+//     const label = document.createElement("label");
+//     const checkbox = document.createElement("input");
+//     checkbox.type="checkbox";
+//     checkbox.id=x.id;
+//     // label.textContent=x.name;
+//     label.appendChild(checkbox);
+//     label.append(`${x.name}`)
+//     pdtselect.appendChild(label);
+//     // pdtselect.appendChild(checkbox);
+// })
+
+//handle comparison
+compare.addEventListener("click",()=>{
+  const compareres = document.getElementById("comparisonResult");
+  compareres.innerHTML='';
+  const selectedid = Array.from(document.querySelectorAll(".product-select input:checked")).map((x)=>Number(x.id));
+  console.log(selectedid);
+  const productdetails = productsData.filter((x)=>selectedid.includes(x.id));
+  console.log(productdetails);
+  const unique = new Set();
+  productdetails.map((x)=>Object.keys(x.features).forEach((u)=>unique.add(u)));
+  console.log(unique);
+  const table = document.createElement("table");
+  const thead = document.createElement("thead");
+  if(productdetails.length<2){
+    alert("enter something more!");
+  }
+  thead.innerHTML=`<td>Feature</td>`+productdetails.map((z)=>
+   `<td>${z.name}</td>`
+).join(" ")
+table.appendChild(thead);
+
+  unique.forEach((z)=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>feature</td>`+productdetails.map((s)=>
+      `<td>${s.features[z]||'-'}</td>`
+  ).join(" ")
+  table.appendChild(tr);
+  })
+compareres.appendChild(table);
+})
+
+
+// compare.addEventListener("click",()=>{
+   
+//   const compareres = document.getElementById("comparisonResult");
+//   compareres.innerHTML='';
+//   const selectedid = Array.from(document.querySelectorAll(".product-select input:checked")).map((x)=>Number(x.id));
+//   // console.log(selectedid);
+//   const selectthosepdt = productsData.filter((z)=>selectedid.includes(z.id));
+//   // console.log(selectthosepdt)
+//   if(selectthosepdt.length<2){
+//     alert("atleast select 2 products!");
+//     return;
+//   }
+//   const unique=new Set();
+//   selectthosepdt.forEach((x)=>Object.keys(x.features).forEach((u)=>unique.add(u)));
+//   const table=document.createElement("table");
+//   const thead=document.createElement("thead");
+//   thead.innerHTML=`<td>Feature</td>`+selectthosepdt.map((z)=>
+//    `<td>${z.name}</td>`
+// ).join(' ');
+// table.appendChild(thead);
+// unique.forEach((item)=>{
+//   const tr=document.createElement("tr");
+//   tr.innerHTML=`<td>feature</td>`+selectthosepdt.map((y)=>
+// `<td>${y.features[item]||"-"}</td>`).join(" ");
+// thead.appendChild(tr)
+// })
+// compareres.appendChild(table)
+
+// })
+
+
+//handle comparison
+// compare.addEventListener("click",()=>{
+//     const compareres = document.getElementById("comparisonResult");
+//     compareres.innerHTML=''
+//     const selectedids = Array.from(document.querySelectorAll(".product-select input:checked")).map((x)=>Number(x.id));
+//     // const ids = Array.from(selectedids).map((x)=>parseInt(x.value));
+//     console.log(selectedids);
+//     const selectedproducts = productsData.filter((z)=>selectedids.includes(z.id));
+//     console.log(selectedproducts);
+//     if(selectedproducts.length<2){
+//         compareres.textContent=`please select atleast 2 products!`;
+//         return;
+//     }
+    
+//    const allunique = new Set();
+//    selectedproducts.forEach((p)=>{
+//     Object.keys(p.features).forEach((x)=>allunique.add(x));
+//    })
+//    const table=document.createElement("table");
+//    table.classList.add("comparison-table")
+//    const theader = document.createElement("tr");
+//    //header col
+//     theader.innerHTML=`<th>Feature</th>`+selectedproducts.map((x)=>
+//         `<td>${x.name}</td>`).join(" ");
+//     table.appendChild(theader);
+//     allunique.forEach((y)=>{
+//         const row = document.createElement("tr");
+//         row.innerHTML = `<td>feature</td>`+selectedproducts.map((x)=>
+//     `<td>${x.features[y]||'-'}</td>`).join(' ');
+//     table.appendChild(row);
+//     })
+//     compareres.appendChild(table);
+// })
+
+// Render product checkboxes
+// const productSelectDiv = document.getElementById('productSelect');
+// productsData.forEach(product => {
+//   const label = document.createElement('label');
+//   const checkbox = document.createElement('input');
+//   checkbox.type = 'checkbox';
+//   checkbox.value = product.id;
+//   label.appendChild(checkbox);
+//   label.append(` ${product.name}`);
+//   productSelectDiv.appendChild(label);
+// });
+
+// // Handle comparison
+// document.getElementById('compareBtn').addEventListener('click', () => {
+//   const selectedIds = Array.from(document.querySelectorAll('.product-select input:checked'))
+//     .map(cb => parseInt(cb.value));
+
+//     console.log(selectedIds);
+//   const selectedProducts = productsData.filter(p => selectedIds.includes(p.id));
+//   console.log(selectedProducts)
+//   const resultDiv = document.getElementById('comparisonResult');
+//   resultDiv.innerHTML = '';
+
+//   if (selectedProducts.length < 2) {
+//     resultDiv.textContent = 'Please select at least two products to compare.';
+//     return;
+//   }
+
+//   // Get all unique feature names
+//   const allFeatures = new Set();
+//   selectedProducts.forEach(p => {
+//     console.log(p)
+//     Object.keys(p.features).forEach(f => allFeatures.add(f));
+//   });
+//   console.log(allFeatures)
+
+//   // Build table
+//   const table = document.createElement('table');
+//   table.classList.add('comparison-table');
+
+//   // Header Row
+//   const headerRow = document.createElement('tr');
+//   headerRow.innerHTML = `<th>Feature</th>` +
+//     selectedProducts.map(p => `<th>${p.name}</th>`).join('');
+//   table.appendChild(headerRow);
+
+//   // Feature Rows
+//   allFeatures.forEach(feature => {
+//     const row = document.createElement('tr');
+//     row.innerHTML = `<td>${feature}</td>` +
+//       selectedProducts.map(p => `<td>${p.features[feature] || '-'}</td>`).join('');
+//     table.appendChild(row);
+//   });
+
+//   resultDiv.appendChild(table);
+// });
+</script>
+
+</body>
+</html>

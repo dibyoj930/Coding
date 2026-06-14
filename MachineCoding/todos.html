@@ -11,60 +11,123 @@
     <button id="button">Submit</button>
     <div id="taskholder"></div>
     <script>
-        const input = document.getElementById("input");
-        const button = document.getElementById("button");
-        const holder =  document.getElementById("taskholder");
-        
-        button.addEventListener("click",()=>{
-            const input =  document.getElementById("input");
-            if(input.value.length===0){
-                alert("empty!");
+        const add = document.getElementById("input");
+        const submit = document.getElementById("button");
+        const container = document.getElementById("taskholder");
+
+        submit.addEventListener("click",()=>{
+            if(add.value===""){
+                alert("enter some value!");
             }
-            const typed = input.value;
-            addtask(typed);
-            input.value="";
-
+            addtask(add.value);
+            add.value='';
         })
-        const addtask=(text)=>{
-            const tasklist = document.createElement("ul");
-            const list = document.createElement("li");
-            const textSpan =  document.createElement("span");
-            textSpan.textContent = text;
-            list.appendChild(textSpan);
 
-            const deletebutton=document.createElement("button");
-             deletebutton.textContent="delete";
-             deletebutton.addEventListener("click",()=>{
-                holder.removeChild(tasklist);
-             })
+        const addtask=(text)=>{
+            const taskholder  = document.createElement("ul");
+            const task = document.createElement("li");
+            const span = document.createElement("span");
+            span.textContent = text;
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+
+            deleteButton.addEventListener("click",()=>{
+                taskholder.removeChild(task);
+            })
 
             const editButton = document.createElement("button");
-            editButton.textContent="edit";
-            editButton.addEventListener("click",function handleedit(){
-                //edit functionality
-                const editInput = document.createElement("input");
-                editInput.type="text";
-                editInput.value=textSpan.textContent;
-                list.replaceChild(editInput,textSpan);
-                //save
+            editButton.textContent = 'Edit';
+
+            editButton.addEventListener("click",function handleEdit(){
+                const editinput = document.createElement("input");
+                editinput.type="text";
+                editinput.value=span.textContent;
+                task.replaceChild(editinput,span);
                 editButton.textContent="save";
-                //remove
-                editButton.removeEventListener("click",handleedit);
-                //attach new
-                editButton.addEventListener("click",function handlesave(){
-                    textSpan.textContent=editInput.value;
-                    list.replaceChild(textSpan,editInput);
-                    //remove save
-                    editButton.removeEventListener("click",handlesave);
-                    //attach edit
-                    editButton.addEventListener("click",handleedit);
+
+                editButton.removeEventListener("click",handleEdit)
+
+                editButton.addEventListener("click",function handleSave(){
+                     span.textContent = editinput.value;
+                     editButton.textContent="edit";
+                     task.replaceChild(span,editinput);
+                     editButton.removeEventListener("click",handleSave);
+                     editButton.addEventListener("click",handleEdit);
                 })
             })
-            list.appendChild(editButton);
-            list.appendChild(deletebutton);
-            tasklist.appendChild(list);
-            holder.appendChild(tasklist)
+
+
+            task.appendChild(span);
+            task.appendChild(deleteButton);
+            task.appendChild(editButton);
+            taskholder.appendChild(task);
+            container.appendChild(taskholder);
         }
+
+
+
+
+
+
+        // const input = document.getElementById("input");
+        // const button=document.getElementById("button");
+        // const container = document.getElementById("taskholder");
+        // // const deleted = document.getElementById("")
+
+        // button.addEventListener("click",()=>{
+        //     const inputel=input;
+        //     if(inputel.value===""){
+        //         alert("empty!");
+        //         return;
+        //     }
+        //     addtask(inputel.value);
+        //     input.value='';
+        // })
+
+        // const addtask=(value)=>{
+        //    const taskholder=document.createElement("ul");
+        //    const item=document.createElement("li");
+        //    const spanel = document.createElement("span");
+        //    spanel.textContent=value;
+        //    item.appendChild(spanel);
+           
+        //    const deletebutton = document.createElement("button");
+        //    deletebutton.textContent="delete"
+        //    deletebutton.addEventListener("click",()=>{
+        //     taskholder.removeChild(item);
+        //    })
+        //    const editButton=document.createElement("button");
+        //    editButton.textContent="Edit";
+        //    editButton.addEventListener("click",function Editfunction(){
+        //        const editinput=document.createElement("input");
+        //        editButton.textContent="Save";
+        //        editinput.type="text";
+        //        editinput.value=spanel.textContent;
+        //        item.replaceChild(editinput,spanel);
+        //        editButton.removeEventListener("click",Editfunction);
+        //        editButton.addEventListener("click",function handleSave(){
+        //         spanel.textContent=editinput.value;
+        //         editButton.textContent="Edit";
+        //         item.replaceChild(spanel,editinput);
+        //         editButton.removeEventListener("click",handleSave);
+        //         editButton.addEventListener("click",Editfunction)
+        //        })
+        //    })
+        //    item.appendChild(editButton);
+        //    item.appendChild(deletebutton)
+        //    taskholder.appendChild(item)
+        //     container.appendChild(taskholder);
+        // }
+
+
+
+
+
+
+
+
+
+
     </script>
 </body>
 </html>

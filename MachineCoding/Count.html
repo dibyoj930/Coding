@@ -16,15 +16,19 @@
         const count = document.getElementById("count");
         const incr = document.getElementById("plus");
         const decr = document.getElementById("minus");
+
         let value=0;
+
+
         count.textContent=value;
-        const handle = (action)=>{
-          let final = action=='plus'?++value:--value;
-          count.textContent=final
-         
+
+        const handlechange=(sign)=>{
+            sign=="+"?++value:--value
+            count.textContent=value;
         }
-        incr.addEventListener('click',()=>handle("plus"))
-        decr.addEventListener('click',()=>handle("minus"))
+
+        incr.addEventListener("click",()=>handlechange("+"));
+        decr.addEventListener("click",()=>handlechange("-"));
     </script>
 </body>
 </html>

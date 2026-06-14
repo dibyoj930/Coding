@@ -63,25 +63,28 @@
   "Ahmedabad",
   "Goa"
 ];
-        const filter = document.getElementById("filter");
-        const input  = document.getElementById("ipt");
 
-        const createlist=(location)=>{
-            filter.innerHTML=''
-            const ul =  document.createElement("ul");
-            location.forEach((item)=>{
-                const li=document.createElement("li");
-                li.textContent=item;
-                ul.appendChild(li);
-            })
-            filter.appendChild(ul)
-        }
-        input.addEventListener("keyup",(e)=>{
-           let val=e.target.value;
-           let filteredlist = locations.filter((x)=>x.toLowerCase().includes(val))
-           createlist(filteredlist)
-        })
-        window.addEventListener("load",()=>createlist(locations))
+   const input=document.getElementById("ipt");
+   const filter = document.getElementById("filter");
+   const createlist=(arr)=>{
+    filter.innerHTML=''
+    const ul=document.createElement("ul");
+    arr.forEach((x)=>{
+        const li=document.createElement("li");
+        li.textContent=x;
+        ul.appendChild(li);
+    })
+    filter.appendChild(ul);
+   }
+
+   input.addEventListener("keyup",(e)=>{
+    const val  = e.target.value;
+    const filtered = locations.filter((x)=>x.toLowerCase().includes(val));
+    createlist(filtered);
+   })
+
+   window.addEventListener("load",()=>createlist(locations))
+
     </script>
 </body>
 </html>

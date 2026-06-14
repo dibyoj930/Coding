@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Styled Tabs</title>
   <style>
-    body {
+    /* body {
       font-family: 'Segoe UI', sans-serif;
       margin: 40px;
       background-color: #f4f4f9;
@@ -54,7 +54,48 @@
       box-shadow: 0 3px 10px rgba(0,0,0,0.05);
       text-align: center;
       font-size: 1.2rem;
+    } */
+
+    body{
+      margin: 40px;
+      background-color: #f4f4f9;
+      color: #333;
     }
+    
+    .container{
+       display: flex;
+       gap: 1rem;
+       justify-content: center;
+    }
+    .tab{
+      padding: 10px;
+      text-align: center;
+      background-color: white;
+      border: 1px solid yellowgreen;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .tab:hover{
+      background-color: bisque;
+      border-color: aqua;
+    }
+    .tab.active{
+      background-color: #007bff;
+      color: white;
+      border-color: #007bff;
+      font-weight: bold;
+    }
+    #contentcontainer{
+      padding: 10px;
+      text-align: center;
+      font-size: 1.5rem;
+      border: 1px solid forestgreen;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+      max-width: 300px;
+    }
+
   </style>
 </head>
 <body>
@@ -63,30 +104,60 @@
   <div id="contentcontainer"></div>
 
   <script>
-    const tab = document.getElementById("tabcontainer");
-    const content = document.getElementById("contentcontainer");
 
-    const tabarr = Array.from({ length: 5 }, (_, index) => index);
-    const descrarr = tabarr.map(index => `Content of Tab-${index}`);
+    const tabcontainer = document.getElementById("tabcontainer");
+    const contentcontainer = document.getElementById("contentcontainer");
+    const tabarr = Array.from({length:5},(_,index)=>index);
+    const descrarr = tabarr.map((index)=>`content of tab - ${index+1}`);
+    contentcontainer.textContent=descrarr[0];
 
-    let active = 0;
-    content.textContent = descrarr[active];
+    tabarr.forEach((tab,index)=>{
+      const tabdiv = document.createElement("div");
+      index==0?tabdiv.classList.add("tab","active"):tabdiv.classList.add("tab");
+      tabdiv.textContent=`Tab-${index+1}`;
+      tabdiv.addEventListener("click",()=>{
+        document.querySelectorAll(".tab").forEach((x)=>x.classList.remove("active"));
+        tabdiv.classList.add("active");
+        let active=index;
+        contentcontainer.textContent=descrarr[active];
+      })
+      tabcontainer.appendChild(tabdiv);
+    })
 
-    tabarr.forEach((_, index) => {
-      const newdiv = document.createElement("div");
-      newdiv.classList.add("tab");
-      if (index === 0) newdiv.classList.add("active");
-      newdiv.textContent = `Tab-${index}`;
 
-      newdiv.addEventListener("click", () => {
-        document.querySelectorAll(".tab").forEach(item => item.classList.remove("active"));
-        newdiv.classList.add("active");
-        active = index;
-        content.textContent = descrarr[active];
-      });
 
-      tab.appendChild(newdiv);
-    });
+
+
+
+
+
+    // const tab = document.getElementById("tabcontainer");
+    // const
+   
+  //  const tab = document.getElementById("tabcontainer");
+  //  const content = document.getElementById("contentcontainer");
+  //  const tabarr = Array.from({length:5},(_,index)=>index);
+  //  const descrarr = tabarr.map(index=>`content of tab-${index}`);
+    
+
+  //  let active=0;
+  //  content.textContent=descrarr[active];
+
+  //  tabarr.forEach((x,index)=>{
+  //   const newdiv = document.createElement("div");
+  //   newdiv.classList.add("tab");
+  //   if(index===0)newdiv.classList.add("active");
+  //   newdiv.textContent=`Tab-${index}`;
+  //   newdiv.addEventListener("click",()=>{
+  //     document.querySelectorAll(".tab").forEach((x)=>x.classList.remove("active"));
+  //     newdiv.classList.add("active");
+  //     active=index;
+  //     content.textContent=descrarr[active];
+  //   })
+  //   tab.appendChild(newdiv)
+  //  })
+   
+   
   </script>
 
 </body>

@@ -2,65 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Star Rating</title>
+  <title>Star Rating (Half Support)</title>
   <style>
     .rating {
-      font-size: 2rem;
-      cursor: pointer;
-      display: inline-block;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
     }
 
     .star {
+      font-size: 40px;
       color: lightgray;
-      transition: color 0.2s;
+      cursor: pointer;
+      position: relative;
+      width: 40px;
+      height: 40px;
     }
 
-    .star.active {
+    .star::before {
+      content: "★";
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: lightgray;
+    }
+
+    .star.full::before {
       color: gold;
+      width: 100%;
+      overflow: visible;
+    }
+
+    .star.half::before {
+      color: gold;
+      width: 50%;
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
 
   <div class="rating">
-    <span class="star">&#9733;</span>
-    <span class="star">&#9733;</span>
-    <span class="star">&#9733;</span>
-    <span class="star">&#9733;</span>
-    <span class="star">&#9733;</span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
   </div>
 
   <script>
-    const stars = document.querySelectorAll('.star');
+    const stars = document.querySelectorAll(".star");
     let selected = 0;
 
     stars.forEach((star, index) => {
-      // Hover effect
-      star.addEventListener('mouseover', () => {
-        highlight(index + 1);
+      star.addEventListener("mousemove", (e) => {
+        const rect = star.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const isHalf = x < rect.width / 2;
+        const value = index + (isHalf ? 0.5 : 1);
+        highlight(value);
       });
 
-      // Reset on mouseout
-      star.addEventListener('mouseout', () => {
+      star.addEventListener("mouseout", () => {
         update();
       });
 
-      // Set rating on click
-      star.addEventListener('click', () => {
-        selected = index + 1;
+      star.addEventListener("click", (e) => {
+        const rect = star.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const isHalf = x < rect.width / 2;
+        selected = index + (isHalf ? 0.5 : 1);
         update();
       });
     });
 
-    function highlight(count) {
+    function update() {
       stars.forEach((star, i) => {
-        star.classList.toggle('active', i < count);
+        star.classList.remove("full", "half");
+        if (selected >= i + 1) {
+          star.classList.add("full");
+        } else if (selected >= i + 0.5) {
+          star.classList.add("half");
+        }
       });
     }
 
-    function update() {
+    function highlight(value) {
       stars.forEach((star, i) => {
-        star.classList.toggle('active', i < selected);
+        star.classList.remove("full", "half");
+        if (value >= i + 1) {
+          star.classList.add("full");
+        } else if (value >= i + 0.5) {
+          star.classList.add("half");
+        }
       });
     }
   </script>
