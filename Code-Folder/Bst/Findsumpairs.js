@@ -30,6 +30,10 @@ class Solution {
         return c[0]; // Return the counter value
     }
 }
+
+// Metric	Complexity
+// Time	O(n × h2) = O(n × log m) avg, O(n × m) worst
+// Space	O(h1 + h2) due to recursion
 // Example usage of the Solution class
 
 // Define some tree nodes
@@ -66,3 +70,31 @@ let x = 15;
 let result = solution.countPairs(root1, root2, x);
 console.log(result); // Output: number of pairs whose sum equals x
 
+
+//sum pairs in a single tree
+// inorder(root,ans){
+//     if(!root)return null;
+//     this.inorder(root.left,ans);
+//     ans.push(root.data);
+//     this.inorder(root.right,ans);
+// }
+// findTarget(root, target) {
+//     // code here
+//     let ans=[];
+//     this.inorder(root,ans);
+//     let l=0,r=ans.length-1;
+//     while(l<r){
+//         let sum=ans[l]+ans[r];
+//         if(sum==target)return true;
+//         else if(target<sum){
+//             r--;
+//         }else{
+//             l++;
+//         }
+//     }
+//     return false;
+// }
+
+// Metric	Complexity
+// Time	O(n)
+// Space	O(n)

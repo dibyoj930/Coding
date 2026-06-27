@@ -17,4 +17,4 @@ const CountSay = (n)=>{
     }
     return generate;
 }
-console.log(CountSay(4));
+console.log(CountSay(6));

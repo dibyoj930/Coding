@@ -70,3 +70,19 @@ function binaryTreeToArray(root) {
 }
 const tree=arrayToBinaryTree([4,2,7,1,3]);
 console.log(binaryTreeToArray(Indsert(tree,5)))
+
+// Time Complexity
+
+// Best/Average Case (Balanced Tree): O(log n)
+// At each level, the function halves the remaining tree.
+// So you traverse about log n levels before inserting.
+// Worst Case (Skewed Tree): O(n)
+// If the BST is skewed (like a linked list), you may need to traverse all n nodes.
+// 📦 Space Complexity
+
+// Due to:
+// Recursion stack (not counting the tree structure itself)
+// Best/Average Case (Balanced): O(log n)
+// Depth of recursion = tree height = log n
+// Worst Case (Skewed): O(n)
+// All recursive calls are nested (like in a list)

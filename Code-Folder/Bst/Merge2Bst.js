@@ -92,3 +92,11 @@ function treeToArray(root) {
 // Create the balanced BST and convert it back to an array
 const tree = CreateBst(0, res4.length - 1, res4);
 console.log(treeToArray(tree));  // This will print the tree as an array
+
+
+// Operation	Time Complexity	Space Complexity
+// In-order traversals	O(n)	O(log n) to O(n)
+// Merge arrays	O(n)	O(n)
+// Sort array	O(n log n)	O(n)
+// Build BST	O(n)	O(log n) (recursion)
+// Total	✅ O(n log n) (dominant)	✅ O(n) overall

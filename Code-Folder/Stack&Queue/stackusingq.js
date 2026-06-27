@@ -1,3 +1,8 @@
+var MyStack = function() {
+    this.q=[];
+};
+
+
 MyStack.prototype.push = function(x) {
     this.q.push(x);
     let sz=this.q.length-1;

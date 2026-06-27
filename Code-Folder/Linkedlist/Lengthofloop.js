@@ -1,5 +1,7 @@
 class Solution {
     // Function to find the length of a loop in the linked list.
+   
+    
     countNodesinLoop(head) {
         // your code here
         let f=head;
@@ -21,3 +23,17 @@ class Solution {
         return len+1;
     }
 }
+function ListNode(val, next) {
+    this.val = (val===undefined ? 0 : val)
+     this.next = (next===undefined ? null : next)
+}
+
+const head = new ListNode(10);
+head.next = new ListNode(15);
+head.next.next = new ListNode(4);
+head.next.next.next = new ListNode(20);
+
+head.next.next.next.next = head;
+const sol= new Solution()
+console.log(sol.countNodesinLoop(head))
+

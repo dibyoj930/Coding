@@ -34,7 +34,7 @@ function solve(root){
    
     let left=solve(root.left);
     let right=solve(root.right);
-    max=Math.max(max,left+right+1);
+    max=Math.max(max,left+right);
     //considering edges
     return Math.max(left,right)+1;
 }

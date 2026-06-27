@@ -44,3 +44,11 @@ function Inorder(root){
 }
 const tree=arrayToBinaryTree([5,3,6,2,4,null,null,1])
 console.log(Inorder(tree))
+
+// Time Complexity: O(n)
+// Every node is visited exactly once.
+// 📦 Space Complexity:
+// O(n) for ans[] (storing all node values).
+// O(h) for the call stack, where h is the height of the tree:
+// O(log n) for balanced
+// O(n) for skewed

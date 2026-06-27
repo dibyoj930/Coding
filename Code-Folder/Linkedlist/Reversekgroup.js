@@ -55,3 +55,6 @@ function reverseKGroup(head, k) {
    return p;
 
 };
+// Metric	Complexity
+// Time Complexity	O(n)
+// Space Complexity	O(n/k) -- stack space

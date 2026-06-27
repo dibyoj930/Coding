@@ -10,18 +10,16 @@ function Combination(candidates,target){
      candidates.sort((a,b)=>a-b);
      const res=[];
      function backtrack(start,curr,target){
-          if(target==0){
-            res.push([...curr])
-            return;
-          }
-          for(let i=start;i<candidates.length;i++){
-            if(candidates[i]>target){
-                break;
-            }
-            curr.push(candidates[i]);
-            backtrack(i,curr,target-candidates[i]);
-            curr.pop();
-          }
+      if(target===0){
+        res.push([...curr]);
+        return;
+      }
+      for(let i=start;i<candidates.length;i++){
+        if(target<candidates[i])continue;
+        curr.push(candidates[i]);
+        backtrack(i,curr,target-candidates[i]);
+        curr.pop();
+      }
      }
      backtrack(0,[],target);
      return res;

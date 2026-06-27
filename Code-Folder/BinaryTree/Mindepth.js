@@ -34,9 +34,10 @@ function Mindepth(root){
     let que=[[root,level]]
     while(que.length){
         let [a,level]=que.shift();
+        if(!a.left&&!a.right)return level;
         if(a.left)que.push([a.left,level+1]);
         if(a.right)que.push([a.right,level+1]);
-        if(!a.left&&!a.right)return level;
+       
     }
 }
 console.log(Mindepth(arrayToBinaryTree([2,null,3,null,4,null,5,null,6])))

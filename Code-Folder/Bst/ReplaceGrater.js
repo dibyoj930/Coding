@@ -48,7 +48,7 @@ function Replace(arr){
     for(let i=n-1;i>=0;i--){
         let succ=new TreeNode(null);
         root=insert(root,arr[i],succ);
-        console.log(succ)
+        // console.log(succ)
         if(succ.val!=null){
             arr[i]=succ.val;
         }else{

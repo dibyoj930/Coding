@@ -67,3 +67,6 @@ function binaryTreeToArray(root) {
 }
 const tree=arrayToBinaryTree([4,2,7,1,3]);
 console.log(binaryTreeToArray(search(tree,2)))
+// Metric	Complexity
+// Time	O(h) → O(log n) (avg), O(n) (worst)
+// Space	O(h) → due to recursion stack

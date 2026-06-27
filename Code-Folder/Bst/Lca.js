@@ -44,3 +44,16 @@ console.log(lcaNode ? lcaNode : null);
 
 //t.c -> o(h) if balanced o(n) if not balanced
 //space -> o(h) if balanced or o(n) if not balanced 
+
+// Time Complexity
+
+// 🔹 Best / Average Case (Balanced BST): O(log n)
+// Only one path is followed down the tree.
+// Tree height is log n, where n is the number of nodes.
+// 🔹 Worst Case (Skewed BST): O(n)
+// If tree is skewed (e.g., a linked list), may traverse all n nodes.
+// 📦 Space Complexity
+
+// 🔹 Recursion stack (depth = height of the tree):
+// Balanced Tree: O(log n)
+// Skewed Tree: O(n)

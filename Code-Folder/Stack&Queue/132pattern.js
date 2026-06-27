@@ -5,7 +5,7 @@ var find132pattern = function(nums) {
         if(nums[i]<a)return true;
         while(stack.length&&stack[stack.length-1]<nums[i]){
               a=stack[stack.length-1];
-              stack.poop();
+              stack.pop();
         }
         stack.push(nums[i]);
     }

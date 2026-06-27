@@ -45,3 +45,10 @@ function ListNode(val, next) {
 
     // head = [3,2,0,-4]
     // output=1
+    const head = new ListNode(10);
+    head.next = new ListNode(15);
+    head.next.next = new ListNode(4);
+    head.next.next.next = new ListNode(20);
+    
+    head.next.next.next.next = head;
+console.log(detectCycle(head).val)

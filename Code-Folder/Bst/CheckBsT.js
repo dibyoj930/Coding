@@ -33,7 +33,7 @@ function solve(root,f,prev){
     if(!root)return;
     solve(root.left,f,prev);
     
-    if(prev!=null&&root.val<=prev.val){
+    if(prev.val!=null&&root.val<=prev.val){
         
         f.val=0;
         return
@@ -48,20 +48,15 @@ function Check(root){
     solve(root,f,prev);
     return f.val===1;
 }
-const tree=arrayToBinaryTree([5,1,4,null,null,3,6]);
+const tree=arrayToBinaryTree([4,5,2]);
 console.log(Check(tree))
 
 
-// Time Complexity: 
-// O( n )
-// O(n), where 
-// n is the number of nodes in the tree.
-// Space Complexity:
-// Worst case: 
-// O (n)
-// O(n), due to the recursion stack in an unbalanced tree.
-// Best case: 
-// O(logn)
-// O(logn), due to the recursion stack in a balanced tree.
-
-
+// //Time Complexity: O(n)
+// Each node is visited once during in-order traversal.
+// So for a tree with n nodes: O(n).
+// 📦 Space Complexity:
+// O(h) where h is the height of the tree due to the recursion stack.
+// Best case (balanced tree): O(log n)
+// Worst case (skewed tree): O(n)
+// Extra space used for f and prevWrapper is O(1).

@@ -3,23 +3,26 @@
 // Return the minimum size of the set so that at least half of the integers of the array are removed.
 
 var minSetSize = function(arr) {
-    let mymap=new Map();
-    let len=0;
-    for(let i=0;i<arr.length;i++){
-        mymap.set(arr[i],(mymap.get(arr[i])||0)+1)
+    let map=new Map();
+    for(let i of arr){
+     if(map.has(i)){
+         map.set(i,map.get(i)+1);
+     }else{
+         map.set(i,1);
+     }
     }
-    let ans=[],values=Array.from(mymap.entries()).sort((a,b)=>b[1]-a[1]);
-    for(let i=0;i<values.length;i++){
-        let [num,occur]=values[i];
-        len+=occur;
-       ans.push(num);
-          if(len>=(arr.length/2))
-            break;
-        
-        
-      
+    let arr1 = [...map].sort((a,b)=>b[1]-a[1]);
+    let cnt=0;
+    let size=0;
+    for(let [key,val] of arr1){
+      ++cnt
+       size+=val;
+       if(size>=(arr.length/2)){
+         break;
+       }
+       
     }
-    return ans.length;
-};
+    return cnt;
+ };
 // Input: arr = [3,3,3,3,5,5,5,2,2,7]
 // Output: 2

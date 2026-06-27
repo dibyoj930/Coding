@@ -80,7 +80,7 @@ function Create(){
        let edges=prompt(`enter the edge in ${i+1} in x y format`);
        const [x,y]=edges.split(" ").map(Number);
        graph[x].push(y);
-       graph[y].push(x)
+       graph[y].push(x);
     }
     for(let i=1;i<=ver;i++){
         console.log(`${i}->${graph[i].join(" ")}`)

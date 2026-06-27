@@ -22,3 +22,5 @@ function Combination(target,arr){
 }
 console.log(Combination( 8,[10,1,2,7,6,1,5]))
 console.log(Combination( 5,[2,5,2,1,2]))
+
+// Combination.sort((a,b)=>a-b);

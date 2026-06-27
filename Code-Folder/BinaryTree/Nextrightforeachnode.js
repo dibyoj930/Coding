@@ -54,17 +54,25 @@ function nextRight(root) {
 
 // Utility to print tree levels with next pointers
 function printNextPointers(root) {
-    let level = root;
-    while (level) {
-        let current = level;
-        let line = "";
+    if (!root) return null;
+
+    let levelStart = root;
+
+    while (levelStart.left) {
+        let current = levelStart;
+
         while (current) {
-            line += current.val + " -> ";
+            current.left.next = current.right;
+            if (current.next) {
+                current.right.next = current.next.left;
+            }
             current = current.next;
         }
-        console.log(line + "null");
-        level = level.left;
+
+        levelStart = levelStart.left;
     }
+    return root;
+
 }
 
 const treeRoot = arrayToBinaryTree([1, 2, 3, 4, 5, 6, 7]);

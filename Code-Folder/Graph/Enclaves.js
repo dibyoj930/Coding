@@ -8,7 +8,7 @@ var numEnclaves = function(grid) {
         for(let j=0;j<n;j++){
             if(i==0||j==0||i==m-1||j==n-1){
                 if(grid[i][j]==1){
-                  vis[i][j]=1;
+                  vis[i][j]=1; 
                   que.push([i,j])
                 }
             }

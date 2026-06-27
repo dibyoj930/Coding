@@ -4,7 +4,7 @@ var permute = function(nums) {
   const visit=new Set()//keep visited one different
   function dfs()  {
     if(path.length===nums.length){
-        res.push([...path]);
+        res.push([...path].join(""));
         return;
     }
     for(let i=0;i<nums.length;i++){
@@ -21,4 +21,5 @@ var permute = function(nums) {
   dfs();
   return res;
 };
-console.log(permute([1,2,3]))
+console.log(permute("abc"))
+

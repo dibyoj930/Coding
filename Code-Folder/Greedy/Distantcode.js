@@ -4,27 +4,29 @@
 // Output: [2,1,2,1,2,1]
 // barcodes = [1,1,1,1,2,2,3,3]
 // Output: [1,3,1,3,1,2,1,2]
+var rearrangeBarcodes = function(barcodes) {
+    let res = new Array(barcodes.length);
+    let map=new Map();
 
-const DistantCodes=(barcodes)=>{
-    let mymap=new Map();
-    const seq=[];
-    for(let i=0;i<barcodes.length;i++){
-        let value=barcodes[i];
-        mymap.set(value,(mymap.get(value)||0)+1)
-    }
-    const mycol = Array.from(mymap.entries()).sort((a,b)=>b[1]-a[1]);
-    console.log("****",mycol,mymap)
-    let pointer=0;
-    for(let i=0;i<mycol.length;i++){
-        let [num,occur]=mycol[i];
-        while(occur){
-           seq[pointer]=num;
-           occur--;
-           pointer+=2;
-            if(pointer>=barcodes.length)pointer=1;
+    for(let i of barcodes){
+        if(!map.has(i)){
+            map.set(i,1);
+        }else{
+            map.set(i,map.get(i)+1)
         }
-       
     }
-    return seq;
-}
+    let arr=[...map].sort((a,b)=>b[1]-a[1]);
+    let f=0;
+    for(let [key,val] of arr){
+      
+        for(let j=0;j<val;j++){
+            res[f]=key;
+            f+=2;
+            if(f>=barcodes.length){
+                f=1;
+            }
+        }
+    }
+    return res;
+};
 console.log("--->",DistantCodes([1,1,1,1,2,2,3,3]))

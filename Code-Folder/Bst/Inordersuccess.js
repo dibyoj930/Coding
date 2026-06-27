@@ -99,3 +99,36 @@ console.log("Successor:", result.suc ? result.suc.val : -1);
 //         Inorder(root.right,key,res);
 //       }
 // }
+
+
+// inOrderSuccessor(root, k) {
+//     // code here
+//  let successor = null;
+// let node = root;
+
+// while (node) {
+//     if (k.data < node.data) {
+//         successor = node;   // possible ancestor
+//         node = node.left;
+//     } else if (k.data > node.data) {
+//         node = node.right;
+//     } else {
+//         // node found
+//         if (node.right) {
+//             successor = this.findMin(node.right);
+//         }
+//         break;
+//     }
+// }
+
+// return successor ? successor.data : -1;
+// }
+
+
+// // helper functions
+// findMin(node) {
+// if (!node) return null;
+// while (node.left) node = node.left;
+// return node;
+// }
+

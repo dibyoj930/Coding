@@ -1,65 +1,51 @@
-function TreeNode(val) {
-    this.val = val;
-    this.left = this.right = null;
-}
-
-// Convert an array to a binary tree
-function arrayToBinaryTree(arr) {
-    if (!arr.length) return null;
-
-    let root = new TreeNode(arr[0]);
-    let queue = [root];
-    let i = 1;
-
-    while (i < arr.length) {
-        let current = queue.shift();
-
-        if (arr[i] !== null) {
-            current.left = new TreeNode(arr[i]);
-            queue.push(current.left);
-        }
-        i++;
-
-        if (i < arr.length && arr[i] !== null) {
-            current.right = new TreeNode(arr[i]);
-            queue.push(current.right);
-        }
-        i++;
-    }
-
-    return root;
-}
-
-// Main function that finds all paths with sum k
 function sum(root, path, k, result) {
     if (!root) return;
 
     path.push(root.val);
 
-    let f = 0;
+    let sumSoFar = 0;
     for (let i = path.length - 1; i >= 0; i--) {
-        f += path[i];
-        if (f === k) {
-            // Instead of printing, store the result
-            result.push(path.slice(i)); // store a copy of the sub-path
+        sumSoFar += path[i];
+        if (sumSoFar === k) {
+            result.push(path.slice(i)); // Store a copy of the valid subpath
         }
     }
 
     sum(root.left, path, k, result);
     sum(root.right, path, k, result);
 
-    path.pop(); // backtrack
+    path.pop(); // Backtrack
 }
 
-function TrackKsum(root, k) {
-    let path = [];
+var pathSum = function(root, targetSum) {
     let result = [];
-
-    sum(root, path, k, result);
-
+    sum(root, [], targetSum, result);
     return result;
-}
+};
 
-// Example usage:
-const tree = arrayToBinaryTree([10, 5, -3, 3, 2, null, 11, 3, -2, null, 1]);
-console.log(TrackKsum(tree, 8));
+
+//count of paths 
+// function countPaths(root, path, k, count) {
+//     if (!root) return;
+
+//     path.push(root.val);
+
+//     let sumSoFar = 0;
+//     for (let i = path.length - 1; i >= 0; i--) {
+//         sumSoFar += path[i];
+//         if (sumSoFar === k) {
+//             count.count += 1; // Increment count
+//         }
+//     }
+
+//     countPaths(root.left, path, k, count);
+//     countPaths(root.right, path, k, count);
+
+//     path.pop(); // Backtrack
+// }
+
+// var pathSum = function(root, targetSum) {
+//     let count = { count: 0 }; // Using an object to maintain reference
+//     countPaths(root, [], targetSum, count);
+//     return count.count;
+// };

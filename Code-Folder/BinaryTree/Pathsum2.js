@@ -1,16 +1,16 @@
-function solve(root,targetSum,paths,path){
+function solve(root,targetSum,current,target){
     if(!root)return;
-    paths.push(root.val);
+    current.push(root.val);
     if(!root.left&&!root.right&&targetSum==root.val){
         
-        path.push([...paths]);
+        target.push([...current]);
     
     }
     else{
-        solve(root.left,targetSum-root.val,paths,path);
-        solve(root.right,targetSum-root.val,paths,path);
+        solve(root.left,targetSum-root.val,current,target);
+        solve(root.right,targetSum-root.val,current,target);
     }
-    paths.pop()
+    current.pop()
 }
 var pathSum = function(root, targetSum) {
     let path = [];

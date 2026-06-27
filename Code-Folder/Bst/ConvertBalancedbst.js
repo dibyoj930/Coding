@@ -100,3 +100,13 @@ let inorder=[]
 inOrderTraversal(tree,inorder);
 console.log(treeToArray(Resolve(0,inorder.length-1,inorder)))
 //construct tree(start,end){
+    // Space Complexity
+
+    // Resolve:
+    // Recursive stack depth = height of tree
+    // For balanced tree: O(log n)
+    // Building the tree in-place, so no extra arrays used
+    // inOrderTraversal:
+    // Uses result[]: takes O(n)
+    // Recursive stack: O(h) → for balanced BST: O(log n)
+    

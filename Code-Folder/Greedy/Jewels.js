@@ -10,6 +10,8 @@ const Takejewels=(str1,str2)=>{
             ans++;
         }
     }
+
+    //also can be done with includes
     return ans;
 }
 
